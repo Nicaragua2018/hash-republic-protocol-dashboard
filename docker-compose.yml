@@ -3,17 +3,9 @@ services:
     build: .
     container_name: hrp-dashboard
     restart: unless-stopped
-    ports:
-      - "8080:80"
-    # Si el VPS ya usa Traefik como proxy inverso, comenta el bloque "ports" de
-    # arriba y descomenta esto para que Traefik emita el certificado TLS y
-    # enrute opencivicsolutions.org hacia este contenedor:
-    #
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.hrp-dashboard.rule=Host(`opencivicsolutions.org`)"
-    #   - "traefik.http.routers.hrp-dashboard.entrypoints=websecure"
-    #   - "traefik.http.routers.hrp-dashboard.tls.certresolver=letsencrypt"
-    #   - "traefik.http.services.hrp-dashboard.loadbalancer.server.port=80"
-    # networks:
-    #   - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hrp-dashboard.rule=Host(`opencivicsolutions.org`) || Host(`www.opencivicsolutions.org`)
+      - traefik.http.routers.hrp-dashboard.entrypoints=websecure
+      - traefik.http.routers.hrp-dashboard.tls.certresolver=letsencrypt
+      - traefik.http.services.hrp-dashboard.loadbalancer.server.port=80
