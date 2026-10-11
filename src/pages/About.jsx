@@ -1,4 +1,6 @@
 import React from 'react';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 const PRINCIPLES = [
   'La identidad no es reputación.',
@@ -31,6 +33,7 @@ const PRINCIPLES = [
 export default function About() {
   return (
     <>
+      <Seo {...PAGES['/sobre']} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative' }}>

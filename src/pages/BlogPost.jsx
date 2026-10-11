@@ -1,6 +1,9 @@
 import React from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getPostBySlug } from '../content/posts';
+import Seo from '../components/Seo';
+import { getPostMeta } from '../content/seo';
+import NotFound from './NotFound';
 
 const formatDate = (iso) =>
   new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -9,10 +12,11 @@ export default function BlogPost() {
   const { slug } = useParams();
   const post = getPostBySlug(slug);
 
-  if (!post) return <Navigate to="/blog" replace />;
+  if (!post) return <NotFound />;
 
   return (
     <>
+      <Seo {...getPostMeta(post)} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56, paddingBottom: 0 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative', maxWidth: 760 }}>
@@ -44,7 +48,15 @@ export default function BlogPost() {
                   <h3 style={{ fontSize: '1rem', marginBottom: 12 }}>Fuentes</h3>
                   <ul style={{ paddingLeft: 20, margin: 0 }}>
                     {block.items.map((item, j) => (
-                      <li key={j} style={{ fontSize: '0.9rem', marginBottom: 8 }}>{item}</li>
+                      <li key={j} style={{ fontSize: '0.9rem', marginBottom: 8 }}>
+                        {item.url ? (
+                          <a href={item.url} target={item.url.startsWith('/') ? undefined : '_blank'} rel={item.url.startsWith('/') ? undefined : 'noreferrer'}>
+                            {item.text}
+                          </a>
+                        ) : (
+                          item.text
+                        )}
+                      </li>
                     ))}
                   </ul>
                 </div>

@@ -10,6 +10,7 @@ import BlogPost from './pages/BlogPost';
 import Join from './pages/Join';
 import Contact from './pages/Contact';
 import HashRepublicDashboard from './pages/HashRepublicDashboard';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/unirse" element={<Join />} />
           <Route path="/contacto" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         {/* Standalone: the project has its own dark "protocol" theme and nav */}
         <Route path="/proyectos/hash-republic-protocol" element={<HashRepublicDashboard />} />

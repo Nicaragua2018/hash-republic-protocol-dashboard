@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 const FORMULA = [
   { title: 'Democracia', job: 'para la soberanía', limit: 'El resultado sin ponderar siempre queda a la vista.' },
@@ -35,6 +37,7 @@ const FEATURED_PROJECTS = [
 export default function Home() {
   return (
     <>
+      <Seo {...PAGES['/']} />
       {/* Hero */}
       <section className="oc-hero oc-section" style={{ paddingTop: 72 }}>
         <div className="oc-hero-bees" aria-hidden="true" />

@@ -1,8 +1,11 @@
 import React from 'react';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 export default function Contact() {
   return (
     <>
+      <Seo {...PAGES['/contacto']} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative' }}>

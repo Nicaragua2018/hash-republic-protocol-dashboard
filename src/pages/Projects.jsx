@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 const PROJECTS = [
   {
@@ -45,6 +47,7 @@ const PROJECTS = [
 export default function Projects() {
   return (
     <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+      <Seo {...PAGES['/proyectos']} />
       <div className="oc-hero-bees" aria-hidden="true" />
       <div className="oc-container" style={{ position: 'relative' }}>
         <span className="oc-eyebrow">Proyectos</span>

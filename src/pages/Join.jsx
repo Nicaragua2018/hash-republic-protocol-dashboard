@@ -1,4 +1,6 @@
 import React from 'react';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 const WAYS = [
   { title: 'Programar', detail: 'Código abierto en cada repositorio de proyecto, con tareas marcadas para principiantes.' },
@@ -11,6 +13,7 @@ const WAYS = [
 export default function Join() {
   return (
     <>
+      <Seo {...PAGES['/unirse']} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative' }}>

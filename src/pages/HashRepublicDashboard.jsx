@@ -11,6 +11,8 @@ import InteractiveSpecs from '../components/InteractiveSpecs';
 import MathModeler from '../components/MathModeler';
 import SdkPlayground from '../components/SdkPlayground';
 import SchemaValidator from '../components/SchemaValidator';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 export default function HashRepublicDashboard() {
   const [activeTab, setActiveTab] = useState('observatory');
@@ -61,6 +63,7 @@ export default function HashRepublicDashboard() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+      <Seo {...PAGES['/proyectos/hash-republic-protocol']} />
 
       {/* Background radial flows */}
       <div className="bg-glow"></div>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import posts from '../content/posts';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 const formatDate = (iso) =>
   new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -19,6 +21,7 @@ export default function Blog() {
 
   return (
     <>
+      <Seo {...PAGES['/blog']} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative' }}>
