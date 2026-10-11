@@ -216,6 +216,49 @@ details.oc-details li {
   margin-top: 1.6em;
 }
 
+.oc-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.oc-share__label {
+  font-family: var(--oc-font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--oc-blue);
+  margin-right: 4px;
+}
+.oc-share__btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(var(--oc-blue-rgb), 0.35);
+  background: var(--oc-white);
+  color: var(--oc-blue);
+  font-family: var(--oc-font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--oc-transition), border-color var(--oc-transition);
+}
+.oc-share__btn:hover {
+  background: rgba(var(--oc-blue-rgb), 0.06);
+  border-color: var(--oc-blue);
+}
+.oc-share__btn--primary {
+  background: var(--oc-blue);
+  border-color: var(--oc-blue);
+  color: var(--oc-white);
+}
+.oc-share__btn--primary:hover {
+  background: var(--oc-blue);
+  opacity: 0.9;
+}
+
 .oc-hero-bees {
   position: absolute;
   inset: 0;

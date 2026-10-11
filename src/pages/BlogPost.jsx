@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { getPostBySlug } from '../content/posts';
 import Seo from '../components/Seo';
 import { getPostMeta } from '../content/seo';
+import ShareBar from '../components/ShareBar';
+import PinnedComments from '../components/PinnedComments';
+import Comments from '../components/Comments';
 import NotFound from './NotFound';
 
 const formatDate = (iso) =>
@@ -31,9 +34,11 @@ export default function BlogPost() {
 
   if (!post) return <NotFound />;
 
+  const meta = getPostMeta(post);
+
   return (
     <>
-      <Seo {...getPostMeta(post)} />
+      <Seo {...meta} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56, paddingBottom: 0 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ position: 'relative', maxWidth: 760 }}>
@@ -43,6 +48,9 @@ export default function BlogPost() {
           <p style={{ fontSize: '0.85rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 4 }}>
             {post.author} · {formatDate(post.date)}
           </p>
+          <a href="#comentarios" className="oc-share__btn" style={{ margin: '8px 0 12px' }}>
+            Comentar ↓
+          </a>
           {post.aiAssisted && (
             <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7 }}>
               Texto asistido por IA, con revisión y autorización humana antes de publicarse.
@@ -124,6 +132,21 @@ export default function BlogPost() {
               Volver al blog
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="oc-section oc-section--mist" style={{ paddingTop: 40 }}>
+        <div className="oc-container oc-prose">
+          <div style={{ marginBottom: 40 }}>
+            <ShareBar label="Compartir este artículo" url={meta.url} text={post.title} />
+          </div>
+          <h2 id="comentarios" style={{ marginTop: 0 }}>Comentarios</h2>
+          <p style={{ fontSize: '0.92rem' }}>
+            Puedes comentar con un seudónimo. No compartas datos que permitan identificarte a ti
+            o a otras personas en riesgo.
+          </p>
+          <PinnedComments url={meta.url} title={post.title} />
+          <Comments url={meta.url} title={post.title} />
         </div>
       </section>
     </>

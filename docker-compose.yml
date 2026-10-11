@@ -25,6 +25,10 @@ services:
       - AUTH_ANON=true
       - ALLOWED_HOSTS=opencivicsolutions.org
       - TIME_ZONE=America/Managua
+      # Traefik runs on the host network, so requests reach this container
+      # from the compose network's gateway. Trusting only that address
+      # keeps visitors from spoofing X-Forwarded-For to dodge rate limits.
+      - TRUSTED_PROXY=172.16.1.1
     volumes:
       - comments-data:/srv/var
     labels:
