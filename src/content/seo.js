@@ -26,7 +26,7 @@ export const PAGES = {
   },
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
-    description: 'Hash Republic Protocol, el Observatorio de preparación cuántica de Bitcoin, BitCuant, Nicaragua Decide y más.',
+    description: 'Hash Republic Protocol, BitCuant, Nicaragua Decide y la Guía de seguridad digital: los proyectos de OpenCivic Solutions.',
   },
   '/unirse': {
     title: 'Unirse — Cómo contribuir a OpenCivic Solutions',

@@ -1,8 +1,9 @@
-# Hash Republic Protocol — Dashboard
+# OpenCivic Solutions — sitio web
 
-Dashboard de OpenCivic Solutions: capa de observabilidad del consenso para
-comunidades abiertas. Visualiza el consenso técnico, las delegaciones
-líquidas y el Bitcoin Quantum Readiness Observatory.
+Código del sitio [opencivicsolutions.org](https://opencivicsolutions.org): la
+presentación de OpenCivic Solutions, su blog (artículos en
+`src/content/posts/*.md`) y el dashboard del Hash Republic Protocol, una capa
+de observabilidad del consenso para comunidades abiertas.
 
 ## Desarrollo
 

@@ -1,36 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
-
-const PRINCIPLES = [
-  'La identidad no es reputación.',
-  'La reputación no es soberanía.',
-  'La delegación no es sumisión.',
-  'La pericia no es autoridad absoluta.',
-  'El consenso no es coerción.',
-  'Las señales no son votos vinculantes.',
-  'La síntesis de IA no es ley.',
-  'La auditoría protege la delegación.',
-  'La competencia puede guiar el consenso, pero no poseerlo.',
-  'La comunidad puede delegar juicio, pero nunca ceder soberanía.',
-  'Nadie habla por Bitcoin; la evidencia habla por sí misma.',
-  'Ninguna propuesta sin deliberación.',
-  'Ninguna ejecución sin auditoría.',
-  'Ninguna reputación sin evidencia.',
-  'Ninguna delegación sin revocación.',
-  'El consenso bruto debe permanecer visible.',
-  'El consenso ponderado debe declarar su método.',
-  'Las preocupaciones minoritarias deben preservarse.',
-  'El almacenamiento no es autoridad.',
-  'La verificabilidad es autoridad.',
-  'La ley gobierna al código. Todo código institucional es reversible, actualizable e impugnable.',
-  'Automatizar procedimientos no es automatizar soberanía.',
-  'La soberanía tecnológica pertenece a la comunidad. Ningún componente es insustituible; los datos son siempre exportables.',
-  'Descentralizar infraestructura no es descentralizar poder. El poder se mide, no se presume.',
-  'Algunas cosas no se convierten en código: la empatía, la excepción, la negociación, la justicia, la responsabilidad y la capacidad de cambiar de opinión.',
-];
+import principles from '../content/principles';
 
 export default function About() {
+  const { hash } = useLocation();
+
+  // The page is rendered client-side, so a direct visit to
+  // /sobre#principio-N arrives before the target exists; scroll once it does.
+  useEffect(() => {
+    if (!hash) return;
+    const el = document.getElementById(hash.slice(1));
+    if (el) el.scrollIntoView();
+  }, [hash]);
+
   return (
     <>
       <Seo {...PAGES['/sobre']} />
@@ -130,15 +114,35 @@ export default function About() {
       <section className="oc-section">
         <div className="oc-container">
           <span className="oc-eyebrow">Principios</span>
-          <h2 className="oc-h2">Los límites que no se negocian</h2>
-          <details className="oc-details">
-            <summary>Ver los 25 principios</summary>
-            <ol>
-              {PRINCIPLES.map((p, i) => (
-                <li key={i}>{p}</li>
-              ))}
-            </ol>
-          </details>
+          <h2 className="oc-h2" id="principios" style={{ scrollMarginTop: 96 }}>Los límites que no se negocian</h2>
+          <p className="oc-lede" style={{ marginBottom: 24 }}>
+            Veinticinco principios que ningún proyecto de OpenCivic puede cruzar. Pulsa cualquiera
+            para leer qué significa.
+          </p>
+          <ol className="oc-principles">
+            {principles.map((p, i) => (
+              <li key={i}>
+                <a href={`#principio-${i + 1}`}>{p.text}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="oc-section oc-section--mist">
+        <div className="oc-container" style={{ maxWidth: 820 }}>
+          <h2 className="oc-h2">Qué significa cada principio</h2>
+          <p style={{ fontSize: '0.85rem', opacity: 0.75, marginBottom: 24 }}>
+            Explicaciones redactadas con asistencia de IA, con revisión y autorización humana.
+          </p>
+          {principles.map((p, i) => (
+            <article key={i} id={`principio-${i + 1}`} className="oc-card oc-principle">
+              <span className="oc-principle__num">{i + 1}</span>
+              <h3 style={{ fontSize: '1.05rem' }}>{p.text}</h3>
+              <p style={{ fontSize: '0.95rem' }}>{p.explain}</p>
+              <a href="#principios" style={{ fontSize: '0.85rem', fontWeight: 600 }}>↑ Volver a la lista</a>
+            </article>
+          ))}
         </div>
       </section>
     </>

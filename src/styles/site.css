@@ -216,6 +216,54 @@ details.oc-details li {
   margin-top: 1.6em;
 }
 
+.oc-principles {
+  columns: 2 340px;
+  column-gap: 40px;
+  padding-left: 22px;
+  margin: 0;
+}
+.oc-principles li {
+  break-inside: avoid;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.oc-principles a {
+  color: var(--oc-blue);
+  text-decoration-color: rgba(var(--oc-blue-rgb), 0.35);
+  text-underline-offset: 3px;
+}
+.oc-principles a:hover {
+  text-decoration-color: var(--oc-yellow);
+}
+
+.oc-principle {
+  position: relative;
+  padding-left: 72px;
+  margin-bottom: 16px;
+  /* clear the sticky header when jumped to via #principio-N */
+  scroll-margin-top: 96px;
+}
+.oc-principle:target {
+  border-color: var(--oc-yellow);
+  box-shadow: 0 0 0 3px rgba(var(--oc-yellow-rgb), 0.35);
+}
+.oc-principle__num {
+  position: absolute;
+  left: 24px;
+  top: 26px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--oc-blue);
+  color: var(--oc-white);
+  font-family: var(--oc-font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .oc-share {
   display: flex;
   flex-wrap: wrap;
