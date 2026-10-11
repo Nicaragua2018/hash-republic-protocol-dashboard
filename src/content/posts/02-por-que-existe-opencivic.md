@@ -18,7 +18,7 @@ Hemos reinventado una y otra vez las tecnologías con las que producimos, viajam
 
 Inventar instituciones es peligroso. La historia está llena de sistemas que prometieron orden o eficiencia y terminaron aplastando a alguien en el camino. Por eso nuestra razón de ser no es solo un objetivo, sino un objetivo con límites: buscamos la **paz social** y el **bien común**, sin pasar nunca por encima de la **esperanza**, la **justicia** ni la **dignidad humana** de ningún individuo ni de ninguna minoría.
 
-La segunda mitad de esa frase es la que más pesa. La escribí desde la mirada de quien ha visto instituciones capturadas por el poder, donde la tecnología sirvió para vigilar antes que para cooperar. Ningún objetivo colectivo, ninguna eficiencia técnica y ninguna mayoría justifican cruzar esos límites. Es nuestra regla de interpretación: todo documento, producto y decisión de OpenCivic se lee a la luz de ella, y si algo la contradice, gana la regla.
+La segunda mitad de esa frase es la que más pesa, y no es una abstracción. El Grupo de Expertos en Derechos Humanos sobre Nicaragua, creado por el Consejo de Derechos Humanos de la ONU, concluyó que las violaciones cometidas en el país desde abril de 2018 forman parte de un ataque generalizado y sistemático contra la población civil que puede constituir crímenes de lesa humanidad. En su informe de 2026 describe una estructura de inteligencia que reúne al Ejército, la Policía, las autoridades migratorias, el regulador de telecomunicaciones y las misiones diplomáticas para vigilar y acosar a personas exiliadas, y registra 452 personas privadas arbitrariamente de su nacionalidad. Es un caso público y documentado de instituciones capturadas por el poder, donde la tecnología sirvió para vigilar antes que para cooperar. Ningún objetivo colectivo, ninguna eficiencia técnica y ninguna mayoría justifican cruzar esos límites. Es nuestra regla de interpretación: todo documento, producto y decisión de OpenCivic se lee a la luz de ella, y si algo la contradice, gana la regla.
 
 ## Nada de esto es nuestro
 
@@ -45,6 +45,9 @@ Construimos en público y decimos en qué fase está cada cosa: idea, borrador, 
 ## Fuentes
 
 - [Razón de ser, fórmula y principios de OpenCivic Solutions.](/sobre)
+- [Noticias ONU (2026). Nicaragua: Rights experts uncover State corruption fuelling repression, spying on exiles.](https://news.un.org/en/story/2026/03/1167108)
+- [ACNUDH (2026). Nicaragua: UN Experts uncover corrupt financing of repression and spy network targeting exiles.](https://www.ohchr.org/en/press-releases/2026/03/nicaragua-un-experts-uncover-corrupt-financing-repression-and-spy-network)
+- [FIDH (2023). Nicaragua: el informe del GHREN reconoce crímenes de lesa humanidad.](https://www.fidh.org/es/region/americas/nicaragua/nicaragua-el-informe-del-ghren-reconoce-crimenes-de-lesa-humanidad)
 - [Rochdale Society of Equitable Pioneers (1844) — Wikipedia.](https://en.wikipedia.org/wiki/Rochdale_Society_of_Equitable_Pioneers)
 - [Standing on the shoulders of giants — Wikipedia.](https://en.wikipedia.org/wiki/Standing_on_the_shoulders_of_giants)
 - [Licencias de OpenCivic: AGPL-3.0, CC BY-SA 4.0 y ODbL 1.0.](/contacto)

@@ -4,11 +4,14 @@
 //
 // Formato admitido, a propósito pequeño:
 //   ---                      cabecera con "clave: valor" por línea
-//   ## Título de sección
+//   ## Título de sección   /   ### Subtítulo
 //   Párrafos separados por una línea en blanco
 //   - elementos de lista
+//   ![texto alternativo](/imagen.png)   en su propio párrafo
+//   | tabla | con | barras |   (la segunda fila es |---|---|)
 //   [texto](https://enlace), **negrita**, *cursiva*
-// Una sección "## Fuentes" se muestra como el recuadro de fuentes.
+// Una sección "## Fuentes" se muestra como el recuadro de fuentes; dentro,
+// los párrafos sueltos sirven de notas o de títulos de grupo.
 
 const SOURCES_HEADING = 'fuentes';
 
@@ -51,19 +54,25 @@ export function inlineToText(tokens) {
   return tokens.map((tok) => tok.v).join('');
 }
 
+const splitRow = (line) =>
+  line.replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => parseInline(cell.trim()));
+
 function parseBody(body) {
   const blocks = [];
-  // Todo lo que va después de "## Fuentes" (notas y listas) se agrupa en
-  // un único recuadro de fuentes.
+  // Todo lo que va después de "## Fuentes" se agrupa en un único recuadro,
+  // conservando el orden de notas y listas.
   let sources = null;
   for (const chunk of body.split(/\n\s*\n/)) {
     const lines = chunk.split('\n').map((l) => l.trim()).filter(Boolean);
     if (!lines.length) continue;
 
-    if (lines[0].startsWith('## ')) {
+    if (lines[0].startsWith('### ') && !sources) {
+      blocks.push({ type: 'h3', text: lines.shift().slice(4).trim() });
+      if (!lines.length) continue;
+    } else if (lines[0].startsWith('## ')) {
       const text = lines[0].slice(3).trim();
       if (text.toLowerCase() === SOURCES_HEADING) {
-        sources = { type: 'sources', notes: [], items: [] };
+        sources = { type: 'sources', parts: [] };
         blocks.push(sources);
       } else {
         sources = null;
@@ -75,13 +84,24 @@ function parseBody(body) {
 
     const isList = lines.every((l) => l.startsWith('- '));
     if (sources) {
-      if (isList) sources.items.push(...lines.map((l) => parseInline(l.slice(2).trim())));
-      else sources.notes.push(parseInline(lines.join(' ')));
+      if (isList) sources.parts.push({ items: lines.map((l) => parseInline(l.slice(2).trim())) });
+      else sources.parts.push({ note: parseInline(lines.join(' ')) });
       continue;
     }
 
     if (isList) {
       blocks.push({ type: 'ul', items: lines.map((l) => parseInline(l.slice(2).trim())) });
+      continue;
+    }
+
+    const img = lines.length === 1 && lines[0].match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
+    if (img) {
+      blocks.push({ type: 'img', alt: img[1], src: img[2] });
+      continue;
+    }
+
+    if (lines.length >= 2 && lines.every((l) => l.startsWith('|')) && /^\|[\s:|-]+\|$/.test(lines[1])) {
+      blocks.push({ type: 'table', head: splitRow(lines[0]), rows: lines.slice(2).map(splitRow) });
       continue;
     }
 
