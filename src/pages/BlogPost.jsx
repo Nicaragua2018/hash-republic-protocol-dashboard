@@ -8,6 +8,23 @@ import NotFound from './NotFound';
 const formatDate = (iso) =>
   new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
 
+function Inline({ tokens }) {
+  return tokens.map((tok, i) => {
+    if (tok.t === 'strong') return <strong key={i}>{tok.v}</strong>;
+    if (tok.t === 'em') return <em key={i}>{tok.v}</em>;
+    if (tok.t === 'link') {
+      const label = tok.children ? <Inline tokens={tok.children} /> : tok.v;
+      if (tok.url.startsWith('/')) return <Link key={i} to={tok.url}>{label}</Link>;
+      return (
+        <a key={i} href={tok.url} target="_blank" rel="noreferrer">
+          {label}
+        </a>
+      );
+    }
+    return <React.Fragment key={i}>{tok.v}</React.Fragment>;
+  });
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const post = getPostBySlug(slug);
@@ -23,9 +40,15 @@ export default function BlogPost() {
           <Link to="/blog" style={{ fontSize: '0.9rem', fontWeight: 600 }}>&larr; Volver al blog</Link>
           <h1 className="oc-h1" style={{ marginTop: 16 }}>{post.title}</h1>
           <p className="oc-lede">{post.dek}</p>
-          <p style={{ fontSize: '0.85rem', color: 'var(--oc-ink)', opacity: 0.7 }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 4 }}>
             {post.author} · {formatDate(post.date)}
           </p>
+          {post.aiAssisted && (
+            <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7 }}>
+              Redactado con asistencia de IA a partir de documentos de OpenCivic, y revisado y
+              aprobado por una persona antes de publicarse.
+            </p>
+          )}
         </div>
       </section>
 
@@ -34,29 +57,33 @@ export default function BlogPost() {
           {post.image && (
             <img
               src={post.image}
-              alt={post.imageAlt || ''}
+              alt={post.imageAlt}
               className="oc-illustration"
               style={{ width: '100%', marginBottom: 32 }}
             />
           )}
           {post.body.map((block, i) => {
             if (block.type === 'h2') return <h2 key={i}>{block.text}</h2>;
-            if (block.type === 'p') return <p key={i}>{block.text}</p>;
+            if (block.type === 'p') return <p key={i}><Inline tokens={block.inlines} /></p>;
+            if (block.type === 'ul') {
+              return (
+                <ul key={i} style={{ paddingLeft: 20, lineHeight: 1.7, marginBottom: '1em' }}>
+                  {block.items.map((item, j) => (
+                    <li key={j} style={{ marginBottom: 6 }}><Inline tokens={item} /></li>
+                  ))}
+                </ul>
+              );
+            }
             if (block.type === 'sources') {
               return (
                 <div key={i} className="oc-card" style={{ borderLeft: '4px solid var(--oc-yellow)', marginTop: 32 }}>
                   <h3 style={{ fontSize: '1rem', marginBottom: 12 }}>Fuentes</h3>
+                  {block.notes.map((note, j) => (
+                    <p key={j} style={{ fontSize: '0.9rem' }}><Inline tokens={note} /></p>
+                  ))}
                   <ul style={{ paddingLeft: 20, margin: 0 }}>
                     {block.items.map((item, j) => (
-                      <li key={j} style={{ fontSize: '0.9rem', marginBottom: 8 }}>
-                        {item.url ? (
-                          <a href={item.url} target={item.url.startsWith('/') ? undefined : '_blank'} rel={item.url.startsWith('/') ? undefined : 'noreferrer'}>
-                            {item.text}
-                          </a>
-                        ) : (
-                          item.text
-                        )}
-                      </li>
+                      <li key={j} style={{ fontSize: '0.9rem', marginBottom: 8 }}><Inline tokens={item} /></li>
                     ))}
                   </ul>
                 </div>

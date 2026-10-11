@@ -1,0 +1,120 @@
+// Convierte un artículo en Markdown (src/content/posts/*.md) en el objeto
+// que usan las páginas del blog y scripts/prerender.mjs. Es JS puro, sin
+// dependencias, para que funcione igual en el navegador y en Node.
+//
+// Formato admitido, a propósito pequeño:
+//   ---                      cabecera con "clave: valor" por línea
+//   ## Título de sección
+//   Párrafos separados por una línea en blanco
+//   - elementos de lista
+//   [texto](https://enlace), **negrita**, *cursiva*
+// Una sección "## Fuentes" se muestra como el recuadro de fuentes.
+
+const SOURCES_HEADING = 'fuentes';
+
+function parseFrontmatter(raw) {
+  const match = raw.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (!match) return { meta: {}, body: raw };
+  const meta = {};
+  for (const line of match[1].split('\n')) {
+    const idx = line.indexOf(':');
+    if (idx === -1) continue;
+    const key = line.slice(0, idx).trim();
+    let value = line.slice(idx + 1).trim();
+    if (/^".*"$/.test(value) || /^'.*'$/.test(value)) value = value.slice(1, -1);
+    if (key) meta[key] = value;
+  }
+  return { meta, body: raw.slice(match[0].length) };
+}
+
+// [texto](url), **negrita**, *cursiva* → lista de fragmentos
+export function parseInline(text) {
+  const tokens = [];
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) tokens.push({ t: 'text', v: text.slice(last, m.index) });
+    if (m[1] !== undefined) {
+      const children = parseInline(m[1]);
+      tokens.push({ t: 'link', v: inlineToText(children), url: m[2], children });
+    }
+    else if (m[3] !== undefined) tokens.push({ t: 'strong', v: m[3] });
+    else tokens.push({ t: 'em', v: m[4] });
+    last = re.lastIndex;
+  }
+  if (last < text.length) tokens.push({ t: 'text', v: text.slice(last) });
+  return tokens;
+}
+
+export function inlineToText(tokens) {
+  return tokens.map((tok) => tok.v).join('');
+}
+
+function parseBody(body) {
+  const blocks = [];
+  // Todo lo que va después de "## Fuentes" (notas y listas) se agrupa en
+  // un único recuadro de fuentes.
+  let sources = null;
+  for (const chunk of body.split(/\n\s*\n/)) {
+    const lines = chunk.split('\n').map((l) => l.trim()).filter(Boolean);
+    if (!lines.length) continue;
+
+    if (lines[0].startsWith('## ')) {
+      const text = lines[0].slice(3).trim();
+      if (text.toLowerCase() === SOURCES_HEADING) {
+        sources = { type: 'sources', notes: [], items: [] };
+        blocks.push(sources);
+      } else {
+        sources = null;
+        blocks.push({ type: 'h2', text });
+      }
+      lines.shift();
+      if (!lines.length) continue;
+    }
+
+    const isList = lines.every((l) => l.startsWith('- '));
+    if (sources) {
+      if (isList) sources.items.push(...lines.map((l) => parseInline(l.slice(2).trim())));
+      else sources.notes.push(parseInline(lines.join(' ')));
+      continue;
+    }
+
+    if (isList) {
+      blocks.push({ type: 'ul', items: lines.map((l) => parseInline(l.slice(2).trim())) });
+      continue;
+    }
+
+    blocks.push({ type: 'p', inlines: parseInline(lines.join(' ')) });
+  }
+  return blocks;
+}
+
+export function parsePost(raw, file = '') {
+  const normalized = raw.replace(/\r\n/g, '\n');
+  const { meta, body } = parseFrontmatter(normalized);
+  for (const required of ['slug', 'title', 'dek', 'date']) {
+    if (!meta[required]) throw new Error(`Artículo ${file}: falta "${required}" en la cabecera`);
+  }
+  return {
+    slug: meta.slug,
+    title: meta.title,
+    dek: meta.dek,
+    date: meta.date,
+    author: meta.author || 'Equipo OpenCivic',
+    image: meta.image || null,
+    imageAlt: meta.imageAlt || '',
+    ogImage: meta.ogImage || null,
+    aiAssisted: meta.ia === 'asistido',
+    file: file.split('/').pop(),
+    body: parseBody(body),
+  };
+}
+
+// Más reciente primero; a igual fecha, el archivo con número mayor primero.
+export function sortPosts(posts) {
+  return [...posts].sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return a.file < b.file ? 1 : -1;
+  });
+}

@@ -6,15 +6,24 @@
 // WhatsApp/X/LinkedIn muestra el título y la imagen correctos, y una URL
 // que no existe no tiene carpeta — nginx le responde 404 de verdad.
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { PAGES, SITE_URL, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_IMAGE, getPageMeta, getPostMeta } from '../src/content/seo.js';
-import posts from '../src/content/posts.js';
+import { parsePost, sortPosts } from '../src/content/parsePost.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
+
+// src/content/posts.js usa import.meta.glob, que solo existe dentro de
+// Vite; aquí se leen los mismos .md directamente del disco.
+const postsDir = join(__dirname, '..', 'src', 'content', 'posts');
+const posts = sortPosts(
+  readdirSync(postsDir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => parsePost(readFileSync(join(postsDir, f), 'utf8'), f))
+);
 
 const template = readFileSync(join(distDir, 'index.html'), 'utf8');
 
@@ -111,8 +120,8 @@ writeFileSync(
 );
 
 // rss.xml — un feed simple con los artículos del blog
-const sortedPosts = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
-const rssItems = sortedPosts
+// `posts` ya viene ordenado (más reciente primero) por sortPosts.
+const rssItems = posts
   .map((p) => {
     const meta = getPostMeta(p);
     const pubDate = new Date(p.date + 'T00:00:00Z').toUTCString();
