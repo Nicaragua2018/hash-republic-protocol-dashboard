@@ -9,3 +9,34 @@ services:
       - traefik.http.routers.hrp-dashboard.entrypoints=websecure
       - traefik.http.routers.hrp-dashboard.tls.certresolver=letsencrypt
       - traefik.http.services.hrp-dashboard.loadbalancer.server.port=80
+
+  # Comentarios del blog (Remark42, autoalojado). Se sirve en
+  # opencivicsolutions.org/comentarios para no depender de otro subdominio.
+  # Los secretos viven en .env, solo en el servidor (nunca en el repo).
+  comments:
+    image: umputun/remark42:v1.17.1
+    container_name: opencivic-comments
+    restart: unless-stopped
+    environment:
+      - REMARK_URL=https://opencivicsolutions.org/comentarios
+      - SITE=opencivic
+      - SECRET=${REMARK_SECRET:?falta REMARK_SECRET en .env}
+      - ADMIN_PASSWD=${REMARK_ADMIN_PASSWD:?falta REMARK_ADMIN_PASSWD en .env}
+      - AUTH_ANON=true
+      - ALLOWED_HOSTS=opencivicsolutions.org
+      - TIME_ZONE=America/Managua
+    volumes:
+      - comments-data:/srv/var
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.opencivic-comments.rule=Host(`opencivicsolutions.org`) && PathPrefix(`/comentarios`)
+      # Must beat the site's catch-all router, whose rule is longer.
+      - traefik.http.routers.opencivic-comments.priority=100
+      - traefik.http.routers.opencivic-comments.entrypoints=websecure
+      - traefik.http.routers.opencivic-comments.tls.certresolver=letsencrypt
+      - traefik.http.routers.opencivic-comments.middlewares=opencivic-comments-strip
+      - traefik.http.middlewares.opencivic-comments-strip.stripprefix.prefixes=/comentarios
+      - traefik.http.services.opencivic-comments.loadbalancer.server.port=8080
+
+volumes:
+  comments-data:
