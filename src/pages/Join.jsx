@@ -11,8 +11,9 @@ const WAYS = [
 export default function Join() {
   return (
     <>
-      <section className="oc-section" style={{ paddingTop: 56 }}>
-        <div className="oc-container">
+      <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+        <div className="oc-hero-bees" aria-hidden="true" />
+        <div className="oc-container" style={{ position: 'relative' }}>
           <span className="oc-eyebrow">Unirse</span>
           <h1 className="oc-h1">Cómo contribuir</h1>
           <p className="oc-lede">
@@ -25,6 +26,12 @@ export default function Join() {
 
       <section className="oc-section oc-section--mist">
         <div className="oc-container">
+          <img
+            src="/ilustracion-asamblea.jpg"
+            alt="Una comunidad diversa reunida alrededor de una mesa, deliberando frente a un tablero con notas"
+            className="oc-illustration"
+            style={{ marginBottom: 32 }}
+          />
           <div className="oc-grid oc-grid--3">
             {WAYS.map((w) => (
               <div className="oc-card" key={w.title}>

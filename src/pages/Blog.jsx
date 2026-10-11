@@ -14,8 +14,9 @@ export default function Blog() {
 
   return (
     <>
-      <section className="oc-section" style={{ paddingTop: 56 }}>
-        <div className="oc-container">
+      <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+        <div className="oc-hero-bees" aria-hidden="true" />
+        <div className="oc-container" style={{ position: 'relative' }}>
           <span className="oc-eyebrow">Blog y boletín</span>
           <h1 className="oc-h1">Todavía en construcción abierta</h1>
           <p className="oc-lede">
@@ -24,6 +25,12 @@ export default function Blog() {
             para el 15 de enero de 2027. Mientras tanto, puedes suscribirte para recibir avisos
             cuando publiquemos algo.
           </p>
+          <img
+            src="/ilustracion-taller.jpg"
+            alt="Una facilitadora explica un diagrama de hexágonos conectados a personas que toman notas"
+            className="oc-illustration"
+            style={{ marginTop: 32, maxWidth: 680 }}
+          />
         </div>
       </section>
 

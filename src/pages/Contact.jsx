@@ -3,8 +3,9 @@ import React from 'react';
 export default function Contact() {
   return (
     <>
-      <section className="oc-section" style={{ paddingTop: 56 }}>
-        <div className="oc-container">
+      <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+        <div className="oc-hero-bees" aria-hidden="true" />
+        <div className="oc-container" style={{ position: 'relative' }}>
           <span className="oc-eyebrow">Información y contacto</span>
           <h1 className="oc-h1">Confianza</h1>
           <ul style={{ maxWidth: 680, fontSize: '1rem', lineHeight: 1.9, paddingLeft: 20 }}>

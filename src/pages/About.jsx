@@ -31,8 +31,9 @@ const PRINCIPLES = [
 export default function About() {
   return (
     <>
-      <section className="oc-section" style={{ paddingTop: 56 }}>
-        <div className="oc-container">
+      <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+        <div className="oc-hero-bees" aria-hidden="true" />
+        <div className="oc-container" style={{ position: 'relative' }}>
           <span className="oc-eyebrow">Qué es OpenCivic Solutions</span>
           <h1 className="oc-h1">Por qué existimos</h1>
           <p className="oc-lede">
@@ -108,6 +109,7 @@ export default function About() {
 
       <section className="oc-section oc-section--mist">
         <div className="oc-container" style={{ display: 'grid', gap: 32 }}>
+          <img src="/encabezado-workspace.svg" alt="" aria-hidden="true" style={{ width: '100%', borderRadius: 'var(--oc-radius)' }} />
           <div>
             <span className="oc-eyebrow">El espacio de trabajo de agentes</span>
             <h2 className="oc-h2">Un equipo de IA, coordinado por una persona</h2>

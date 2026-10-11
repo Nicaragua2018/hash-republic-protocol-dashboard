@@ -18,7 +18,7 @@ export default function Footer() {
         className="oc-footer-grid"
       >
         <div>
-          <img src="/opencivic-icono-color.svg" alt="" aria-hidden="true" style={{ width: 48, height: 48, marginBottom: 12 }} />
+          <img src="/opencivic-icono-invertido.svg" alt="" aria-hidden="true" style={{ width: 48, height: 48, marginBottom: 12 }} />
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 360, fontSize: '0.9rem' }}>
             Las instituciones también son tecnologías. Construimos herramientas abiertas
             y verificables para cooperar, deliberar y decidir juntos.

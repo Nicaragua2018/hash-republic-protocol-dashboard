@@ -52,8 +52,15 @@ export default function Home() {
               <Link to="/unirse" className="oc-btn oc-btn--outline">Únete</Link>
             </div>
           </div>
+          <img
+            src="/banner-claro.svg"
+            alt="Logo de OpenCivic Solutions: un hexágono amarillo y una curva azul formando el monograma OS, con dos abejas trazando su vuelo alrededor"
+            style={{ width: '100%', marginTop: 24 }}
+          />
         </div>
       </section>
+
+      <img src="/divisor.svg" alt="" aria-hidden="true" style={{ width: '100%', display: 'block' }} />
 
       {/* La fórmula */}
       <section className="oc-section oc-section--mist">
@@ -102,9 +109,17 @@ export default function Home() {
         </div>
       </section>
 
+      <img src="/divisor.svg" alt="" aria-hidden="true" style={{ width: '100%', display: 'block' }} />
+
       {/* CTA band */}
-      <section className="oc-section oc-section--blue">
-        <div className="oc-container" style={{ textAlign: 'center' }}>
+      <section className="oc-section oc-section--blue" style={{ position: 'relative', overflow: 'hidden' }}>
+        <img
+          src="/opencivic-icono-invertido.svg"
+          alt=""
+          aria-hidden="true"
+          style={{ position: 'absolute', width: 260, opacity: 0.12, top: -40, right: -40 }}
+        />
+        <div className="oc-container" style={{ textAlign: 'center', position: 'relative' }}>
           <h2 className="oc-h2">Hay lugar para quien programa, investiga, diseña, traduce o enseña</h2>
           <p style={{ maxWidth: 560, margin: '0 auto 24px' }}>
             Puedes participar con seudónimo. Todo pull request lleva fuentes: si una afirmación

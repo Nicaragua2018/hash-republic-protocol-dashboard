@@ -44,8 +44,9 @@ const PROJECTS = [
 
 export default function Projects() {
   return (
-    <section className="oc-section" style={{ paddingTop: 56 }}>
-      <div className="oc-container">
+    <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+      <div className="oc-hero-bees" aria-hidden="true" />
+      <div className="oc-container" style={{ position: 'relative' }}>
         <span className="oc-eyebrow">Proyectos</span>
         <h1 className="oc-h1">Construimos en abierto</h1>
         <p className="oc-lede" style={{ marginBottom: 40 }}>

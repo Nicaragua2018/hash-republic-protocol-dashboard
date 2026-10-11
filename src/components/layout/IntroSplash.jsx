@@ -4,8 +4,7 @@ const SESSION_KEY = 'oc-intro-seen';
 
 export default function IntroSplash() {
   const videoRef = useRef(null);
-  // hidden | ready (branded card, waiting for a tap) | playing | leaving | done
-  const [phase, setPhase] = useState('hidden');
+  const [phase, setPhase] = useState('hidden'); // hidden | playing | leaving | done
 
   useEffect(() => {
     const alreadySeen = sessionStorage.getItem(SESSION_KEY) === '1';
@@ -17,22 +16,28 @@ export default function IntroSplash() {
       return;
     }
 
-    setPhase('ready');
+    setPhase('playing');
   }, []);
+
+  useEffect(() => {
+    if (phase !== 'playing') return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Try with sound first. Browsers that block unmuted autoplay on a
+    // first visit reject the promise — fall back to a muted autoplay so
+    // the animation still starts immediately, just silently.
+    video.muted = false;
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => finish());
+    });
+  }, [phase]);
 
   const finish = () => {
     sessionStorage.setItem(SESSION_KEY, '1');
     setPhase('leaving');
     window.setTimeout(() => setPhase('done'), 400);
-  };
-
-  const handleEnter = () => {
-    setPhase('playing');
-    // Play on the next tick so the <video> is already mounted and visible.
-    window.setTimeout(() => {
-      const video = videoRef.current;
-      if (video) video.play().catch(() => finish());
-    }, 0);
   };
 
   if (phase === 'hidden' || phase === 'done') return null;
@@ -53,55 +58,19 @@ export default function IntroSplash() {
         transition: 'opacity 0.4s ease',
       }}
     >
-      {phase === 'playing' ? (
-        <video
-          ref={videoRef}
-          src="/intro-logo-sonido.mp4"
-          playsInline
-          onEnded={finish}
-          style={{
-            width: 'min(70vw, 420px)',
-            aspectRatio: '1 / 1',
-            borderRadius: 24,
-            background: '#fff',
-          }}
-        />
-      ) : (
-        <button
-          onClick={handleEnter}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 20,
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 24,
-          }}
-        >
-          <img
-            src="/opencivic-icono-color.svg"
-            alt=""
-            aria-hidden="true"
-            style={{ width: 'min(40vw, 160px)' }}
-            className="oc-intro-pulse"
-          />
-          <span
-            style={{
-              padding: '12px 28px',
-              borderRadius: 999,
-              border: '2px solid var(--oc-blue, #0A3880)',
-              background: '#fff',
-              color: 'var(--oc-blue, #0A3880)',
-              fontWeight: 600,
-              fontSize: '0.95rem',
-            }}
-          >
-            Toca para entrar
-          </span>
-        </button>
-      )}
+      <video
+        ref={videoRef}
+        src="/intro-logo-sonido.mp4"
+        playsInline
+        autoPlay
+        onEnded={finish}
+        style={{
+          width: 'min(70vw, 420px)',
+          aspectRatio: '1 / 1',
+          borderRadius: 24,
+          background: '#fff',
+        }}
+      />
 
       <button
         onClick={finish}
@@ -121,16 +90,6 @@ export default function IntroSplash() {
       >
         Saltar &rarr;
       </button>
-
-      <style>{`
-        @keyframes oc-intro-pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-        .oc-intro-pulse {
-          animation: oc-intro-pulse 2s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }
