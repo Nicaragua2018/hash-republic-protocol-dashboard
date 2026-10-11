@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/dashboard.css';
-import Observatory from '../components/Observatory';
 import OpinionMap from '../components/OpinionMap';
 import DelegationGraph from '../components/DelegationGraph';
 import ReputationEngine from '../components/ReputationEngine';
@@ -15,7 +14,7 @@ import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
 
 export default function HashRepublicDashboard() {
-  const [activeTab, setActiveTab] = useState('observatory');
+  const [activeTab, setActiveTab] = useState('deliberation');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // This project page uses the dark "protocol" theme instead of the
@@ -25,9 +24,8 @@ export default function HashRepublicDashboard() {
     return () => document.body.classList.remove('theme-dark');
   }, []);
 
-  // ── Section 1: Bitcoin Quantum Observatory ──
-  const observatoryTabs = [
-    { id: 'observatory', label: 'Quantum Observatory', icon: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z' },
+  // ── Section 1: Consensus layer ──
+  const consensusTabs = [
     { id: 'deliberation', label: 'Pol.is Opinion Map', icon: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0110.089 20c-2.202 0-4.29-.626-6.086-1.71m11-3.9a9 9 0 11-13.413-.087m13.413-.013c-.502-.917-.786-1.964-.786-3.07a8.914 8.914 0 00-.708-3.483m1.447 6.562a9.337 9.337 0 013.753-3.659M15 6.18a9.35 9.35 0 012.625.372 9.337 9.337 0 014.121-.952 4.125 4.125 0 00-7.533-2.493M13.007 8.756a8.9 8.9 0 00-2.918-.44 8.917 8.917 0 00-6 2.24' },
     { id: 'delegation', label: 'Liquid Delegation', icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z' },
     { id: 'reputation', label: 'Reputation (1.30x)', icon: 'M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z' },
@@ -43,11 +41,10 @@ export default function HashRepublicDashboard() {
     { id: 'hrp-schema', label: 'Schema Validator', icon: 'M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12' },
   ];
 
-  const allTabs = [...observatoryTabs, ...hrpTabs];
+  const allTabs = [...consensusTabs, ...hrpTabs];
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'observatory':   return <Observatory />;
       case 'deliberation':  return <OpinionMap />;
       case 'delegation':    return <DelegationGraph />;
       case 'reputation':    return <ReputationEngine />;
@@ -57,7 +54,7 @@ export default function HashRepublicDashboard() {
       case 'hrp-math':      return <MathModeler />;
       case 'hrp-sdk':       return <SdkPlayground />;
       case 'hrp-schema':    return <SchemaValidator />;
-      default:              return <Observatory />;
+      default:              return <OpinionMap />;
     }
   };
 
@@ -100,11 +97,11 @@ export default function HashRepublicDashboard() {
           {/* Navigation links — grouped by section */}
           <nav style={{ padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '2px', flex: 1, overflowY: 'auto' }}>
 
-            {/* ── Group 1: Observatory ── */}
+            {/* ── Group 1: Consensus layer ── */}
             <div style={{ fontSize: '0.65rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', padding: '4px 16px 8px', marginTop: '4px' }}>
-              Bitcoin Observatory
+              Consensus Layer
             </div>
-            {observatoryTabs.map((tab) => {
+            {consensusTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button

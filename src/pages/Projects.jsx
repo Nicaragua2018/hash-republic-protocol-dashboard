@@ -13,12 +13,6 @@ const PROJECTS = [
     cta: 'Abrir el dashboard',
   },
   {
-    name: 'Observatorio de preparación cuántica de Bitcoin',
-    blurb: 'Mapa público y de solo lectura de riesgos, propuestas y señales no vinculantes. No gobierna Bitcoin ni sustituye el proceso de BIP.',
-    phase: 'Especificación · objetivo R2',
-    phaseClass: 'oc-phase--spec',
-  },
-  {
     name: 'BitCuant',
     blurb: 'Una comunidad conversa y un agente propone consultas breves y trazables. El agente no vota ni decide.',
     phase: 'Especificación lista',
@@ -27,12 +21,6 @@ const PROJECTS = [
   {
     name: 'Nicaragua Decide',
     blurb: 'Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad.',
-    phase: 'Idea',
-    phaseClass: 'oc-phase--idea',
-  },
-  {
-    name: 'HAD Foundation',
-    blurb: 'Recursos para una defensa ágil frente a la deportación: documentar la evidencia común y resolver trámites rutinarios que suelen arruinar o alargar un buen caso. No sustituye la asesoría legal.',
     phase: 'Idea',
     phaseClass: 'oc-phase--idea',
   },

@@ -19,9 +19,9 @@ const FEATURED_PROJECTS = [
     to: '/proyectos/hash-republic-protocol',
   },
   {
-    name: 'Observatorio de preparación cuántica de Bitcoin',
-    blurb: 'Mapa público de riesgos y señales no vinculantes. No gobierna Bitcoin ni sustituye el proceso de BIP.',
-    phase: 'Especificación · objetivo R2',
+    name: 'BitCuant',
+    blurb: 'Una comunidad conversa y un agente propone consultas breves y trazables. El agente no vota ni decide.',
+    phase: 'Especificación lista',
     phaseClass: 'oc-phase--spec',
     to: '/proyectos',
   },
