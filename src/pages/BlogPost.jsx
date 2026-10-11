@@ -45,8 +45,7 @@ export default function BlogPost() {
           </p>
           {post.aiAssisted && (
             <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7 }}>
-              Redactado con asistencia de IA a partir de documentos de OpenCivic, y revisado y
-              aprobado por una persona antes de publicarse.
+              Texto asistido por IA, con revisión y autorización humana antes de publicarse.
             </p>
           )}
         </div>
@@ -64,7 +63,29 @@ export default function BlogPost() {
           )}
           {post.body.map((block, i) => {
             if (block.type === 'h2') return <h2 key={i}>{block.text}</h2>;
+            if (block.type === 'h3') return <h3 key={i} style={{ fontSize: '1.15rem', marginTop: '1.4em' }}>{block.text}</h3>;
             if (block.type === 'p') return <p key={i}><Inline tokens={block.inlines} /></p>;
+            if (block.type === 'img') {
+              return (
+                <img key={i} src={block.src} alt={block.alt} className="oc-illustration" style={{ width: '100%', margin: '16px 0 24px' }} />
+              );
+            }
+            if (block.type === 'table') {
+              return (
+                <div key={i} style={{ overflowX: 'auto', margin: '8px 0 24px' }}>
+                  <table className="oc-table">
+                    <thead>
+                      <tr>{block.head.map((cell, j) => <th key={j}><Inline tokens={cell} /></th>)}</tr>
+                    </thead>
+                    <tbody>
+                      {block.rows.map((row, r) => (
+                        <tr key={r}>{row.map((cell, j) => <td key={j}><Inline tokens={cell} /></td>)}</tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            }
             if (block.type === 'ul') {
               return (
                 <ul key={i} style={{ paddingLeft: 20, lineHeight: 1.7, marginBottom: '1em' }}>
@@ -78,14 +99,17 @@ export default function BlogPost() {
               return (
                 <div key={i} className="oc-card" style={{ borderLeft: '4px solid var(--oc-yellow)', marginTop: 32 }}>
                   <h3 style={{ fontSize: '1rem', marginBottom: 12 }}>Fuentes</h3>
-                  {block.notes.map((note, j) => (
-                    <p key={j} style={{ fontSize: '0.9rem' }}><Inline tokens={note} /></p>
-                  ))}
-                  <ul style={{ paddingLeft: 20, margin: 0 }}>
-                    {block.items.map((item, j) => (
-                      <li key={j} style={{ fontSize: '0.9rem', marginBottom: 8 }}><Inline tokens={item} /></li>
-                    ))}
-                  </ul>
+                  {block.parts.map((part, j) =>
+                    part.note ? (
+                      <p key={j} style={{ fontSize: '0.9rem' }}><Inline tokens={part.note} /></p>
+                    ) : (
+                      <ul key={j} style={{ paddingLeft: 20, margin: '0 0 12px' }}>
+                        {part.items.map((item, k) => (
+                          <li key={k} style={{ fontSize: '0.9rem', marginBottom: 8 }}><Inline tokens={item} /></li>
+                        ))}
+                      </ul>
+                    )
+                  )}
                 </div>
               );
             }

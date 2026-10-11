@@ -4,6 +4,7 @@ title: "Soberanía tecnológica y de IA: el conocimiento como patrimonio común"
 dek: Lo que la humanidad aprendió en común no debería quedar en manos de unos pocos. Tampoco debería borrar el mérito de quien lo hace avanzar.
 date: 2026-10-11
 author: Equipo OpenCivic
+ia: asistido
 image: /ilustracion-soberania-conocimiento.svg
 imageAlt: Ilustración dibujada a mano: un libro abierto en la base del que crecen celdas de panal con pequeños símbolos dentro, un chip, un pergamino y un engranaje, mientras dos abejas vuelan entre ellas
 ogImage: /og-soberania-conocimiento.png
@@ -56,7 +57,7 @@ Algunos de los experimentos más interesantes con este equilibrio no vienen de l
 
 [Bittensor](https://www.bittensor.com/docs), fundado en 2021 por Jacob Steeves y Ala Shaabana ([21Shares](https://www.21shares.com/research/inside-bittensor-the-blockchain-for-ai)), es una red abierta de subredes (*subnets*). Cada una produce un bien digital distinto: cómputo, inferencia, almacenamiento, predicción. Los creadores de cada subred definen cómo se mide el trabajo, los mineros lo producen y los validadores lo evalúan. Según su documentación oficial, la red paga a los participantes en TAO, su token, "en proporción al valor que aportan" (traducción nuestra). El algoritmo que combina las evaluaciones se llama Yuma Consensus.
 
-Lo interesante para este artículo es la lógica, no el token. Nadie necesita permiso para participar, las reglas de pago son públicas y la recompensa depende de lo que se aporta, no de quién eres. Su política monetaria imita a Bitcoin: un máximo de 21 millones de TAO y un primer *halving*, previsto para mediados de diciembre de 2025, que reduce a la mitad la emisión, de unos 7.200 a unos 3.600 TAO diarios ([Grayscale](https://research.grayscale.com/reports/bittensor-on-the-eve-of-the-first-halving)).
+Lo interesante para este artículo es la lógica, no el token. Nadie necesita permiso para participar, las reglas de pago son públicas y la recompensa depende de lo que se aporta, no de quién eres. Su política monetaria imita a Bitcoin: un máximo de 21 millones de TAO y un primer *halving*, ocurrido el 14 de diciembre de 2025, que redujo a la mitad la emisión, de unos 7.200 a unos 3.600 TAO diarios ([Grayscale](https://research.grayscale.com/reports/bittensor-on-the-eve-of-the-first-halving); [BlockEden](https://blockeden.xyz/blog/2026/04/11/bittensor-tao-halving-grayscale-etf-deai-institutional-playbook/)).
 
 También enseña los límites. Hasta febrero de 2025, los 64 validadores con más TAO decidían cómo se repartían las emisiones; la reforma llamada dTAO pasó esa decisión al mercado ([FalconX](https://www.falconx.io/newsroom/state-of-bittensor-subnet-adoption-trends-network-mechanics-and-covenants-departure)). Las mejoras del protocolo todavía dependen de un pequeño grupo ligado a la Opentensor Foundation, con una meta de gobernanza completamente on-chain para finales de 2026. Y en abril de 2026, Covenant, uno de los equipos más importantes del ecosistema, se retiró denunciando un control excesivo de Steeves, que rechazó las acusaciones. La lección: un buen incentivo no reemplaza una gobernanza legítima. Medir bien el mérito es necesario, pero no suficiente.
 
@@ -94,6 +95,7 @@ La soberanía tecnológica no se declara: se construye con instituciones que nad
 - Bittensor. [Documentación oficial](https://www.bittensor.com/docs).
 - 21Shares. [Inside Bittensor, the blockchain for AI](https://www.21shares.com/research/inside-bittensor-the-blockchain-for-ai).
 - Grayscale Research (2025). [Bittensor on the Eve of the First Halving](https://research.grayscale.com/reports/bittensor-on-the-eve-of-the-first-halving).
+- BlockEden (2026). [TAO's Bitcoin Moment: Halving, Grayscale ETF, and a Governance Crisis](https://blockeden.xyz/blog/2026/04/11/bittensor-tao-halving-grayscale-etf-deai-institutional-playbook/).
 - FalconX (2026). [State of Bittensor: Subnet Adoption Trends, Network Mechanics, and Covenant's Departure](https://www.falconx.io/newsroom/state-of-bittensor-subnet-adoption-trends-network-mechanics-and-covenants-departure).
 - Wikipedia. [The DAO](https://en.wikipedia.org/wiki/The_DAO) y [Decentralized autonomous organization](https://en.wikipedia.org/wiki/Decentralized_autonomous_organization).
 - OpenCivic Solutions. [Hash Republic Protocol](https://opencivicsolutions.org/proyectos/hash-republic-protocol).
