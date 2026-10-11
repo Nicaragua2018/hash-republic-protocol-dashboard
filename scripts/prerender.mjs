@@ -56,9 +56,14 @@ function writeRoute(routePath, meta) {
     writeFileSync(join(distDir, 'index.html'), html);
     return;
   }
-  const dir = join(distDir, routePath.replace(/^\//, ''));
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'index.html'), html);
+  // A flat "<route>.html" file instead of "<route>/index.html": nginx
+  // would otherwise 301-redirect "/sobre" to "/sobre/" to serve a
+  // directory's index, adding a hop crawlers and share-previews don't
+  // always follow. try_files tries "$uri.html" first, so this is
+  // served directly at the exact path people link to.
+  const filePath = join(distDir, routePath.replace(/^\//, '') + '.html');
+  mkdirSync(dirname(filePath), { recursive: true });
+  writeFileSync(filePath, html);
 }
 
 let count = 0;
