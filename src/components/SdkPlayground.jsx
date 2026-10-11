@@ -9,9 +9,9 @@ const snippets = [
     desc: 'Inicializa una sesión del protocolo con metadatos de dominio.',
     code: `import { HashRepublicProtocol } from '@opencivic/hrp-sdk';
 
-// Initialize session for Bitcoin quantum readiness domain
+// Initialize a session for a participatory budgeting consultation
 const hrp = new HashRepublicProtocol({
-  domain: 'bitcoin.quantum-readiness',
+  domain: 'municipio.presupuesto-participativo',
   version: '0.3',
   readiness_target: 'R2',
   anchors: ['opentimestamps', 'bitcoin-op-return']
@@ -27,11 +27,11 @@ console.log('[HRP] Domain:', session.domain);
 console.log('[HRP] Anchor providers:', session.anchors.join(', '));`,
     logs: [
       { t: 100, msg: '[HRP SDK v0.3.0] Loading protocol configuration...', type: 'info' },
-      { t: 280, msg: '[HRP] Validating domain schema: bitcoin.quantum-readiness ✓', type: 'success' },
+      { t: 280, msg: '[HRP] Validating domain schema: municipio.presupuesto-participativo ✓', type: 'success' },
       { t: 450, msg: '[HRP] Registering anchor provider: opentimestamps', type: 'info' },
       { t: 620, msg: '[HRP] Registering anchor provider: bitcoin-op-return', type: 'info' },
       { t: 820, msg: '[HRP] Session initialized: sess_7f3a8b2c9e1d4f06', type: 'success' },
-      { t: 900, msg: '[HRP] Domain: bitcoin.quantum-readiness', type: 'log' },
+      { t: 900, msg: '[HRP] Domain: municipio.presupuesto-participativo', type: 'log' },
       { t: 980, msg: '[HRP] Anchor providers: opentimestamps, bitcoin-op-return', type: 'log' },
     ]
   },
@@ -47,7 +47,7 @@ const engine = new ReputationEngine({ max_multiplier: 1.30 });
 // Evidence-based reputation: contributions from different sources
 const alice = await engine.compute({
   participant: 'alice',
-  domain: 'cryptography',
+  domain: 'urban-planning',
   evidence: [
     { type: 'github_commits', value: 47, weight: 0.4 },
     { type: 'technical_reviews', value: 12, weight: 0.35 },
@@ -61,7 +61,7 @@ console.log('[Reputation] Capped:', alice.capped);
 console.log('[Reputation] Snapshot hash:', alice.snapshot_hash);`,
     logs: [
       { t: 80, msg: '[ReputationEngine] Initializing with max_multiplier=1.30', type: 'info' },
-      { t: 200, msg: '[ReputationEngine] Computing score for: alice (domain: cryptography)', type: 'info' },
+      { t: 200, msg: '[ReputationEngine] Computing score for: alice (domain: urban-planning)', type: 'info' },
       { t: 380, msg: '[Evidence] github_commits: 47 → weighted score: 18.8', type: 'log' },
       { t: 540, msg: '[Evidence] technical_reviews: 12 → weighted score: 4.2', type: 'log' },
       { t: 700, msg: '[Evidence] published_papers: 2 → weighted score: 0.5', type: 'log' },
@@ -81,7 +81,7 @@ const engine = new CanonicalReportEngine();
 
 // Build canonical report from all pipeline artifacts
 const report = await engine.build({
-  domain: 'bitcoin.quantum-readiness',
+  domain: 'municipio.presupuesto-participativo',
   sources: {
     polis_export_hash: 'sha256:d5c7f8a9...',
     synthesis_hash: 'sha256:c9b8a7f6...',

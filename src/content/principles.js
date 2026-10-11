@@ -54,9 +54,9 @@ const principles = [
       'Una comunidad puede encargar a personas o a sistemas que analicen, recomienden o ejecuten. Lo que nunca transfiere es el derecho a decidir sus propios fines, a revisar esas decisiones y a retirar los encargos.',
   },
   {
-    text: 'Nadie habla por Bitcoin; la evidencia habla por sí misma.',
+    text: 'Nadie habla por una comunidad abierta; la evidencia habla por sí misma.',
     explain:
-      'En una comunidad abierta y sin dueño, como Bitcoin, ninguna persona, empresa o fundación puede atribuirse la voz de todos. Lo que sí se puede hacer es reunir evidencia verificable de lo que piensan sus participantes y dejar que esa evidencia hable. El principio vale para cualquier comunidad abierta.',
+      'En una comunidad abierta y sin dueño, ninguna persona, empresa o fundación puede atribuirse la voz de todos. Lo que sí se puede hacer es reunir evidencia verificable de lo que piensan sus participantes y dejar que esa evidencia hable.',
   },
   {
     text: 'Ninguna propuesta sin deliberación.',

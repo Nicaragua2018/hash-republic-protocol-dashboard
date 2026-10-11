@@ -6,7 +6,7 @@ const SCHEMA = {
   properties: {
     protocol: { type: 'string', enum: ['hash_republic_protocol'], label: 'Identificador del protocolo' },
     version: { type: 'string', pattern: /^\d+\.\d+$/, label: 'Versión semántica (ej: "0.3")' },
-    domain: { type: 'string', minLength: 3, label: 'Dominio deliberativo (ej: "bitcoin.quantum-readiness")' },
+    domain: { type: 'string', minLength: 3, label: 'Dominio deliberativo (ej: "municipio.presupuesto-participativo")' },
     readiness_target: { type: 'string', pattern: /^R[0-7]$/, optional: true, label: 'Nivel de preparación objetivo (R0–R7)' },
     generated_at: { type: 'string', isISO: true, label: 'Timestamp ISO 8601' },
     sources: {
@@ -98,7 +98,7 @@ const EXAMPLES = {
   valid: JSON.stringify({
     protocol: 'hash_republic_protocol',
     version: '0.3',
-    domain: 'bitcoin.quantum-readiness',
+    domain: 'municipio.presupuesto-participativo',
     readiness_target: 'R2',
     generated_at: '2026-06-28T15:00:00Z',
     sources: {
@@ -112,7 +112,7 @@ const EXAMPLES = {
   broken_protocol: JSON.stringify({
     protocol: 'my_own_protocol',
     version: '0.3',
-    domain: 'bitcoin.quantum-readiness',
+    domain: 'municipio.presupuesto-participativo',
     generated_at: '2026-06-28T15:00:00Z',
     sources: {
       polis_export_hash: 'sha256:abc123',
@@ -125,7 +125,7 @@ const EXAMPLES = {
   missing_sources: JSON.stringify({
     protocol: 'hash_republic_protocol',
     version: '0.3',
-    domain: 'bitcoin.quantum-readiness',
+    domain: 'municipio.presupuesto-participativo',
     generated_at: 'not-a-valid-date',
     sources: {
       polis_export_hash: 'sha256:abc123'

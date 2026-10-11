@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 // Mock data for opinion clusters (Pol.is simulation)
 const clusters = {
   A: {
-    name: 'Puristas de la Descentralización',
+    name: 'Prioridad a los barrios',
     count: 42,
     color: '#38bdf8', // Cyan
-    stance: 'Priorizan la retrocompatibilidad estricta y se oponen firmemente a cualquier confiscación o quema de UTXOs inactivos, prefiriendo Soft Forks lentos y seguros.',
-    alignment: { s1: 15, s2: 95, s3: 12, s4: 85 }
+    stance: 'Quieren destinar la mayor parte del fondo a calles, agua potable y alumbrado en los barrios con menos servicios, aunque eso retrase obras en el centro.',
+    alignment: { s1: 90, s2: 92, s3: 30, s4: 60 }
   },
   B: {
-    name: 'Pragmáticos de la Migración',
+    name: 'Prioridad a los espacios comunes',
     count: 38,
     color: '#10b981', // Emerald
-    stance: 'Apoyan una acción rápida. Si es necesario confiscar o restringir UTXOs expuestos para salvar el consenso de Bitcoin, prefieren hacerlo antes de que un ataque cuántico ocurra.',
-    alignment: { s1: 78, s2: 32, s3: 88, s4: 90 }
+    stance: 'Prefieren parques, bibliotecas y centros comunitarios que beneficien a toda la ciudad, y apoyan ejecutar cuanto antes las obras que ya están diseñadas.',
+    alignment: { s1: 30, s2: 85, s3: 70, s4: 88 }
   },
   C: {
-    name: 'Conservadores del Protocolo',
+    name: 'Prudencia fiscal',
     count: 25,
     color: '#f59e0b', // Gold
-    stance: 'Defienden que no hay que apresurarse. Opinan que la amenaza cuántica está sobrevalorada y que no se debe alterar la capa base de Bitcoin con firmas pesadas hasta ver pruebas reales.',
-    alignment: { s1: 22, s2: 89, s3: 5, s4: 10 }
+    stance: 'Piden ir más despacio: reservar parte del fondo, auditar las obras de años anteriores y no comprometer el presupuesto de los años siguientes.',
+    alignment: { s1: 20, s2: 95, s3: 5, s4: 40 }
   }
 };
 
@@ -41,7 +41,7 @@ const dots = [
 const initialStatements = [
   {
     id: 's1',
-    text: 'Debemos activar firmas cuánticas de inmediato en Bitcoin, incluso si aumenta el tamaño medio de transacción en más de un 30%.',
+    text: 'Más del 60% del fondo participativo debe ir a los barrios con menos servicios básicos, aunque se retrasen otras obras.',
     consensus: 'No (Divisivo)',
     isConsensus: false,
     agreeCount: 41,
@@ -49,7 +49,7 @@ const initialStatements = [
   },
   {
     id: 's2',
-    text: 'El proceso de mitigación de riesgos cuánticos debe implementarse exclusivamente como un Soft Fork retrocompatible, rechazando Hard Forks.',
+    text: 'Todas las obras financiadas deben publicar su avance y su gasto en un portal abierto, actualizado cada mes.',
     consensus: 'Sí (Consenso Cruzado)',
     isConsensus: true,
     agreeCount: 75,
@@ -57,7 +57,7 @@ const initialStatements = [
   },
   {
     id: 's3',
-    text: 'Es imperativo proteger o transferir los UTXOs inactivos (como el bloque génesis y fondos de Satoshi) bajo firma post-cuántica mediante reglas de consenso restrictivas.',
+    text: 'Es aceptable endeudar al municipio para adelantar este año las obras más votadas.',
     consensus: 'No (Divisivo)',
     isConsensus: false,
     agreeCount: 38,
@@ -65,7 +65,7 @@ const initialStatements = [
   },
   {
     id: 's4',
-    text: 'Se debe incentivar financieramente la migración cuántica cobrando comisiones de transacción incrementales a las direcciones vulnerables expuestas.',
+    text: 'Una parte del fondo debe reservarse para propuestas presentadas por jóvenes menores de 25 años.',
     consensus: 'Sí (Consenso Mayoritario)',
     isConsensus: true,
     agreeCount: 68,
@@ -117,7 +117,7 @@ export default function OpinionMap() {
         <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h3 style={{ textAlign: 'left', fontSize: '1.2rem', margin: 0 }}>Mapa del Consenso Colectivo (Principal Component Analysis)</h3>
           <p style={{ textAlign: 'left', fontSize: '0.85rem' }}>
-            Cada punto representa a un participante en Bitcoin. La distancia representa desacuerdo ideológico. Haz clic en las etiquetas de los clusters para filtrarlos.
+            Cada punto representa a un participante de la consulta. La distancia representa desacuerdo ideológico. Haz clic en las etiquetas de los clusters para filtrarlos.
           </p>
 
           <div style={{ 
@@ -161,8 +161,8 @@ export default function OpinionMap() {
             </svg>
             
             {/* Axis labels */}
-            <span style={{ position: 'absolute', bottom: '8px', right: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Dimensión 1 (Confianza en Cambios)</span>
-            <span style={{ position: 'absolute', top: '12px', left: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Dimensión 2 (Confianza en Core)</span>
+            <span style={{ position: 'absolute', bottom: '8px', right: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Dimensión 1 (Disposición a gastar)</span>
+            <span style={{ position: 'absolute', top: '12px', left: '12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Dimensión 2 (Prioridad a lo local)</span>
           </div>
 
           {/* Cluster filtering buttons */}
@@ -258,7 +258,7 @@ export default function OpinionMap() {
       {/* Structured Deliberative statements voting area */}
       <div className="glass-card" style={{ textAlign: 'left' }}>
         <h3 style={{ marginBottom: '20px', fontSize: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-          Declaraciones Clave del Debate de Preparación Cuántica
+          Declaraciones clave de la consulta sobre el presupuesto participativo
         </h3>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

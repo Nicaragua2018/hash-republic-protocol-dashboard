@@ -1,7 +1,7 @@
 ---
 slug: de-las-instituciones-analogicas-a-las-instituciones-programables
 title: De las instituciones analógicas a las instituciones programables
-dek: "Paper conceptual de política pública (versión 1.1): tecnología, cooperación, participación democrática y patrimonio común para una nueva generación de instituciones."
+dek: "Paper conceptual de política pública (versión 1.2): tecnología, cooperación, participación democrática y patrimonio común para una nueva generación de instituciones."
 date: 2026-10-11
 author: Carlos Robleto
 ia: asistido
@@ -10,7 +10,7 @@ imageAlt: Ilustración dibujada a mano: ocho capas apiladas, con un hexágono am
 ogImage: /og-capas-institucionales.png
 ---
 
-*Paper conceptual de política pública. Versión 1.1, publicada el 11 de octubre de 2026.*
+*Paper conceptual de política pública. Versión 1.2, 11 de octubre de 2026.*
 
 ## Razón de ser de OpenCivic Solutions
 
@@ -364,19 +364,9 @@ No cada institución tiene que construir toda su tecnología. Municipios, cooper
 
 El objetivo es reducir duplicación y dependencia sin imponer un proveedor único.
 
-## Parte VIII. Laboratorio y agendas
+## Parte VIII. Agendas experimentales
 
-### 30. Humanitarian Agile Defense como laboratorio
-
-Humanitarian Agile Defense (HAD) nace de un problema concreto: la fragmentación de la asistencia a migrantes y personas vulnerables. Una misma persona puede necesitar a la vez asistencia documental, traducción, organización de evidencia, orientación, seguimiento de plazos, servicios profesionales y apoyo comunitario. HAD propone integrar esas funciones mediante flujos de trabajo tecnológicos y gobernanza cooperativa.
-
-El experimento plantea una pregunta mayor: **¿puede una comunidad poseer y gobernar colectivamente parte de la infraestructura digital que usa para resolver sus propios problemas?**
-
-Si HAD logra combinar patrimonio tecnológico común, gobernanza cooperativa, procesos programables, IA asistiva, trazabilidad y mecanismos anti-captura, algunos componentes podrían transferirse a agricultura, vivienda, servicios comunitarios, gobierno local, educación o mutualismo. HAD no demostraría por sí solo la validez del modelo; funcionaría como laboratorio a escala humana antes de extrapolar.
-
-Por la población que atiende, HAD exige el estándar más alto de protección de datos: mínima recolección, control del usuario sobre su información y ninguna función que pueda servir para identificar o perseguir a personas vulnerables.
-
-### 31. Agenda experimental para administraciones públicas
+### 30. Agenda experimental para administraciones públicas
 
 La transformación debe empezar con experimentos limitados, medibles y reversibles. Los primeros procesos deberían tener alto volumen, costos administrativos identificables, reglas claras, bajo riesgo, revisión humana posible y resultados cuantificables.
 
@@ -384,13 +374,13 @@ Indicadores: tiempo, costo por transacción, errores, accesibilidad, satisfacci�
 
 Cada piloto debería incluir, antes de su despliegue, una evaluación del impacto humano y social, como propone *Magnifica humanitas* (§14): quién gana, quién pierde, qué trabajos cambian y qué derechos quedan expuestos.
 
-### 32. Agenda experimental para cooperativas
+### 31. Agenda experimental para cooperativas
 
 Campos de prueba: participación continua, registro de aportaciones, tesorerías transparentes, distribución de excedentes, identidad cooperativa, plataformas compartidas e interoperabilidad entre cooperativas.
 
 Además de eficiencia y costos, deben medirse participación real, concentración de poder, inclusión, autonomía y resiliencia.
 
-### 33. Preguntas para la economía
+### 32. Preguntas para la economía
 
 - ¿Cuánto pueden reducirse los costos de transacción institucional, y en qué procesos?
 - ¿La verificabilidad reduce los costos de agencia entre miembros y administradores?
@@ -399,7 +389,7 @@ Además de eficiencia y costos, deben medirse participación real, concentració
 - ¿La automatización reduce la corrupción o solo desplaza sus mecanismos?
 - ¿En qué punto el costo de descentralizar supera sus beneficios?
 
-### 34. Preguntas para la ciencia política
+### 33. Preguntas para la ciencia política
 
 - ¿Qué decisiones pueden delegarse a sistemas tecnológicos y cuáles nunca?
 - ¿Qué significa consentimiento político en sistemas digitales?
@@ -407,7 +397,7 @@ Además de eficiencia y costos, deben medirse participación real, concentració
 - ¿Cómo cambia la representación cuando la delegación es dinámica?
 - ¿Qué formas de ciudadanía surgen en comunidades transnacionales y de exilio?
 
-### 35. Preguntas para los legisladores
+### 34. Preguntas para los legisladores
 
 - ¿Qué decisiones requieren intervención humana obligatoria?
 - ¿Qué derecho tiene una persona a conocer y apelar una decisión automatizada?
@@ -419,7 +409,7 @@ Son cuestiones políticas antes que técnicas.
 
 ## Parte IX. Arquitectura constitucional y conclusión
 
-### 36. Una jerarquía deliberada
+### 35. Una jerarquía deliberada
 
 El modelo ordena la autoridad de arriba hacia abajo. Las capas técnicas tienen más capacidad de acción, pero menos autoridad: cuanto mayor es el poder de una tecnología, más importante es determinar quién la gobierna.
 
@@ -427,7 +417,7 @@ El modelo ordena la autoridad de arriba hacia abajo. Las capas técnicas tienen 
 
 La IA ocupa el último lugar no porque sea la menos importante, sino porque es la que más necesita estar subordinada.
 
-### 37. La IA como capa cognitiva
+### 36. La IA como capa cognitiva
 
 Dentro de esta arquitectura, la IA puede traducir, resumir, clasificar, detectar anomalías, comparar propuestas y explicar documentos complejos. Puede reducir una barrera histórica de la democracia: la desigualdad en la capacidad de procesar información. Nadie debería necesitar leer un presupuesto de quinientas páginas para participar en una decisión sobre su comunidad.
 
@@ -435,7 +425,7 @@ Pero la IA no decide cuáles son nuestros valores. Sus síntesis deben ser traza
 
 En esto el paper coincide con *Magnifica humanitas*: la IA imita funciones humanas y puede superarlas en velocidad y cálculo, pero carece de experiencia, conciencia y capacidad de asumir responsabilidad, por lo que no puede ocupar "una función de responsabilidad y supremacía sobre la inteligencia humana". Cuando la eficiencia es el criterio dominante, advierte la síntesis oficial de la encíclica, el trabajo "corre el riesgo de perder su valor humano y relacional". La arquitectura propuesta responde con una regla de diseño: la IA asiste a quien decide, y quien decide sigue siendo una persona o una comunidad que responde por la decisión.
 
-### 38. Conclusión
+### 37. Conclusión
 
 El futuro institucional no tiene por qué consistir en gobiernos algorítmicos ni en sociedades administradas por blockchain. Esa visión confunde herramientas con instituciones.
 
