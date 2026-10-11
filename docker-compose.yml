@@ -23,6 +23,13 @@ services:
       - SECRET=${REMARK_SECRET:?falta REMARK_SECRET en .env}
       - ADMIN_PASSWD=${REMARK_ADMIN_PASSWD:?falta REMARK_ADMIN_PASSWD en .env}
       - AUTH_ANON=true
+      # GitHub sign-in (optional for readers) is how the admin logs in to
+      # pin and delete comments from the page itself. Empty values simply
+      # leave the provider off.
+      - AUTH_GITHUB_CID=${AUTH_GITHUB_CID:-}
+      - AUTH_GITHUB_CSEC=${AUTH_GITHUB_CSEC:-}
+      # "github_" + sha1 of the GitHub login "Nicaragua2018".
+      - ADMIN_SHARED_ID=github_ea933c24a23cd055b911423e3f29312c8591199c
       - ALLOWED_HOSTS=opencivicsolutions.org
       - TIME_ZONE=America/Managua
       # Traefik runs on the host network, so requests reach this container
