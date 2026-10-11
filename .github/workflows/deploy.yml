@@ -1,0 +1,48 @@
+name: Desplegar en el VPS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Two merges in a row deploy one after the other, never at the same time.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # The key is restricted on the server to a forced command
+          # (/usr/local/bin/opencivic-deploy.sh), so no command is sent.
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes root@179.236.66.237
+
+      - name: Comprobar que el sitio responde
+        run: |
+          for path in / /blog /sitemap.xml; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://opencivicsolutions.org$path")
+            echo "$path -> $code"
+            [ "$code" = 200 ]
+          done
