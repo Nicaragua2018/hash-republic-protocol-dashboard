@@ -31,8 +31,8 @@ export default function Footer() {
           </h3>
           <nav style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: '0.9rem' }}>
             <Link to="/sobre" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Qué es OpenCivic Solutions</Link>
-            <Link to="/proyectos" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Proyectos</Link>
             <Link to="/blog" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Blog y boletín</Link>
+            <Link to="/proyectos" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Proyectos</Link>
             <Link to="/unirse" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Cómo contribuir</Link>
             <Link to="/contacto" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>Información y contacto</Link>
           </nav>

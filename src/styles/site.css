@@ -204,6 +204,18 @@ details.oc-details li {
   overflow: hidden;
 }
 
+.oc-prose {
+  max-width: 760px;
+}
+.oc-prose p {
+  font-size: 1.05rem;
+  color: var(--oc-ink);
+}
+.oc-prose h2 {
+  font-size: 1.4rem;
+  margin-top: 1.6em;
+}
+
 .oc-hero-bees {
   position: absolute;
   inset: 0;

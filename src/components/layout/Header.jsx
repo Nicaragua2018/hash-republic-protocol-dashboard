@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 const NAV_ITEMS = [
   { to: '/', label: 'Inicio', end: true },
   { to: '/sobre', label: 'Qué es OpenCivic' },
-  { to: '/proyectos', label: 'Proyectos' },
   { to: '/blog', label: 'Blog' },
+  { to: '/proyectos', label: 'Proyectos' },
   { to: '/unirse', label: 'Unirse' },
   { to: '/contacto', label: 'Información' },
 ];
