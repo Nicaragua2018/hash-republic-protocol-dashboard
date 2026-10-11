@@ -1,0 +1,90 @@
+import React from 'react';
+
+export default function Contact() {
+  return (
+    <>
+      <section className="oc-section" style={{ paddingTop: 56 }}>
+        <div className="oc-container">
+          <span className="oc-eyebrow">Información y contacto</span>
+          <h1 className="oc-h1">Confianza</h1>
+          <ul style={{ maxWidth: 680, fontSize: '1rem', lineHeight: 1.9, paddingLeft: 20 }}>
+            <li>
+              <strong>Canales oficiales:</strong> solo los que figuran en este sitio. Si un mensaje
+              o un video aparece fuera de ellos, no es nuestro.
+            </li>
+            <li>
+              <strong>IA declarada:</strong> todo contenido generado o asistido por IA se
+              etiqueta, y todo clon digital figura en un registro público con el consentimiento de
+              la persona.
+            </li>
+            <li>
+              <strong>Imparcialidad:</strong> criticamos con la misma vara al Estado, al capital, a
+              la mayoría y a la utopía tecnológica. No hacemos propaganda partidaria.
+            </li>
+            <li>
+              <strong>Seguridad:</strong> para reportar una vulnerabilidad o una suplantación,
+              escribe a{' '}
+              <a href="mailto:info@opencivicsolutions.org">info@opencivicsolutions.org</a>.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="oc-section oc-section--mist">
+        <div className="oc-container">
+          <h2 className="oc-h2">Licencias</h2>
+          <p className="oc-lede" style={{ marginBottom: 24 }}>
+            Usamos el mismo esquema de licencias que Decidim, la plataforma de participación de
+            código abierto: lo que se comparte y se mejora sigue siendo de todos.
+          </p>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="oc-table">
+              <thead>
+                <tr>
+                  <th>Qué</th>
+                  <th>Licencia</th>
+                  <th>En pocas palabras</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Código</strong></td>
+                  <td>GNU AGPL v3</td>
+                  <td>Puedes usarlo, cambiarlo y redistribuirlo. Si lo ofreces como servicio en internet, compartes tus cambios con la misma licencia.</td>
+                </tr>
+                <tr>
+                  <td><strong>Contenido</strong> (textos, imágenes, diseño)</td>
+                  <td>CC BY-SA 4.0</td>
+                  <td>Puedes copiarlo y adaptarlo citando a OpenCivic y compartiendo con la misma licencia.</td>
+                </tr>
+                <tr>
+                  <td><strong>Datos abiertos</strong></td>
+                  <td>ODbL 1.0</td>
+                  <td>Puedes usar y adaptar las bases de datos citando la fuente y manteniendo abiertas las versiones derivadas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style={{ marginTop: 16, fontSize: '0.9rem' }}>
+            El logo y el nombre de OpenCivic identifican a la organización: puedes mostrarlos para
+            referirte a nosotros, pero no para hacerte pasar por nosotros.
+          </p>
+        </div>
+      </section>
+
+      <section className="oc-section">
+        <div className="oc-container">
+          <h2 className="oc-h2">Enlaces</h2>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <a href="https://github.com/Nicaragua2018/hash-republic-protocol-dashboard" className="oc-btn oc-btn--outline" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href="mailto:info@opencivicsolutions.org" className="oc-btn oc-btn--outline">
+              Escribir un correo
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
