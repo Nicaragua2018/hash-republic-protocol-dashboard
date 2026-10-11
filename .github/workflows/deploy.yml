@@ -40,9 +40,15 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes root@179.236.66.237
 
       - name: Comprobar que el sitio responde
+        # Containers being recreated (and Remark42 passing its healthcheck)
+        # leave Traefik without a backend for a few seconds, so retry.
         run: |
-          for path in / /blog /sitemap.xml; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "https://opencivicsolutions.org$path")
+          for path in / /blog /sitemap.xml /comentarios/ping; do
+            for attempt in $(seq 1 18); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' "https://opencivicsolutions.org$path")
+              [ "$code" = 200 ] && break
+              sleep 5
+            done
             echo "$path -> $code"
             [ "$code" = 200 ]
           done
