@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Ilustración dibujada a mano: un tallo que nace de un hexágono de panal se bifurca en un libro, a la izquierda, y un chip, a la derecha, mientras dos abejas vuelan entre ambas ramas">
+<defs>
+<filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter>
+<filter id="wash" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" result="d"/><feGaussianBlur in="d" stdDeviation="1.4"/></filter>
+<filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2"/><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0.06 0"/></filter>
+</defs>
+
+<!-- paper -->
+<rect width="1200" height="600" fill="#FFFDF7"/><rect width="1200" height="600" filter="url(#paper)"/>
+
+<!-- soft warm wash behind the whole scene -->
+<path d="M200 90 C460 20 820 30 1020 110 C1150 170 1140 340 980 420 C760 500 420 480 230 420 C70 370 60 160 200 90 Z" fill="#FCE7B2" opacity="0.35" filter="url(#wash)"/>
+
+<!-- corner hexagons (brand motif, same as other illustrations) -->
+<path d="M110.0 40.0 L144.6 60.0 L144.6 80.0 L110.0 100.0 L75.4 80.0 L75.4 60.0 Z" fill="none" stroke="#7F9CC9" stroke-width="1.6" opacity=".6" filter="url(#ink)"/>
+<path d="M1090.0 40.0 L1124.6 60.0 L1124.6 80.0 L1090.0 100.0 L1055.4 80.0 L1055.4 60.0 Z" fill="none" stroke="#7F9CC9" stroke-width="1.6" opacity=".6" filter="url(#ink)"/>
+<path d="M1090.0 500.0 L1124.6 520.0 L1124.6 540.0 L1090.0 560.0 L1055.4 540.0 L1055.4 520.0 Z" fill="none" stroke="#7F9CC9" stroke-width="1.6" opacity=".6" filter="url(#ink)"/>
+<path d="M110.0 500.0 L144.6 520.0 L144.6 540.0 L110.0 560.0 L75.4 540.0 L75.4 520.0 Z" fill="none" stroke="#7F9CC9" stroke-width="1.6" opacity=".6" filter="url(#ink)"/>
+
+<!-- the hive: one large abstract hexagon with a loose honeycomb texture inside -->
+<path d="M600 160 L747.2 245 L747.2 415 L600 500 L452.8 415 L452.8 245 Z" fill="#FCE7B2" opacity="0.55" filter="url(#wash)"/>
+<g opacity="0.3" stroke="#1B2A4A" stroke-width="1.2" fill="none">
+  <path d="M520 260 L554.6 280 L554.6 320 L520 340 L485.4 320 L485.4 280 Z"/>
+  <path d="M600 290 L634.6 310 L634.6 350 L600 370 L565.4 350 L565.4 310 Z"/>
+  <path d="M680 260 L714.6 280 L714.6 320 L680 340 L645.4 320 L645.4 280 Z"/>
+  <path d="M560 345 L594.6 365 L594.6 405 L560 425 L525.4 405 L525.4 365 Z"/>
+  <path d="M640 345 L674.6 365 L674.6 405 L640 425 L605.4 405 L605.4 365 Z"/>
+</g>
+<g filter="url(#ink)">
+  <path d="M600 160 L747.2 245 L747.2 415 L600 500 L452.8 415 L452.8 245 Z" fill="none" stroke="#1B2A4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M600 160 L747.2 245 L747.2 415 L600 500 L452.8 415 L452.8 245 Z" fill="none" stroke="#1B2A4A" stroke-width="1.17" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+
+<!-- stem from the hive, forking left to the book and right to the chip -->
+<g filter="url(#ink)">
+  <path d="M600 560 C600 480 590 420 600 345 M600 345 C520 310 430 260 345 215 M600 345 C680 310 770 260 855 215" fill="none" stroke="#1B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M600 560 C600 480 590 420 600 345 M600 345 C520 310 430 260 345 215 M600 345 C680 310 770 260 855 215" fill="none" stroke="#1B2A4A" stroke-width="1.26" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+
+<!-- left branch: the book (written law / institutions) -->
+<path d="M260 140 L400 140 L400 262 L260 262 Z" fill="#E8EEF8" opacity="0.95" filter="url(#wash)"/>
+<g filter="url(#ink)">
+  <path d="M260 140 L400 140 L400 262 L260 262 Z" fill="none" stroke="#1B2A4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M260 140 L400 140 L400 262 L260 262 Z" fill="none" stroke="#1B2A4A" stroke-width="1.17" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+<path d="M312 140 L312 190 L330 178 L348 190 L348 140 Z" fill="#F2B00A" opacity="0.9" filter="url(#wash)"/>
+<g filter="url(#ink)">
+  <path d="M312 140 L312 190 L330 178 L348 190 L348 140" fill="none" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M312 140 L312 190 L330 178 L348 190 L348 140" fill="none" stroke="#1B2A4A" stroke-width="0.81" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+<g filter="url(#ink)">
+  <path d="M280 205 L380 205 M280 223 L380 223 M280 241 L355 241" fill="none" stroke="#1B2A4A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M280 205 L380 205 M280 223 L380 223 M280 241 L355 241" fill="none" stroke="#1B2A4A" stroke-width="0.77" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+
+<!-- right branch: the chip (formal logic / code) -->
+<path d="M800 140 L940 140 L940 262 L800 262 Z" fill="#E8EEF8" opacity="0.95" filter="url(#wash)"/>
+<g filter="url(#ink)">
+  <path d="M800 140 L940 140 L940 262 L800 262 Z" fill="none" stroke="#1B2A4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M800 140 L940 140 L940 262 L800 262 Z" fill="none" stroke="#1B2A4A" stroke-width="1.17" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+<g filter="url(#ink)">
+  <path d="M800 165 L788 165 M800 200 L788 200 M800 235 L788 235 M940 165 L952 165 M940 200 L952 200 M940 235 L952 235" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M800 165 L788 165 M800 200 L788 200 M800 235 L788 235 M940 165 L952 165 M940 200 L952 200 M940 235 L952 235" fill="none" stroke="#1B2A4A" stroke-width="0.9" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+<g filter="url(#ink)">
+  <path d="M850 175 L835 198 L850 221 M890 175 L905 198 L890 221" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M850 175 L835 198 L850 221 M890 175 L905 198 L890 221" fill="none" stroke="#1B2A4A" stroke-width="0.9" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/>
+</g>
+<circle cx="870" cy="198" r="5" fill="#F2B00A" opacity="0.9" filter="url(#wash)"/>
+
+<!-- dotted flight trails, like the two bees completing the "S" in the logo -->
+<path d="M600 345 Q 500 300 420 258" fill="none" stroke="#F2B00A" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11" opacity="0.8"/>
+<path d="M600 345 Q 700 300 780 258" fill="none" stroke="#F2B00A" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11" opacity="0.8"/>
+
+<!-- bee 1, near the book -->
+<g transform="translate(420 258) rotate(-18) scale(1)">
+  <path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0" fill="#F2B00A" opacity="0.95" filter="url(#wash)"/>
+  <g filter="url(#ink)"><path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0 M-4 -9 v18 M5 -9 v18" fill="none" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0 M-4 -9 v18 M5 -9 v18" fill="none" stroke="#1B2A4A" stroke-width="0.81" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/></g>
+  <g filter="url(#ink)"><path d="M-2 -9 c-10 -18 6 -22 6 -4 M4 -9 c4 -18 18 -12 6 -2" fill="none" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M-2 -9 c-10 -18 6 -22 6 -4 M4 -9 c4 -18 18 -12 6 -2" fill="none" stroke="#1B2A4A" stroke-width="0.675" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/></g>
+</g>
+
+<!-- bee 2, near the chip -->
+<g transform="translate(780 258) rotate(18) scale(1)">
+  <path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0" fill="#F2B00A" opacity="0.95" filter="url(#wash)"/>
+  <g filter="url(#ink)"><path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0 M-4 -9 v18 M5 -9 v18" fill="none" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M-14 0 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0 M-4 -9 v18 M5 -9 v18" fill="none" stroke="#1B2A4A" stroke-width="0.81" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/></g>
+  <g filter="url(#ink)"><path d="M-2 -9 c-10 -18 6 -22 6 -4 M4 -9 c4 -18 18 -12 6 -2" fill="none" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M-2 -9 c-10 -18 6 -22 6 -4 M4 -9 c4 -18 18 -12 6 -2" fill="none" stroke="#1B2A4A" stroke-width="0.675" stroke-linecap="round" opacity=".55" transform="translate(1.2 -0.8)"/></g>
+</g>
+</svg>

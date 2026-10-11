@@ -42,6 +42,15 @@ export default function Blog() {
                 key={post.slug}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
               >
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="oc-illustration"
+                    style={{ width: '100%', marginBottom: 16 }}
+                  />
+                )}
                 <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
                   {formatDate(post.date)}
                 </p>

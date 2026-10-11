@@ -9,6 +9,8 @@ const posts = [
     dek: 'De la ley escrita al código de máquina, y de vuelta: dos ramas de una misma raíz explican por qué OpenCivic piensa las instituciones como tecnología.',
     date: '2026-10-12',
     author: 'Equipo OpenCivic',
+    image: '/ilustracion-lenguaje-tecnologia.svg',
+    imageAlt: 'Ilustración dibujada a mano: un tallo nace de un hexágono de panal y se bifurca en un libro, a la izquierda, y un chip, a la derecha, mientras dos abejas vuelan entre ambas ramas',
     body: [
       { type: 'p', text: 'El lenguaje fue la primera tecnología de la humanidad. Antes que la rueda o el fuego, antes que cualquier herramienta de piedra, un grupo de personas descubrió que podía coordinar una cacería, advertir de un peligro o transmitir un conocimiento sin tener que repetir la experiencia desde cero cada vez. Esa capacidad —externalizar un pensamiento para que otra mente lo use— es la definición más simple de tecnología que existe. El lenguaje la cumple antes que ninguna otra cosa.' },
       { type: 'p', text: 'Las abejas, sin lenguaje simbólico, resolvieron una versión limitada del mismo problema con la danza de meneo: una señal que comunica dirección, distancia y calidad de un sitio a toda la colonia. Fue la metáfora fundacional del Hash Republic Protocol. Pero la danza de las abejas muere con quien la baila. El lenguaje humano, en cambio, encontró la manera de sobrevivir a quien lo pronuncia — y ahí empieza la bifurcación que nos interesa.' },

@@ -27,6 +27,14 @@ export default function BlogPost() {
 
       <section className="oc-section" style={{ paddingTop: 32 }}>
         <div className="oc-container oc-prose">
+          {post.image && (
+            <img
+              src={post.image}
+              alt={post.imageAlt || ''}
+              className="oc-illustration"
+              style={{ width: '100%', marginBottom: 32 }}
+            />
+          )}
           {post.body.map((block, i) => {
             if (block.type === 'h2') return <h2 key={i}>{block.text}</h2>;
             if (block.type === 'p') return <p key={i}>{block.text}</p>;
