@@ -69,7 +69,10 @@
   text-decoration: none;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: transform var(--oc-transition), box-shadow var(--oc-transition), background var(--oc-transition);
+  transition:
+    transform var(--oc-transition),
+    box-shadow var(--oc-transition),
+    background var(--oc-transition);
 }
 
 .oc-btn--primary {
@@ -106,12 +109,20 @@
 }
 
 @media (min-width: 720px) {
-  .oc-grid--2 { grid-template-columns: repeat(2, 1fr); }
-  .oc-grid--3 { grid-template-columns: repeat(3, 1fr); }
-  .oc-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .oc-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .oc-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .oc-grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (min-width: 1040px) {
-  .oc-grid--4 { grid-template-columns: repeat(4, 1fr); }
+  .oc-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .oc-card {
@@ -119,7 +130,9 @@
   border: 1px solid rgba(var(--oc-blue-rgb), 0.12);
   border-radius: var(--oc-radius);
   padding: 28px;
-  transition: transform var(--oc-transition), box-shadow var(--oc-transition);
+  transition:
+    transform var(--oc-transition),
+    box-shadow var(--oc-transition);
 }
 .oc-card:hover {
   transform: translateY(-3px);
@@ -291,7 +304,9 @@ details.oc-details li {
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--oc-transition), border-color var(--oc-transition);
+  transition:
+    background var(--oc-transition),
+    border-color var(--oc-transition);
 }
 .oc-share__btn:hover {
   background: rgba(var(--oc-blue-rgb), 0.06);
@@ -310,7 +325,8 @@ details.oc-details li {
 .oc-hero-bees {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(var(--oc-yellow-rgb), 0.12), transparent 50%),
+  background:
+    radial-gradient(circle at 80% 20%, rgba(var(--oc-yellow-rgb), 0.12), transparent 50%),
     radial-gradient(circle at 10% 80%, rgba(var(--oc-blue-rgb), 0.08), transparent 50%);
   pointer-events: none;
 }

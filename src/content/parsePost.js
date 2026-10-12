@@ -41,8 +41,7 @@ export function parseInline(text) {
     if (m[1] !== undefined) {
       const children = parseInline(m[1]);
       tokens.push({ t: 'link', v: inlineToText(children), url: m[2], children });
-    }
-    else if (m[3] !== undefined) tokens.push({ t: 'strong', v: m[3] });
+    } else if (m[3] !== undefined) tokens.push({ t: 'strong', v: m[3] });
     else tokens.push({ t: 'em', v: m[4] });
     last = re.lastIndex;
   }
@@ -55,7 +54,11 @@ export function inlineToText(tokens) {
 }
 
 const splitRow = (line) =>
-  line.replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => parseInline(cell.trim()));
+  line
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => parseInline(cell.trim()));
 
 function parseBody(body) {
   const blocks = [];
@@ -63,7 +66,10 @@ function parseBody(body) {
   // conservando el orden de notas y listas.
   let sources = null;
   for (const chunk of body.split(/\n\s*\n/)) {
-    const lines = chunk.split('\n').map((l) => l.trim()).filter(Boolean);
+    const lines = chunk
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean);
     if (!lines.length) continue;
 
     if (lines[0].startsWith('### ') && !sources) {
@@ -120,7 +126,9 @@ export function parsePost(raw, file = '') {
   // The slug becomes the URL and, in prerender, a file name in dist/: only
   // lowercase letters, digits and hyphens, so it can never point elsewhere.
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.slug)) {
-    throw new Error(`Artículo ${file}: el slug "${meta.slug}" solo puede tener minúsculas, números y guiones`);
+    throw new Error(
+      `Artículo ${file}: el slug "${meta.slug}" solo puede tener minúsculas, números y guiones`
+    );
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(meta.date) || Number.isNaN(Date.parse(meta.date))) {
     throw new Error(`Artículo ${file}: la fecha "${meta.date}" debe tener el formato AAAA-MM-DD`);

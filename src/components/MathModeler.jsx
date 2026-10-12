@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 // ─── Model calculation functions ───────────────────────────────────────
 const calcLinear = (rawScore) => rawScore / 100;
 const calcQuadratic = (rawScore) => Math.sqrt(rawScore) / 10;
-const calcHRP = (rawScore) => Math.min(1 + 0.3 * (rawScore / 100), 1.30);
+const calcHRP = (rawScore) => Math.min(1 + 0.3 * (rawScore / 100), 1.3);
 
 // Gini coefficient from array of weights
 function giniCoefficient(weights) {
@@ -28,15 +28,19 @@ export default function MathModeler() {
   const curves = useMemo(() => {
     const points = Array.from({ length: 101 }, (_, i) => i);
     return {
-      linear: points.map(x => ({ x, y: calcLinear(x) })),
-      quadratic: points.map(x => ({ x, y: calcQuadratic(x) })),
-      hrp: points.map(x => ({ x, y: calcHRP(x) })),
+      linear: points.map((x) => ({ x, y: calcLinear(x) })),
+      quadratic: points.map((x) => ({ x, y: calcQuadratic(x) })),
+      hrp: points.map((x) => ({ x, y: calcHRP(x) })),
     };
   }, []);
 
   // SVG dimensions & scale
-  const svgW = 500, svgH = 260;
-  const padL = 50, padR = 20, padT = 20, padB = 40;
+  const svgW = 500,
+    svgH = 260;
+  const padL = 50,
+    padR = 20,
+    padT = 20,
+    padB = 40;
   const plotW = svgW - padL - padR;
   const plotH = svgH - padT - padB;
   const maxY = 2.0; // y-axis max
@@ -44,8 +48,7 @@ export default function MathModeler() {
   const toSvgX = (x) => padL + (x / 100) * plotW;
   const toSvgY = (y) => padT + plotH - (y / maxY) * plotH;
 
-  const toPolyline = (pts) =>
-    pts.map(p => `${toSvgX(p.x)},${toSvgY(p.y)}`).join(' ');
+  const toPolyline = (pts) => pts.map((p) => `${toSvgX(p.x)},${toSvgY(p.y)}`).join(' ');
 
   // Current values at expertRaw
   const valLinear = calcLinear(expertRaw);
@@ -61,10 +64,7 @@ export default function MathModeler() {
 
     const citizenWeight = 1.0; // base
 
-    const makeWeights = (expW) => [
-      ...Array(experts).fill(expW),
-      ...Array(citizens).fill(citizenWeight)
-    ];
+    const makeWeights = (expW) => [...Array(experts).fill(expW), ...Array(citizens).fill(citizenWeight)];
 
     return {
       linear: giniCoefficient(makeWeights(expertWeight_linear)).toFixed(3),
@@ -81,7 +81,7 @@ export default function MathModeler() {
       val: valLinear.toFixed(3),
       gini: giniData.linear,
       desc: 'El multiplicador crece sin límite. Con Raw=200, influencia = 2.0×. Permite captura tecnocrática.',
-      risk: 'Alto'
+      risk: 'Alto',
     },
     {
       key: 'quadratic',
@@ -90,7 +90,7 @@ export default function MathModeler() {
       val: valQuadratic.toFixed(3),
       gini: giniData.quadratic,
       desc: 'Reduce la concentración de poder al aplicar raíz cuadrada, pero no impone un límite duro.',
-      risk: 'Medio'
+      risk: 'Medio',
     },
     {
       key: 'hrp',
@@ -99,19 +99,19 @@ export default function MathModeler() {
       val: valHRP.toFixed(3),
       gini: giniData.hrp,
       desc: `Límite estricto de 1.30×. ${isCapped ? '⚠️ Cap alcanzado: multiplicador congelado.' : 'Por debajo del límite.'}`,
-      risk: 'Mínimo'
-    }
+      risk: 'Mínimo',
+    },
   ];
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-
       {/* Header */}
       <div style={{ textAlign: 'left' }}>
         <h1 style={{ margin: 0, fontSize: '2.2rem' }}>Modelador Matemático del Cap 1.30×</h1>
         <p style={{ fontSize: '1.05rem', maxWidth: '820px', marginTop: '8px' }}>
-          Compara tres modelos de influencia en deliberación colectiva y observa cómo el límite estricto del Hash Republic Protocol garantiza la soberanía ciudadana.
-          Ajusta los parámetros de población para calcular el coeficiente de Gini de poder en tiempo real.
+          Compara tres modelos de influencia en deliberación colectiva y observa cómo el límite estricto del
+          Hash Republic Protocol garantiza la soberanía ciudadana. Ajusta los parámetros de población para
+          calcular el coeficiente de Gini de poder en tiempo real.
         </p>
       </div>
 
@@ -120,10 +120,37 @@ export default function MathModeler() {
         <h3 style={{ fontSize: '1.2rem', marginBottom: '20px' }}>Parámetros de la Simulación</h3>
         <div className="grid-cols-3" style={{ gap: '24px', alignItems: 'end' }}>
           {[
-            { label: 'Reputación Bruta del Experto (Raw Score)', id: 'slider-raw', val: expertRaw, set: setExpertRaw, min: 0, max: 200, unit: 'pts', accent: '#38bdf8' },
-            { label: 'Número de Expertos', id: 'slider-experts', val: experts, set: setExperts, min: 1, max: 50, unit: 'personas', accent: '#f59e0b' },
-            { label: 'Número de Ciudadanos', id: 'slider-citizens', val: citizens, set: setCitizens, min: 10, max: 500, unit: 'personas', accent: '#10b981' },
-          ].map(ctrl => (
+            {
+              label: 'Reputación Bruta del Experto (Raw Score)',
+              id: 'slider-raw',
+              val: expertRaw,
+              set: setExpertRaw,
+              min: 0,
+              max: 200,
+              unit: 'pts',
+              accent: '#38bdf8',
+            },
+            {
+              label: 'Número de Expertos',
+              id: 'slider-experts',
+              val: experts,
+              set: setExperts,
+              min: 1,
+              max: 50,
+              unit: 'personas',
+              accent: '#f59e0b',
+            },
+            {
+              label: 'Número de Ciudadanos',
+              id: 'slider-citizens',
+              val: citizens,
+              set: setCitizens,
+              min: 10,
+              max: 500,
+              unit: 'personas',
+              accent: '#10b981',
+            },
+          ].map((ctrl) => (
             <div key={ctrl.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <label style={{ fontSize: '0.825rem', color: 'var(--text-secondary)' }}>{ctrl.label}</label>
               <input
@@ -132,12 +159,21 @@ export default function MathModeler() {
                 min={ctrl.min}
                 max={ctrl.max}
                 value={ctrl.val}
-                onChange={e => ctrl.set(parseInt(e.target.value, 10))}
+                onChange={(e) => ctrl.set(parseInt(e.target.value, 10))}
                 style={{ accentColor: ctrl.accent }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.8rem',
+                  color: 'var(--text-muted)',
+                }}
+              >
                 <span>{ctrl.min}</span>
-                <span style={{ color: ctrl.accent, fontWeight: 'bold' }}>{ctrl.val} {ctrl.unit}</span>
+                <span style={{ color: ctrl.accent, fontWeight: 'bold' }}>
+                  {ctrl.val} {ctrl.unit}
+                </span>
                 <span>{ctrl.max}</span>
               </div>
             </div>
@@ -147,7 +183,6 @@ export default function MathModeler() {
 
       {/* SVG Chart + Model comparison */}
       <div className="grid-cols-2" style={{ gap: '24px', alignItems: 'start' }}>
-
         {/* Chart */}
         <div className="glass-card" style={{ textAlign: 'left' }}>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Curvas de Influencia por Modelo</h3>
@@ -158,61 +193,156 @@ export default function MathModeler() {
           <div style={{ overflowX: 'auto' }}>
             <svg width={svgW} height={svgH} style={{ display: 'block', maxWidth: '100%' }}>
               {/* Grid lines */}
-              {[0, 0.5, 1.0, 1.30, 1.5, 2.0].map(y => (
+              {[0, 0.5, 1.0, 1.3, 1.5, 2.0].map((y) => (
                 <g key={y}>
                   <line
-                    x1={padL} y1={toSvgY(y)} x2={padL + plotW} y2={toSvgY(y)}
-                    stroke="rgba(255,255,255,0.04)" strokeWidth="1"
-                    strokeDasharray={y === 1.30 ? '4,4' : 'none'}
+                    x1={padL}
+                    y1={toSvgY(y)}
+                    x2={padL + plotW}
+                    y2={toSvgY(y)}
+                    stroke="rgba(255,255,255,0.04)"
+                    strokeWidth="1"
+                    strokeDasharray={y === 1.3 ? '4,4' : 'none'}
                   />
-                  <text x={padL - 6} y={toSvgY(y) + 4} fill="rgba(255,255,255,0.25)" fontSize="10" textAnchor="end">{y.toFixed(1)}×</text>
+                  <text
+                    x={padL - 6}
+                    y={toSvgY(y) + 4}
+                    fill="rgba(255,255,255,0.25)"
+                    fontSize="10"
+                    textAnchor="end"
+                  >
+                    {y.toFixed(1)}×
+                  </text>
                 </g>
               ))}
               {/* Cap limit dotted line */}
-              <line x1={padL} y1={toSvgY(1.30)} x2={padL + plotW} y2={toSvgY(1.30)}
-                stroke="#10b981" strokeWidth="1" strokeDasharray="6,3" opacity="0.5" />
-              <text x={padL + plotW + 4} y={toSvgY(1.30) + 4} fill="#10b981" fontSize="9" opacity="0.8">Cap 1.30×</text>
+              <line
+                x1={padL}
+                y1={toSvgY(1.3)}
+                x2={padL + plotW}
+                y2={toSvgY(1.3)}
+                stroke="#10b981"
+                strokeWidth="1"
+                strokeDasharray="6,3"
+                opacity="0.5"
+              />
+              <text x={padL + plotW + 4} y={toSvgY(1.3) + 4} fill="#10b981" fontSize="9" opacity="0.8">
+                Cap 1.30×
+              </text>
 
               {/* X Axis labels */}
-              {[0, 50, 100, 150, 200].map(x => (
-                <text key={x} x={toSvgX(x)} y={padT + plotH + 18} fill="rgba(255,255,255,0.25)" fontSize="10" textAnchor="middle">{x}</text>
+              {[0, 50, 100, 150, 200].map((x) => (
+                <text
+                  key={x}
+                  x={toSvgX(x)}
+                  y={padT + plotH + 18}
+                  fill="rgba(255,255,255,0.25)"
+                  fontSize="10"
+                  textAnchor="middle"
+                >
+                  {x}
+                </text>
               ))}
-              <text x={padL + plotW / 2} y={svgH - 4} fill="rgba(255,255,255,0.2)" fontSize="9" textAnchor="middle">Raw Score →</text>
+              <text
+                x={padL + plotW / 2}
+                y={svgH - 4}
+                fill="rgba(255,255,255,0.2)"
+                fontSize="9"
+                textAnchor="middle"
+              >
+                Raw Score →
+              </text>
 
               {/* Axes */}
-              <line x1={padL} y1={padT} x2={padL} y2={padT + plotH} stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1={padL} y1={padT + plotH} x2={padL + plotW} y2={padT + plotH} stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+              <line
+                x1={padL}
+                y1={padT}
+                x2={padL}
+                y2={padT + plotH}
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1={padL}
+                y1={padT + plotH}
+                x2={padL + plotW}
+                y2={padT + plotH}
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
 
               {/* Curves */}
-              <polyline points={toPolyline(curves.linear)} fill="none" stroke="#ef4444" strokeWidth="2" opacity="0.8" />
-              <polyline points={toPolyline(curves.quadratic)} fill="none" stroke="#f59e0b" strokeWidth="2" opacity="0.8" />
+              <polyline
+                points={toPolyline(curves.linear)}
+                fill="none"
+                stroke="#ef4444"
+                strokeWidth="2"
+                opacity="0.8"
+              />
+              <polyline
+                points={toPolyline(curves.quadratic)}
+                fill="none"
+                stroke="#f59e0b"
+                strokeWidth="2"
+                opacity="0.8"
+              />
               <polyline points={toPolyline(curves.hrp)} fill="none" stroke="#10b981" strokeWidth="2.5" />
 
               {/* Current value vertical marker */}
               <line
-                x1={toSvgX(Math.min(expertRaw, 100))} y1={padT}
-                x2={toSvgX(Math.min(expertRaw, 100))} y2={padT + plotH}
-                stroke="rgba(56,189,248,0.5)" strokeWidth="1.5" strokeDasharray="4,3"
+                x1={toSvgX(Math.min(expertRaw, 100))}
+                y1={padT}
+                x2={toSvgX(Math.min(expertRaw, 100))}
+                y2={padT + plotH}
+                stroke="rgba(56,189,248,0.5)"
+                strokeWidth="1.5"
+                strokeDasharray="4,3"
               />
               {/* Current value dots on each curve */}
               {[
                 { y: valLinear, color: '#ef4444' },
                 { y: valQuadratic, color: '#f59e0b' },
-                { y: Math.min(valHRP, 1.30), color: '#10b981' },
+                { y: Math.min(valHRP, 1.3), color: '#10b981' },
               ].map((dot, i) => (
-                <circle key={i}
+                <circle
+                  key={i}
                   cx={toSvgX(Math.min(expertRaw, 100))}
                   cy={toSvgY(dot.y)}
-                  r="5" fill={dot.color} stroke="white" strokeWidth="1.5"
+                  r="5"
+                  fill={dot.color}
+                  stroke="white"
+                  strokeWidth="1.5"
                 />
               ))}
             </svg>
           </div>
 
           {/* Legend */}
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border-color)' }}>
-            {[{ color: '#ef4444', label: 'Lineal' }, { color: '#f59e0b', label: 'Cuadrático' }, { color: '#10b981', label: 'HRP Cap' }].map(l => (
-              <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '16px',
+              flexWrap: 'wrap',
+              marginTop: '12px',
+              paddingTop: '12px',
+              borderTop: '1px solid var(--border-color)',
+            }}
+          >
+            {[
+              { color: '#ef4444', label: 'Lineal' },
+              { color: '#f59e0b', label: 'Cuadrático' },
+              { color: '#10b981', label: 'HRP Cap' },
+            ].map((l) => (
+              <div
+                key={l.label}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.8rem',
+                  color: 'var(--text-secondary)',
+                }}
+              >
                 <div style={{ width: '24px', height: '2px', background: l.color, borderRadius: '1px' }} />
                 {l.label}
               </div>
@@ -222,55 +352,116 @@ export default function MathModeler() {
 
         {/* Model Cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {modelInfo.map(m => (
-            <div key={m.key} className="glass-card" style={{
-              textAlign: 'left',
-              borderColor: m.color + '40',
-              borderLeft: `4px solid ${m.color}`
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          {modelInfo.map((m) => (
+            <div
+              key={m.key}
+              className="glass-card"
+              style={{
+                textAlign: 'left',
+                borderColor: m.color + '40',
+                borderLeft: `4px solid ${m.color}`,
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '10px',
+                }}
+              >
                 <h4 style={{ margin: 0, color: m.color, fontSize: '1rem' }}>{m.label}</h4>
-                <span className="badge" style={{
-                  background: m.risk === 'Alto' ? 'rgba(239,68,68,0.1)' : m.risk === 'Medio' ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)',
-                  color: m.color,
-                  border: `1px solid ${m.color}30`,
-                  fontSize: '0.7rem'
-                }}>
+                <span
+                  className="badge"
+                  style={{
+                    background:
+                      m.risk === 'Alto'
+                        ? 'rgba(239,68,68,0.1)'
+                        : m.risk === 'Medio'
+                          ? 'rgba(245,158,11,0.1)'
+                          : 'rgba(16,185,129,0.1)',
+                    color: m.color,
+                    border: `1px solid ${m.color}30`,
+                    fontSize: '0.7rem',
+                  }}
+                >
                   Riesgo {m.risk}
                 </span>
               </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>{m.desc}</p>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                {m.desc}
+              </p>
               <div style={{ display: 'flex', gap: '24px' }}>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '2px' }}>Multiplicador actual</div>
-                  <div style={{ fontSize: '1.5rem', fontFamily: 'var(--font-display)', fontWeight: 'bold', color: m.color }}>{m.val}×</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
+                    Multiplicador actual
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '1.5rem',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 'bold',
+                      color: m.color,
+                    }}
+                  >
+                    {m.val}×
+                  </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '2px' }}>Gini de Poder</div>
-                  <div style={{ fontSize: '1.5rem', fontFamily: 'var(--font-display)', fontWeight: 'bold', color: parseFloat(m.gini) > 0.3 ? '#ef4444' : '#10b981' }}>{m.gini}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '2px' }}>
+                    Gini de Poder
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '1.5rem',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 'bold',
+                      color: parseFloat(m.gini) > 0.3 ? '#ef4444' : '#10b981',
+                    }}
+                  >
+                    {m.gini}
+                  </div>
                 </div>
               </div>
               {/* Mini-bar showing relative influence */}
               <div style={{ marginTop: '10px' }}>
-                <div style={{ height: '5px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${(parseFloat(m.val) / 2.0) * 100}%`, background: m.color, transition: 'width 0.3s ease' }} />
+                <div
+                  style={{
+                    height: '5px',
+                    background: 'rgba(255,255,255,0.04)',
+                    borderRadius: '3px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${(parseFloat(m.val) / 2.0) * 100}%`,
+                      background: m.color,
+                      transition: 'width 0.3s ease',
+                    }}
+                  />
                 </div>
               </div>
             </div>
           ))}
 
           {/* Insight box */}
-          <div style={{
-            background: 'rgba(16,185,129,0.05)',
-            border: '1px solid rgba(16,185,129,0.2)',
-            borderRadius: '8px',
-            padding: '14px',
-            fontSize: '0.85rem',
-            color: 'var(--text-secondary)',
-            textAlign: 'left'
-          }}>
+          <div
+            style={{
+              background: 'rgba(16,185,129,0.05)',
+              border: '1px solid rgba(16,185,129,0.2)',
+              borderRadius: '8px',
+              padding: '14px',
+              fontSize: '0.85rem',
+              color: 'var(--text-secondary)',
+              textAlign: 'left',
+            }}
+          >
             <strong style={{ color: '#10b981' }}>Conclusión: </strong>
-            Con {experts} experto(s) y {citizens} ciudadano(s), el modelo HRP mantiene el Gini más bajo ({giniData.hrp}), garantizando que ningún experto técnico pueda dominar el consenso colectivo más allá del 1.30× de influencia per cápita.
+            Con {experts} experto(s) y {citizens} ciudadano(s), el modelo HRP mantiene el Gini más bajo (
+            {giniData.hrp}), garantizando que ningún experto técnico pueda dominar el consenso colectivo más
+            allá del 1.30× de influencia per cápita.
           </div>
         </div>
       </div>

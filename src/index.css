@@ -1,15 +1,15 @@
 /* OpenCivic Solutions — Design tokens (manual de marca) */
 
 :root {
-  --oc-blue: #0A3880;
+  --oc-blue: #0a3880;
   --oc-blue-rgb: 10, 56, 128;
-  --oc-yellow: #F2B00A;
+  --oc-yellow: #f2b00a;
   --oc-yellow-rgb: 242, 176, 10;
-  --oc-white: #FFFFFF;
-  --oc-ink: #0F172A;
+  --oc-white: #ffffff;
+  --oc-ink: #0f172a;
   --oc-ink-rgb: 15, 23, 42;
-  --oc-mist: #F4F6FA;
-  --oc-ink-soft: #1B2A4A;
+  --oc-mist: #f4f6fa;
+  --oc-ink-soft: #1b2a4a;
 
   --oc-font-display: 'Poppins', sans-serif;
   --oc-font-body: 'Inter', sans-serif;
@@ -43,7 +43,12 @@ body {
   flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--oc-font-display);
   font-weight: 600;
   line-height: 1.2;
