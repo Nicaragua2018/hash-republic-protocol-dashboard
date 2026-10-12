@@ -17,5 +17,7 @@ check "portero responde 303"                 303 -X POST -d "email=a@b.org" "$S/
 check "API pública de suscripción bloqueada" 403 -X POST -H 'Content-Type: application/json' -d '{}' "$B/api/public/subscription"
 check "formulario directo bloqueado"         403 -X POST -d "email=a@b.org" "$B/subscription/form"
 check "API con token bloqueada"              403 -H "Authorization: token borradores:x" "$B/api/campaigns"
+check "API con Basic bloqueada"              403 -H "Authorization: Basic Ym9ycmFkb3Jlczp4" "$B/api/campaigns"
+check "API con token sin espacio bloqueada"   403 -H "Authorization: tokenborradores:x" "$B/api/campaigns"
 check "página de confirmación del opt-in"    200 "$B/subscription/form"
 exit $fail

@@ -253,8 +253,13 @@ class TokenBorradores(unittest.TestCase):
         self.assertEqual(status, 403)
 
     def test_token_inutil_desde_fuera(self):
-        status, _, _ = http("GET", f"{PANEL}/api/campaigns", headers=self.auth)
-        self.assertEqual(status, 403)
+        # Listmonk acepta el token como "token u:t", "tokenu:t" y "Basic base64(u:t)":
+        # Traefik debe rechazar cualquier /api con cabecera Authorization.
+        token = env_value("BOLETIN_BORRADORES_TOKEN")
+        basic = base64.b64encode(token.encode()).decode()
+        for value in (f"token {token}", f"token{token}", f"TOKEN {token}", f"Basic {basic}"):
+            status, _, _ = http("GET", f"{PANEL}/api/campaigns", headers={"Authorization": value})
+            self.assertEqual(status, 403, value.split(" ")[0])
 
 
 class LimitesPorIP(unittest.TestCase):

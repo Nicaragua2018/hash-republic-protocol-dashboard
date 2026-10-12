@@ -102,7 +102,7 @@ services:
       - traefik.http.routers.boletin.tls.certresolver=letsencrypt
       - traefik.http.routers.boletin.service=opencivic-listmonk
       # Lo que nunca debe llegar desde internet (spec, punto 1 y 2): 403.
-      - traefik.http.routers.boletin-bloqueos.rule=Host(`${BOLETIN_HOST:-boletin.opencivicsolutions.org}`) && (Path(`/api/public/subscription`) || (Path(`/subscription/form`) && Method(`POST`)) || (PathPrefix(`/api`) && HeaderRegexp(`Authorization`, `(?i)^token `)))
+      - traefik.http.routers.boletin-bloqueos.rule=Host(`${BOLETIN_HOST:-boletin.opencivicsolutions.org}`) && (Path(`/api/public/subscription`) || (Path(`/subscription/form`) && Method(`POST`)) || (PathPrefix(`/api`) && HeaderRegexp(`Authorization`, `.*`)))
       - traefik.http.routers.boletin-bloqueos.priority=300
       - traefik.http.routers.boletin-bloqueos.entrypoints=websecure
       - traefik.http.routers.boletin-bloqueos.tls.certresolver=letsencrypt
