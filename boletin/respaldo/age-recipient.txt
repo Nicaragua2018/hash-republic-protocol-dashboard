@@ -1,0 +1,3 @@
+# Clave PÚBLICA age de Carlos para cifrar las copias del boletín.
+# La privada vive solo en su gestor de contraseñas. Generada el 2026-10-12.
+age1zk458rwzjerpf2errp5fcmw9xzmr2fmw7vz9yc3qjlywnveq39lq5dhrl5
