@@ -262,6 +262,21 @@ class TokenBorradores(unittest.TestCase):
             self.assertEqual(status, 403, value.split(" ")[0])
 
 
+class PorteroCaido(unittest.TestCase):
+    """Si el portero no está (p. ej. se reinicia en un despliegue), la persona ve un aviso, no un 404."""
+
+    def test_aviso_503_mientras_el_portero_no_esta(self):
+        subprocess.run(COMPOSE + ["stop", "boletin-portero"], check=True, capture_output=True)
+        try:
+            time.sleep(3)
+            status, _, body = http("POST", f"{SITE}/boletin/suscribir", {"email": "a@ejemplo.org"})
+            self.assertEqual(status, 503)
+            self.assertIn("se está actualizando", body.decode("utf-8"))
+        finally:
+            subprocess.run(COMPOSE + ["start", "boletin-portero"], check=True, capture_output=True)
+            restart_portero()
+
+
 class LimitesPorIP(unittest.TestCase):
     """Se ejecuta al final: agota los límites por IP de Traefik."""
 
@@ -283,6 +298,6 @@ if __name__ == "__main__":
     os.chdir(os.path.join(os.path.dirname(__file__), "..", ".."))
     suite = unittest.TestSuite()
     loader = unittest.defaultTestLoader
-    for case in (Suscripcion, Enumeracion, TokenBorradores, LimitesPorIP):
+    for case in (Suscripcion, Enumeracion, TokenBorradores, PorteroCaido, LimitesPorIP):
         suite.addTests(loader.loadTestsFromTestCase(case))
     sys.exit(0 if unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful() else 1)
