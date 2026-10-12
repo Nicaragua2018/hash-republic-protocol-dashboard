@@ -259,6 +259,24 @@ class TokenBorradores(unittest.TestCase):
                              {**body, "subscribers": ["info@opencivicsolutions.org"]})
         self.assertEqual(status, 200)
 
+    def _listas_de(self, cid):
+        return sql(f"select coalesce(string_agg(l.name, ','), '') from campaign_lists cl "
+                   f"join lists l on l.id = cl.list_id where cl.campaign_id = {cid}")
+
+    def test_no_puede_crear_campana_para_la_lista_del_blog(self):
+        _, body = self.campaign()
+        blog = int(sql("select id from lists where name = 'Blog OpenCivic'"))
+        status, out = self.api("POST", "/api/campaigns", {**body, "name": f"al-blog-{time.time()}",
+                                                          "lists": [blog]})
+        if status < 300:
+            self.assertNotIn("Blog OpenCivic", self._listas_de(out["data"]["id"]))
+
+    def test_no_puede_cambiar_un_borrador_a_la_lista_del_blog(self):
+        cid, body = self.campaign()
+        blog = int(sql("select id from lists where name = 'Blog OpenCivic'"))
+        self.api("PUT", f"/api/campaigns/{cid}", {**body, "lists": [blog]})
+        self.assertNotIn("Blog OpenCivic", self._listas_de(cid))
+
     def test_no_puede_leer_suscriptores(self):
         status, _ = self.api("GET", "/api/subscribers")
         self.assertEqual(status, 403)
