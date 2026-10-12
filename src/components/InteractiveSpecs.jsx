@@ -77,7 +77,7 @@ Hash Republic Protocol introduce una nueva categoría: **infraestructura de obse
     tagColor: '#ef4444',
     content: `El protocolo define explícitamente su superficie de ataque y no almacena datos sensibles.
 
-**No almacena:** claves privadas, identidades desanonimizadas, listas de wallets, datos de targeting.
+**No almacena:** claves privadas, identidades desanonimizadas, listas de contactos, datos de targeting.
 
 **Amenazas mitigadas:**
 - **Sybil attacks** → Reputación basada en evidencia verificable.
@@ -103,7 +103,7 @@ Hash Republic Protocol introduce una nueva categoría: **infraestructura de obse
   Fase 3 ○  Delegation Engine + Reputation Scoring
   Fase 4 ○  RiskGuard + Public Explorer + API
 
-  Primer producto: Bitcoin Quantum Readiness Observatory`
+  Primeros casos de uso: BitCuant y Nicaragua Decide`
   }
 ];
 

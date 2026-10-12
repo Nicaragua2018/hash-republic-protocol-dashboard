@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 // Default delegation relationships by domain
 const defaultDelegations = {
-  criptografia: [
+  urbanismo: [
     { from: 'Alice', to: 'Bob', ttlDays: 30, active: true },
     { from: 'John', to: 'Bob', ttlDays: 45, active: true },
     { from: 'Eva', to: 'Alice', ttlDays: 15, active: true },
     { from: 'Dave', to: 'Carol', ttlDays: 60, active: true }
   ],
-  infraestructura: [
+  finanzas: [
     { from: 'Alice', to: 'Carol', ttlDays: 30, active: true },
     { from: 'Bob', to: 'Carol', ttlDays: 12, active: true },
     { from: 'John', to: 'Dave', ttlDays: 90, active: true }
@@ -22,16 +22,16 @@ const defaultDelegations = {
 
 // SVG Node positions for a clean layout
 const nodePositions = {
-  Alice: { x: 25, y: 30, name: 'Alice', role: 'Desarrolladora' },
-  Bob: { x: 75, y: 30, name: 'Bob (Criptógrafo)', role: 'Experto en Firmas' },
-  Carol: { x: 75, y: 70, name: 'Carol (Auditora)', role: 'Seguridad' },
-  John: { x: 25, y: 70, name: 'John (Miner)', role: 'Operador de Nodo' },
-  Dave: { x: 50, y: 85, name: 'Dave (Usuario)', role: 'Contribuidor' },
+  Alice: { x: 25, y: 30, name: 'Alice (Arquitecta)', role: 'Espacio público' },
+  Bob: { x: 75, y: 30, name: 'Bob (Ingeniero civil)', role: 'Obras públicas' },
+  Carol: { x: 75, y: 70, name: 'Carol (Auditora)', role: 'Finanzas públicas' },
+  John: { x: 25, y: 70, name: 'John (Líder vecinal)', role: 'Junta de barrio' },
+  Dave: { x: 50, y: 85, name: 'Dave (Vecino)', role: 'Participante' },
   Eva: { x: 15, y: 15, name: 'Eva (Estudiante)', role: 'Investigadora' }
 };
 
 export default function DelegationGraph() {
-  const [domain, setDomain] = useState('criptografia');
+  const [domain, setDomain] = useState('urbanismo');
   const [delegations, setDelegations] = useState(defaultDelegations);
   
   // Custom delegation input states
@@ -130,7 +130,7 @@ export default function DelegationGraph() {
         
         {/* Domain selection tabs */}
         <div style={{ display: 'flex', gap: '8px' }}>
-          {['criptografia', 'infraestructura', 'gobernanza'].map(dom => (
+          {['urbanismo', 'finanzas', 'gobernanza'].map(dom => (
             <button
               key={dom}
               id={`btn-domain-${dom}`}
@@ -143,7 +143,7 @@ export default function DelegationGraph() {
                 color: domain === dom ? 'var(--color-accent)' : 'var(--text-secondary)'
               }}
             >
-              {dom === 'criptografia' ? 'Criptografía (secp256k1)' : dom === 'infraestructura' ? 'Estructura de Red' : 'Gobernanza Cívica'}
+              {dom === 'urbanismo' ? 'Urbanismo' : dom === 'finanzas' ? 'Finanzas públicas' : 'Gobernanza cívica'}
             </button>
           ))}
         </div>
@@ -363,7 +363,7 @@ export default function DelegationGraph() {
 
           {/* Active Delegations list */}
           <div className="glass-card" style={{ textAlign: 'left', flex: 1 }}>
-            <h3 style={{ fontSize: '1.15rem', marginBottom: '16px' }}>Delegaciones Activas en {domain === 'criptografia' ? 'Criptografía' : domain === 'infraestructura' ? 'Estructura de Red' : 'Gobernanza Cívica'}</h3>
+            <h3 style={{ fontSize: '1.15rem', marginBottom: '16px' }}>Delegaciones Activas en {domain === 'urbanismo' ? 'Urbanismo' : domain === 'finanzas' ? 'Finanzas públicas' : 'Gobernanza cívica'}</h3>
             <div style={{ 
               display: 'flex', 
               flexDirection: 'column', 

@@ -13,7 +13,7 @@ export default function RiskGuard() {
       id: 'alert-1',
       type: 'danger',
       title: 'Alta Concentración de Delegación',
-      desc: `La delegación líquida en el dominio 'Criptografía' supera el 50% (${delegationConcentration}%). Un único delegado (Bob) acumula suficiente peso para distorsionar la señal comunitaria.`
+      desc: `La delegación líquida en el dominio 'Urbanismo' supera el 50% (${delegationConcentration}%). Un único delegado (Bob) acumula suficiente peso para distorsionar la señal comunitaria.`
     });
   }
   if (reputationConcentration >= 45) {
@@ -21,7 +21,7 @@ export default function RiskGuard() {
       id: 'alert-2',
       type: 'warning',
       title: 'Centralización de Reputación',
-      desc: `El top 3 de expertos concentran el ${reputationConcentration}% de la reputación activa en el observatorio, reduciendo el dinamismo del consenso.`
+      desc: `El top 3 de expertos concentran el ${reputationConcentration}% de la reputación activa en la consulta, reduciendo el dinamismo del consenso.`
     });
   }
   if (minorityPreservation < 60) {

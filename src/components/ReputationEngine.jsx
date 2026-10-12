@@ -4,41 +4,41 @@ import React, { useState } from 'react';
 const expertsData = [
   {
     id: 'exp-1',
-    name: 'Bob (Criptógrafo)',
-    domain: 'Criptografía',
+    name: 'Bob (Ingeniero civil)',
+    domain: 'Urbanismo',
     rawScore: 92,
     contributions: [
-      { type: 'GitHub Commit', text: 'Optimización de firmas XMSS en secp256k1 (commit bfb310)', link: '#' },
-      { type: 'Research Paper', text: 'Stateful Hash-Based Signatures on Distributed Networks', link: '#' }
+      { type: 'Informe técnico', text: 'Evaluación estructural de los puentes peatonales del distrito 4', link: '#' },
+      { type: 'Publicación', text: 'Costos de mantenimiento de obras públicas en ciudades medianas', link: '#' }
     ]
   },
   {
     id: 'exp-2',
     name: 'Carol (Auditora)',
-    domain: 'Infraestructura',
+    domain: 'Finanzas públicas',
     rawScore: 85,
     contributions: [
-      { type: 'Security Review', text: 'Auditoría de vectores de ataque cuánticos en canales de Lightning Network', link: '#' },
-      { type: 'GitHub Pull Request', text: 'Soporte para direcciones de prueba post-quantum en regtest (#4522)', link: '#' }
+      { type: 'Auditoría', text: 'Auditoría independiente del presupuesto participativo 2025', link: '#' },
+      { type: 'Datos abiertos', text: 'Publicación del gasto por obra en el portal municipal (#4522)', link: '#' }
     ]
   },
   {
     id: 'exp-3',
-    name: 'John (Miner)',
-    domain: 'Infraestructura',
+    name: 'John (Líder vecinal)',
+    domain: 'Finanzas públicas',
     rawScore: 65,
     contributions: [
-      { type: 'Mined Block', text: 'Señalización activa de preparación de nodo v27.1 post-quantum (bloque 842100)', link: '#' }
+      { type: 'Proyecto ejecutado', text: 'Coordinación de la obra de agua potable del barrio norte (2024)', link: '#' }
     ]
   },
   {
     id: 'exp-4',
-    name: 'Alice (Desarrolladora)',
-    domain: 'Criptografía',
+    name: 'Alice (Arquitecta)',
+    domain: 'Urbanismo',
     rawScore: 125, // Score superior para demostrar el tope (cap)
     contributions: [
-      { type: 'BIP Draft', text: 'BIP Proposal: Quantum Resistant Addresses using Falcon Signatures', link: '#' },
-      { type: 'GitHub Repo', text: 'Creadora de btc-pq-wallet experimental (150 estrellas)', link: '#' }
+      { type: 'Propuesta técnica', text: 'Plan de accesibilidad para los espacios públicos del centro histórico', link: '#' },
+      { type: 'Herramienta abierta', text: 'Creadora de un mapa abierto de obras municipales (150 estrellas)', link: '#' }
     ]
   }
 ];

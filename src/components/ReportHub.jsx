@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const defaultReport = {
   protocol: "hash_republic_protocol",
   version: "0.3",
-  domain: "bitcoin.quantum-readiness",
+  domain: "municipio.presupuesto-participativo",
   readiness_target: "R2",
   generated_at: "2026-06-28T15:00:00Z",
   sources: {

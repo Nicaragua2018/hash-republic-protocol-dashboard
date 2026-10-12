@@ -59,7 +59,7 @@ La cuestión decisiva no será qué tecnología ganó, sino quién puede goberna
 
 ## Fuentes
 
-- [OpenCivic Solutions (2026). De las instituciones analógicas a las instituciones programables, paper conceptual, versión 1.1.](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables)
+- [OpenCivic Solutions (2026). De las instituciones analógicas a las instituciones programables, paper conceptual, versión 1.2.](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables)
 - [Coase, R. (1937). The Nature of the Firm. Economica — Wikipedia.](https://en.wikipedia.org/wiki/The_Nature_of_the_Firm)
 - Ostrom, E. (1990). Governing the Commons: The Evolution of Institutions for Collective Action. Cambridge University Press.
 - [The DAO (2016): el ataque y la bifurcación de Ethereum — Gemini Cryptopedia.](https://www.gemini.com/cryptopedia/the-dao-hack-makerdao)
