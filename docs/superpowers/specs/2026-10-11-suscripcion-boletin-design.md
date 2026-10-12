@@ -203,16 +203,16 @@ Carlos crea una campaña en el panel con la plantilla de la marca, elige la list
 
 | Uso                                      | Cupo en 24 h | Cómo se hace cumplir                                                                             |
 | ---------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------ |
-| Campañas (artículos y boletines)         | 800          | Ventana deslizante de Listmonk: `app.message_sliding_window = true`, duración `24h`, ritmo `800` |
+| Campañas (artículos y boletines)         | 700          | Ventana deslizante de Listmonk: `app.message_sliding_window = true`, duración `24h`, ritmo `700` |
 | Confirmaciones de suscripción            | 100          | Límite global del portero                                                                        |
-| Vistas previas y correo normal de Carlos | 100          | Una vista previa por artículo; el resto, para el correo de `info@`                               |
-| **Total**                                | **100**      |                                                                                                  |
+| Vistas previas y correo normal de Carlos | 200          | Una vista previa por artículo; el resto, para el correo de `info@`                               |
+| **Total**                                | **1.000**    |                                                                                                  |
 
 Consecuencias:
 
-- Mientras la lista tenga **hasta 800 personas confirmadas**, cada campaña sale el mismo día.
-- Con más de 800, Listmonk la reparte sola en varios días (800 por cada 24 horas). Por ejemplo, 2.000 suscriptores tardan unos 3 días.
-- **Cuándo pasar a un plan de pago:** cuando la lista supere **800 personas** o cuando un día se agoten las 100 confirmaciones. Un plan con más envíos diarios o un proveedor dedicado; solo cambian los números de esta tabla.
+- Mientras la lista tenga **hasta 700 personas confirmadas**, cada campaña sale el mismo día.
+- Con más de 700, Listmonk la reparte sola en varios días (700 por cada 24 horas). Por ejemplo, 2.000 suscriptores tardan unos 3 días.
+- **Cuándo pasar a un plan de pago:** cuando la lista supere **700 personas** o cuando un día se agoten las 100 confirmaciones. Un plan con más envíos diarios o un proveedor dedicado; solo cambian los números de esta tabla.
 - **DMARC**:
   - Ahora: `p=none` y se añade `rua=mailto:dmarc@opencivicsolutions.org` para recibir informes. Hoy no se recibe ninguno.
   - Se pasa a `p=quarantine` cuando se cumplan **las dos** condiciones:
@@ -280,7 +280,7 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 ## Riesgos residuales aceptados
 
 - **Confirmaciones agotadas por un ataque:** un ataque distribuido con ALTCHA resuelto puede gastar las 100 confirmaciones del día. Ese día, las personas reales que se suscriban verán el mensaje habitual pero no recibirán confirmación, y tendrán que intentarlo al día siguiente. **Las campañas no se ven afectadas**, porque tienen su propio cupo de 70. Mitigaciones: ALTCHA, el límite por IP y el registro de totales del portero.
-- **Campañas lentas con una lista grande:** con más de 800 suscriptores, cada campaña tarda varios días en llegar a todos.
+- **Campañas lentas con una lista grande:** con más de 700 suscriptores, cada campaña tarda varios días en llegar a todos.
 - **Vencimiento de la prueba de correo:** es probablemente la prueba de 1 año de Hostinger. Al vencer, el buzón deja de enviar. Mitigación: anotar la fecha exacta y decidir un mes antes si se pasa a Business Starter.
 - **Una confirmación por dirección cada 24 horas:** un atacante puede hacer que una persona reciba **una** confirmación no pedida al día. Es inevitable con doble confirmación y no la suscribe a nada.
 - **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
@@ -296,4 +296,4 @@ Resueltas:
 
 - 11 de octubre de 2026: clave privada `age` en el gestor de contraseñas.
 - 12 de octubre de 2026: el plan vence el 8 de octubre de 2027 con renovación automática; tiene un solo buzón (1/1), así que el boletín sale de `info@opencivicsolutions.org` y comparte su cupo con el correo normal.
-- 12 de octubre de 2026: el plan permite 1.000 envíos cada 24 horas; presupuesto 800 campañas, 100 confirmaciones y 100 de margen.
+- 12 de octubre de 2026: el plan permite 1.000 envíos cada 24 horas; el boletín usa como máximo 800 (700 campañas + 100 confirmaciones) y quedan 200 para el correo normal de info@ (propuesta de Carlos).

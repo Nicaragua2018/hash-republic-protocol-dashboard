@@ -74,7 +74,7 @@ def configure_settings(lm: Client, root_url: str) -> None:
         "app.send_optin_confirmation": True,
         "app.message_sliding_window": True,
         "app.message_sliding_window_duration": "24h",
-        "app.message_sliding_window_rate": 800,
+        "app.message_sliding_window_rate": 700,
         "privacy.disable_tracking": True,
         "privacy.individual_tracking": False,
         "privacy.record_optin_ip": False,
