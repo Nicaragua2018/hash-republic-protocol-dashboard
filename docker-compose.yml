@@ -119,6 +119,8 @@ services:
       - traefik.http.middlewares.boletin-rl-login.ratelimit.average=5
       - traefik.http.middlewares.boletin-rl-login.ratelimit.period=1m
       - traefik.http.middlewares.boletin-rl-login.ratelimit.burst=5
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-login.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
       # Reto y widget ALTCHA, servidos desde el dominio del sitio (sin CORS).
       - traefik.http.routers.boletin-altcha.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/boletin/altcha`)
       - traefik.http.routers.boletin-altcha.priority=110
@@ -129,6 +131,8 @@ services:
       - traefik.http.middlewares.boletin-rl-altcha.ratelimit.average=30
       - traefik.http.middlewares.boletin-rl-altcha.ratelimit.period=1m
       - traefik.http.middlewares.boletin-rl-altcha.ratelimit.burst=30
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-altcha.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
       - traefik.http.middlewares.boletin-ruta-altcha.replacepath.path=/api/public/captcha/altcha
       - traefik.http.routers.boletin-altcha-js.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/boletin/altcha.js`)
       - traefik.http.routers.boletin-altcha-js.priority=110
@@ -161,6 +165,8 @@ services:
       - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.average=10
       - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.period=1m
       - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.burst=10
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
       - traefik.http.middlewares.boletin-quitar-prefijo.stripprefix.prefixes=/boletin
       - traefik.http.services.opencivic-boletin-portero.loadbalancer.server.port=8080
 

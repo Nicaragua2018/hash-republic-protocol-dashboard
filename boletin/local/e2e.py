@@ -167,7 +167,7 @@ class Suscripcion(unittest.TestCase):
 class Enumeracion(unittest.TestCase):
     """Punto 5: nadie puede saber desde fuera si un correo está en la lista."""
 
-    def test_respuesta_identica_y_sin_diferencia_de_tiempo(self):
+    def test_respuesta_identica_en_todos_los_casos(self):
         restart_portero()
         sql("delete from subscribers where email like 'enum-%'")
         blog = sql("select id from lists where name = 'Blog OpenCivic'")
@@ -182,16 +182,14 @@ class Enumeracion(unittest.TestCase):
             "(gen_random_uuid(), 'enum-bloqueada@ejemplo.org', 'x', 'blocklisted')")
         cases = ["enum-nueva@ejemplo.org", "enum-confirmada@ejemplo.org", "enum-pendiente@ejemplo.org",
                  "enum-baja@ejemplo.org", "enum-bloqueada@ejemplo.org", "no-es-un-correo"]
-        seen, times = set(), {}
+        seen = set()
         for email in cases:
-            altcha = solve_altcha()
-            t0 = time.perf_counter()
-            status, headers, body = subscribe(email, altcha)
-            times[email] = (time.perf_counter() - t0) * 1000
+            status, headers, body = subscribe(email, solve_altcha())
             seen.add((status, headers.get("Location"), body))
             time.sleep(6.5)  # bajo el límite de 10/min por IP
         self.assertEqual(len(seen), 1, seen)
-        self.assertLess(max(times.values()) - min(times.values()), 20, times)
+        # El tiempo lo mide test_mediana_de_20_por_caso_sin_diferencia: una sola
+        # medición a través de Traefik tiene picos de ruido de decenas de ms.
 
     def test_mediana_de_20_por_caso_sin_diferencia(self):
         # Directo al portero, dentro de la red de Docker: 20 mediciones por caso.
