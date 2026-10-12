@@ -17,7 +17,9 @@ docker image prune -f >/dev/null
 if [ "$antes" != "$despues" ]; then
   git diff --name-only --diff-filter=A "$antes" "$despues" -- src/content/posts/ \
     | while read -r archivo; do
-        docker compose run --rm -T boletin-herramientas python borrador.py "/posts/$(basename "$archivo")" \
+        # </dev/null: si no, "docker compose run" se come el resto de la lista y
+        # solo el primer artículo nuevo tendría borrador.
+        docker compose run --rm -T boletin-herramientas python borrador.py "/posts/$(basename "$archivo")" </dev/null \
           || echo "aviso: no se pudo crear el borrador de $archivo" >&2
       done
 fi
