@@ -43,12 +43,12 @@ jobs:
         # Containers being recreated (and Remark42 passing its healthcheck)
         # leave Traefik without a backend for a few seconds, so retry.
         run: |
-          for path in / /blog /sitemap.xml /comentarios/ping; do
+          for url in https://opencivicsolutions.org/ https://opencivicsolutions.org/blog                      https://opencivicsolutions.org/sitemap.xml https://opencivicsolutions.org/comentarios/ping                      https://boletin.opencivicsolutions.org/health; do
             for attempt in $(seq 1 18); do
-              code=$(curl -s -o /dev/null -w '%{http_code}' "https://opencivicsolutions.org$path")
+              code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
               [ "$code" = 200 ] && break
               sleep 5
             done
-            echo "$path -> $code"
+            echo "$url -> $code"
             [ "$code" = 200 ]
           done
