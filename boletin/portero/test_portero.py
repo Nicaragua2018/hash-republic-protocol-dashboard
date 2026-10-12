@@ -24,17 +24,23 @@ class FakeClock:
 class LimiterTest(unittest.TestCase):
     def setUp(self):
         self.clock = FakeClock()
-        self.lim = portero.Limiter(global_limit=3, window=86400, clock=self.clock)
+        self.lim = portero.Limiter(global_limit=3, window=86400, clock=self.clock, max_wait=0.2)
+
+    def accept(self, email):
+        ok = self.lim.try_reserve(email)
+        if ok:
+            self.lim.commit(email)
+        return ok
 
     def test_una_por_direccion_cada_24h(self):
-        self.assertTrue(self.lim.try_reserve("ana@ejemplo.org"))
+        self.assertTrue(self.accept("ana@ejemplo.org"))
         self.assertFalse(self.lim.try_reserve("ana@ejemplo.org"))
         self.clock.now += 86401
         self.assertTrue(self.lim.try_reserve("ana@ejemplo.org"))
 
     def test_limite_global(self):
         for i in range(3):
-            self.assertTrue(self.lim.try_reserve(f"p{i}@ejemplo.org"))
+            self.assertTrue(self.accept(f"p{i}@ejemplo.org"))
         self.assertFalse(self.lim.try_reserve("otra@ejemplo.org"))
         self.clock.now += 86401
         self.assertTrue(self.lim.try_reserve("otra@ejemplo.org"))
@@ -43,9 +49,48 @@ class LimiterTest(unittest.TestCase):
         self.assertTrue(self.lim.try_reserve("ana@ejemplo.org"))
         self.lim.release("ana@ejemplo.org")
         self.assertTrue(self.lim.try_reserve("ana@ejemplo.org"))
+        self.lim.commit("ana@ejemplo.org")
         for i in range(2):
-            self.assertTrue(self.lim.try_reserve(f"p{i}@ejemplo.org"))
+            self.assertTrue(self.accept(f"p{i}@ejemplo.org"))
         self.assertFalse(self.lim.try_reserve("x@ejemplo.org"))
+
+    def _in_thread(self, email):
+        out = {}
+        t = threading.Thread(target=lambda: out.setdefault("ok", self.lim.try_reserve(email)))
+        t.start()
+        return t, out
+
+    def test_en_vuelo_espera_y_no_se_pierde_si_se_libera(self):
+        lim = portero.Limiter(global_limit=3, clock=self.clock, max_wait=5)
+        self.lim = lim
+        self.assertTrue(lim.try_reserve("ana@ejemplo.org"))  # un bot, en vuelo
+        t, out = self._in_thread("ana@ejemplo.org")         # la persona real
+        time.sleep(0.2)
+        self.assertTrue(t.is_alive(), "debe esperar, no descartarse")
+        lim.release("ana@ejemplo.org")                       # Listmonk rechazó al bot
+        t.join(2)
+        self.assertTrue(out["ok"])
+
+    def test_en_vuelo_aceptada_bloquea_la_espera(self):
+        lim = portero.Limiter(global_limit=3, clock=self.clock, max_wait=5)
+        self.lim = lim
+        lim.try_reserve("ana@ejemplo.org")
+        t, out = self._in_thread("ana@ejemplo.org")
+        time.sleep(0.2)
+        lim.commit("ana@ejemplo.org")
+        t.join(2)
+        self.assertFalse(out["ok"])
+
+    def test_cupo_global_ocupado_por_vuelos_espera(self):
+        lim = portero.Limiter(global_limit=1, clock=self.clock, max_wait=5)
+        self.lim = lim
+        lim.try_reserve("bot@ejemplo.org")
+        t, out = self._in_thread("ana@ejemplo.org")
+        time.sleep(0.2)
+        self.assertTrue(t.is_alive())
+        lim.release("bot@ejemplo.org")
+        t.join(2)
+        self.assertTrue(out["ok"])
 
     def test_no_guarda_direcciones_legibles(self):
         self.lim.try_reserve("ana@ejemplo.org")
@@ -64,8 +109,9 @@ class NormalizeTest(unittest.TestCase):
 class FakeListmonk:
     """Servidor falso: registra cada envío y responde lo que se le indique."""
 
-    def __init__(self, status=200, delay=0.0):
+    def __init__(self, status=200, delay=0.0, statuses=None):
         self.status, self.delay, self.received = status, delay, []
+        self.statuses = list(statuses or [])
         fake = self
 
         class H(http.server.BaseHTTPRequestHandler):
@@ -86,9 +132,10 @@ class FakeListmonk:
             def do_POST(self):
                 n = int(self.headers.get("Content-Length") or 0)
                 fields = parse_qs(self.rfile.read(n).decode())
-                time.sleep(fake.delay)
                 fake.received.append(fields)
-                self.send_response(fake.status)
+                status = fake.statuses.pop(0) if fake.statuses else fake.status
+                time.sleep(fake.delay)
+                self.send_response(status)
                 self.end_headers()
 
         self.httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), H)
@@ -114,10 +161,11 @@ def post(url, fields=None, raw=None):
 
 
 class PorteroHTTPTest(unittest.TestCase):
-    def start(self, fake, global_limit=20):
+    def start(self, fake, global_limit=20, forward_timeout=20.0):
         cfg = portero.Config(listmonk_url=fake.url, list_name="Blog OpenCivic",
                              redirect="/blog/suscripcion",
-                             limiter=portero.Limiter(global_limit=global_limit))
+                             limiter=portero.Limiter(global_limit=global_limit),
+                             forward_timeout=forward_timeout)
         self.httpd = portero.make_server(cfg, port=0)
         threading.Thread(target=self.httpd.serve_forever, daemon=True).start()
         self.addCleanup(self.httpd.server_close)
@@ -175,6 +223,25 @@ class PorteroHTTPTest(unittest.TestCase):
         post(url, {"email": "ana@ejemplo.org", "altcha": "bueno"})
         self.assertTrue(self.wait_for(lambda: len(fake.received) == 2))
 
+    def test_peticion_real_no_se_pierde_por_un_bot_en_vuelo(self):
+        fake = FakeListmonk(delay=0.5, statuses=[400, 200])  # bot rechazado, persona aceptada
+        url = self.start(fake)
+        post(url, {"email": "ana@ejemplo.org", "altcha": "falso"})
+        time.sleep(0.1)
+        post(url, {"email": "ana@ejemplo.org", "altcha": "bueno"})
+        self.assertTrue(self.wait_for(lambda: len(fake.received) == 2, timeout=4))
+        self.assertEqual(fake.received[1]["altcha"], ["bueno"])
+
+    def test_tiempo_agotado_cuenta_como_aceptado(self):
+        # Si Listmonk responde tarde, quizá ya envió la confirmación: no se libera.
+        fake = FakeListmonk(delay=1.0)
+        url = self.start(fake, forward_timeout=0.3)
+        post(url, {"email": "ana@ejemplo.org", "altcha": "x"})
+        time.sleep(1.5)
+        post(url, {"email": "ana@ejemplo.org", "altcha": "x"})
+        time.sleep(1.5)
+        self.assertEqual(len(fake.received), 1)
+
     def test_listmonk_caido_no_gasta_cupo(self):
         fake = FakeListmonk()
         url = self.start(fake)
@@ -183,7 +250,9 @@ class PorteroHTTPTest(unittest.TestCase):
         status, loc, _ = post(url, {"email": "ana@ejemplo.org", "altcha": "x"})
         self.assertEqual((status, loc), (303, "/blog/suscripcion"))
         time.sleep(0.5)
-        self.assertTrue(self.httpd.cfg.limiter.try_reserve("ana@ejemplo.org"))
+        lim = self.httpd.cfg.limiter
+        lim.max_wait = 0.2
+        self.assertTrue(lim.try_reserve("ana@ejemplo.org"))
 
     def test_limite_global_por_http(self):
         fake = FakeListmonk()

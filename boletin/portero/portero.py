@@ -41,16 +41,26 @@ def normalize_email(raw: str) -> str | None:
 
 
 class Limiter:
-    """Una reserva por dirección cada `window` segundos y `global_limit` en total."""
+    """Una confirmación por dirección cada `window` segundos y `global_limit` en total.
 
-    def __init__(self, global_limit: int, window: int = DAY, clock=time.monotonic):
+    Una reserva queda "en vuelo" mientras se habla con Listmonk y termina con
+    commit() (aceptada: cuenta) o release() (rechazada: no cuenta). Otra
+    petición para la misma dirección, o cuando el cupo global solo está lleno
+    por reservas en vuelo, espera a que terminen en vez de descartarse: así un
+    bot con un ALTCHA falso no puede quitarle el turno a la persona real.
+    """
+
+    def __init__(self, global_limit: int, window: int = DAY, clock=time.monotonic,
+                 max_wait: float = 60.0):
         self._key = secrets.token_bytes(32)
         self._window = window
         self._global_limit = global_limit
         self._clock = clock
-        self._lock = threading.Lock()
+        self.max_wait = max_wait
+        self._cond = threading.Condition()
         self._by_address: dict[bytes, float] = {}
         self._recent: deque[float] = deque()
+        self._pending: set[bytes] = set()
 
     def _digest(self, email: str) -> bytes:
         return hmac.new(self._key, email.encode(), hashlib.sha256).digest()
@@ -63,25 +73,38 @@ class Limiter:
             del self._by_address[d]
 
     def try_reserve(self, email: str) -> bool:
-        with self._lock:
+        digest = self._digest(email)
+        deadline = time.monotonic() + self.max_wait
+        with self._cond:
+            while True:
+                self._purge(self._clock())
+                if digest in self._by_address or len(self._recent) >= self._global_limit:
+                    return False
+                busy = digest in self._pending
+                full = len(self._recent) + len(self._pending) >= self._global_limit
+                if not busy and not full:
+                    self._pending.add(digest)
+                    return True
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    return False
+                self._cond.wait(remaining)
+
+    def commit(self, email: str) -> None:
+        """Listmonk aceptó (o pudo haber enviado): la reserva cuenta."""
+        digest = self._digest(email)
+        with self._cond:
+            self._pending.discard(digest)
             now = self._clock()
-            self._purge(now)
-            digest = self._digest(email)
-            if digest in self._by_address or len(self._recent) >= self._global_limit:
-                return False
             self._by_address[digest] = now
             self._recent.append(now)
-            return True
+            self._cond.notify_all()
 
     def release(self, email: str) -> None:
-        """Devuelve el cupo de una reserva que Listmonk no aceptó."""
-        with self._lock:
-            t = self._by_address.pop(self._digest(email), None)
-            if t is not None:
-                try:
-                    self._recent.remove(t)
-                except ValueError:
-                    pass
+        """Listmonk no aceptó: la reserva no cuenta y otros pueden seguir."""
+        with self._cond:
+            self._pending.discard(self._digest(email))
+            self._cond.notify_all()
 
 
 @dataclass
@@ -90,6 +113,7 @@ class Config:
     list_name: str
     redirect: str
     limiter: Limiter
+    forward_timeout: float = 20.0
     _list_uuid: str | None = field(default=None, repr=False)
 
     def list_uuid(self) -> str:
@@ -100,15 +124,26 @@ class Config:
         return self._list_uuid
 
     def forward(self, email: str, altcha: str) -> bool:
-        """True si Listmonk aceptó la suscripción (ALTCHA y correo válidos)."""
+        """True si Listmonk aceptó la suscripción o pudo haberla aceptado.
+
+        Si la petición ya salió y la respuesta tarda más de forward_timeout,
+        Listmonk pudo haber enviado la confirmación: cuenta como aceptada para
+        no enviar otra a la misma dirección.
+        """
         try:
             data = urlencode({"email": email, "l": self.list_uuid(), "altcha": altcha}).encode()
-            req = urllib.request.Request(
-                f"{self.listmonk_url}/subscription/form", data=data, method="POST",
-                headers={"Content-Type": "application/x-www-form-urlencoded"})
-            with urllib.request.urlopen(req, timeout=20) as r:
-                return r.status == 200
         except (urllib.error.URLError, OSError, StopIteration, ValueError):
+            return False
+        req = urllib.request.Request(
+            f"{self.listmonk_url}/subscription/form", data=data, method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        try:
+            with urllib.request.urlopen(req, timeout=self.forward_timeout) as r:
+                return r.status == 200
+        except TimeoutError:
+            return True  # la petición salió; la respuesta no llegó a tiempo
+        except (urllib.error.URLError, OSError):
+            # Respuesta de error, o no se pudo conectar (la petición no salió).
             return False
 
     def process(self, email: str, altcha: str) -> None:
@@ -116,6 +151,7 @@ class Config:
             log.info("limitado")
             return
         if self.forward(email, altcha):
+            self.limiter.commit(email)
             log.info("reenviado")
         else:
             self.limiter.release(email)
