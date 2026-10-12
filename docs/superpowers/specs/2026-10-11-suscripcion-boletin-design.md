@@ -1,121 +1,266 @@
 # Suscripción al blog y boletín — diseño
 
-Fecha: 11 de octubre de 2026 · Estado: aprobado en conversación; pendiente de que Carlos revise este documento
+Fecha: 11 de octubre de 2026 · Versión 2 (incorpora la revisión de Carlos) · Estado: pendiente de que Carlos apruebe esta versión
 
 ## Objetivo
 
-Que cualquier persona pueda dejar su correo en el blog, confirmar que es suyo y recibir los artículos nuevos, y que Carlos pueda escribir boletines propios. Ningún correo sale sin la aprobación de Carlos.
+Que cualquier persona pueda dejar su correo en el blog, confirmar que es suyo y recibir los artículos nuevos, y que Carlos pueda escribir boletines propios.
 
-Como parte de los lectores pueden estar en el exilio o en riesgo, la lista de suscriptores es un dato sensible. Se guarda en el servidor de OpenCivic y no en un servicio de terceros.
+**Ningún correo a la lista sale sin la aprobación de Carlos, aunque se filtre una credencial del sistema.**
+
+Como parte de los lectores pueden estar en el exilio o en riesgo:
+- la lista de suscriptores es un dato sensible y se guarda en el servidor de OpenCivic, no en un servicio de terceros;
+- **nadie debe poder averiguar, desde fuera, si un correo está en la lista**.
 
 ## Decisiones tomadas
 
-| Tema | Decisión | Quién lo decidió |
+| Tema | Decisión | Origen |
 |---|---|---|
-| Dónde vive la lista | Listmonk autoalojado en el VPS | Carlos |
+| Dónde vive la lista | Listmonk 6.2 autoalojado en el VPS | Carlos |
 | Correos por artículo | Se genera un borrador solo; Carlos lo autoriza | Carlos |
 | Boletines propios | Sí, escritos por Carlos en Listmonk | Carlos |
-| Envío | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org` | Propuesta aprobada |
-| Panel | `boletin.opencivicsolutions.org` (subdominio nuevo) | Propuesta aprobada |
-| Datos que se piden | Solo el correo | Propuesta aprobada |
-| Rastreo | Ninguno: ni aperturas ni clics | Propuesta aprobada |
+| Envío | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org` | Diseño v1 |
+| Panel | `boletin.opencivicsolutions.org` | Diseño v1 |
+| Datos que se piden | Solo el correo | Diseño v1 |
+| Rastreo | Ninguno: ni aperturas ni clics | Diseño v1 |
+| Entrada pública | Un "portero" propio delante de Listmonk (ver abajo) | Revisión v2 |
+| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk | Revisión v2 |
+| Copias | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2 | Revisión v2 |
+
+## Lo que se verificó antes de escribir esta versión
+
+Todo lo siguiente se comprobó en el código de Listmonk **v6.2.0** (commit `ef0a758`) y con una instancia local de Listmonk 6.2, PostgreSQL 17 y Mailpit, el 11 de octubre de 2026.
+
+| Pregunta | Resultado |
+|---|---|
+| ¿ALTCHA protege todas las vías de suscripción? | **No.** Solo `POST /subscription/form`. `POST /api/public/subscription` no comprueba el captcha (`cmd/public.go`). |
+| ¿Listmonk limita los correos de confirmación por destinatario? | **No.** Si el correo ya existe, vuelve a enviar la confirmación en cada envío del formulario (`UpdateSubscriberWithLists` → `SendOptinConfirmation`). Prueba: 5 envíos seguidos al mismo correo produjeron **5 correos**. |
+| ¿Traefik puede limitar por correo destino? | **No.** Su `ratelimit` agrupa por IP, por cabecera o por host, nunca por un campo del cuerpo del formulario. |
+| ¿La respuesta revela si alguien ya está suscrito? | **Sí**, sin el parámetro `next`. Un correo nuevo, o uno sin confirmar o dado de baja, recibe "Se le ha enviado un correo…". Uno **ya confirmado** o **bloqueado** recibe "Suscrito correctamente". |
+| ¿Y con un `next` de confianza? | Todas las situaciones responden igual (303 a la misma URL). Solo un correo con formato inválido responde 400, y eso no depende de la lista. |
+| ¿Hay diferencia de tiempo de respuesta? | En local no (mediana de 175 ms frente a 185 ms), pero el aviso se envía con `Push` al mensajero de correo. Con el SMTP real de Hostinger no está medido; el diseño lo neutraliza igualmente (ver "Portero"). |
+| ¿Un rol puede crear campañas sin poder enviarlas? | **Sí.** Pasar una campaña a "running" o "scheduled" exige `campaigns:send` (`PUT /api/campaigns/:id/status`). Pero `campaigns:manage` permite **enviar "pruebas"** con asunto, remitente y contenido libres a cualquier suscriptor de las listas a las que el rol tiene acceso. Por eso el rol por sí solo no basta. |
+| ¿Listmonk limita los intentos de inicio de sesión? | **No** hay bloqueo ni límite en `/admin/login`. |
+| ¿Tiene doble factor y OIDC? | **Sí, los dos.** TOTP (`/admin/login/twofa`, librería `pquerna/otp`) y OIDC (`/auth/oidc`). |
+| ¿Hostinger permite boletines desde el buzón? | **Sí**, si los suscriptores dieron su consentimiento expreso, hay enlace de baja y se respetan los límites. Puede bloquear buzones que no lo cumplan ([política](https://www.hostinger.com/support/1583510-can-i-send-newsletters)). |
 
 ## Arquitectura
 
 ```
-Visitante ──► opencivicsolutions.org/blog (formulario)
-                 │  POST (formulario HTML + ALTCHA)
-                 ▼
-          boletin.opencivicsolutions.org  ──►  Traefik  ──►  Listmonk 6.2  ──►  PostgreSQL 17
-                                                                 │
-                                                                 └──► SMTP Hostinger (boletin@) ──► buzones
+Visitante ─► opencivicsolutions.org/blog  (formulario + widget ALTCHA)
+               │ GET  /boletin/altcha     ──► Listmonk  /api/public/captcha/altcha
+               │ POST /boletin/suscribir  ──► PORTERO ──(en segundo plano)──► Listmonk /subscription/form
+               ▼                                   │
+          303 → /blog/suscripcion                  └─ límite por destinatario y límite global
 
-GitHub Actions (al fusionar un PR con artículo nuevo, después del despliegue)
-                 └──► API de Listmonk: crea la campaña borrador y envía una vista previa a info@
+boletin.opencivicsolutions.org ─► Traefik ─► Listmonk 6.2 (panel de Carlos, con TOTP) ─► PostgreSQL 17
+                                     │                  └─► SMTP Hostinger (boletin@) ─► buzones
+                                     └─ bloquea: /api/public/subscription, POST /subscription/form,
+                                        y cualquier /api con cabecera "Authorization: token …"
+
+Despliegue (script del VPS, ya existente) ─► contenedor efímero en la red interna ─► API de Listmonk
+                                              (crea el borrador y envía la vista previa a info@)
+
+Copia diaria: pg_dump ─► age (clave pública) ─► VPS (14 días) + Backblaze B2 (90 días)
 ```
 
-### Componentes nuevos
+### Componentes
 
-1. **Listmonk 6.2** y **PostgreSQL 17** como dos servicios nuevos en `docker-compose.yml`, con volumen propio para la base de datos. Las contraseñas viven en el `.env` del servidor, nunca en el repositorio.
-2. **Formulario de suscripción** en `/blog` y al final de cada artículo (componente React reutilizable).
-3. **Página de confirmación** del sitio (`/blog/suscripcion`), a la que Listmonk redirige después de enviar el formulario.
-4. **Paso nuevo en el despliegue** que detecta artículos nuevos y crea su campaña borrador.
-5. **Copia de seguridad diaria** de la base de Listmonk en el VPS.
+1. **Listmonk 6.2** y **PostgreSQL 17**: dos servicios nuevos en `docker-compose.yml`, con volumen propio. Los secretos viven en el `.env` del servidor.
+2. **Portero del boletín**: un servicio propio, pequeño (alrededor de 120 líneas de Python con solo la biblioteca estándar), que es la única entrada pública para suscribirse.
+3. **Formulario** en `/blog` y al final de cada artículo, con el widget ALTCHA (paquete npm `altcha`, servido desde el propio sitio), y una página `/blog/suscripcion` con el mensaje único de respuesta.
+4. **Script de borradores**, ejecutado por el script de despliegue del VPS.
+5. **Copia de seguridad diaria** cifrada, local y fuera del VPS.
 
-## Flujo de suscripción
+## 1. Suscripción y límite por destinatario
 
-1. La persona escribe su correo. El formulario incluye el widget **ALTCHA** (paquete npm `altcha`, servido desde el propio sitio), una prueba de trabajo que resuelve el navegador, sin servicios de terceros.
-2. El formulario se envía como **formulario HTML** a `https://boletin.opencivicsolutions.org/subscription/form`, con el campo `next` apuntando a la página de confirmación del sitio.
-3. Listmonk verifica ALTCHA y crea al suscriptor en la lista "Blog OpenCivic", que es de **doble confirmación**. Envía el correo "Confirma tu suscripción".
-4. Solo quien hace clic en ese correo queda suscrito.
-5. Todo correo de Listmonk lleva **enlace de baja** y la cabecera `List-Unsubscribe`, para darse de baja con un clic desde el propio cliente de correo.
+### Por qué un portero
 
-### Por qué un formulario HTML y no la API JSON
+Listmonk no limita por destinatario (verificado), Traefik tampoco puede hacerlo y la respuesta de Listmonk revela si alguien está suscrito. La alternativa más simple que resuelve los tres problemas es un intermediario propio que:
 
-Leí el código de Listmonk 6.2 (`cmd/public.go`). ALTCHA **solo se verifica** en `POST /subscription/form`. El endpoint `POST /api/public/subscription` no comprueba el captcha. Si quedara expuesto, un bot podría usarlo para llenar el buzón de una persona con correos de confirmación y para gastar el cupo diario de envío de Hostinger.
+1. **Recibe** el formulario del blog en `POST /boletin/suscribir`, en el mismo dominio del sitio, sin CORS.
+2. **Responde siempre igual y de inmediato**: `303` a `/blog/suscripcion`, sea el correo nuevo, confirmado, dado de baja, bloqueado o inválido. Responde **antes** de hablar con Listmonk, así el tiempo de respuesta tampoco revela nada.
+3. **Reenvía en segundo plano** a Listmonk (`/subscription/form`, por la red interna de Docker) el correo, la lista y la solución de ALTCHA. Listmonk verifica el ALTCHA como siempre.
+4. **Limita por destinatario**: como máximo **1 correo de confirmación por dirección cada 24 horas**. Lo que guarda es un HMAC de la dirección con una clave aleatoria que se crea al arrancar y vive solo en memoria. Así el portero no forma una segunda lista de correos; si se reinicia, los contadores empiezan de cero.
+5. **Solo cuenta los envíos que Listmonk aceptó** (ALTCHA válido). Un bot sin ALTCHA válido no puede gastar el cupo de una persona y bloquearle la suscripción.
+6. **Límite global**: como máximo **60 reenvíos por hora**. Protege el cupo diario de Hostinger aunque el ataque use muchas IPs y muchas direcciones.
+7. No escribe correos en sus registros, solo totales.
 
-Por eso:
-- Traefik **bloquea** `/api/public/subscription` desde fuera.
-- El sitio usa únicamente `/subscription/form`.
-- Traefik limita esa ruta a 10 envíos por minuto por IP.
+El mensaje único de `/blog/suscripcion` dice: "Si el correo es válido y no estaba suscrito, en unos minutos recibirás un mensaje para confirmar. Revisa también la carpeta de spam."
 
-Rutas públicas que Traefik deja pasar al subdominio:
-- `/subscription/*`: formulario, confirmación, preferencias y baja.
-- `/api/public/captcha/altcha`: el reto de ALTCHA.
-- `/campaign/*`: ver el correo en el navegador.
-- `/admin` y `/api` (salvo el endpoint bloqueado): el panel, protegido por usuario y contraseña.
-- `/uploads`: imágenes de los correos.
+### Límites en Traefik, por IP
 
-## Flujo de cada artículo nuevo
+- `/boletin/suscribir`: 10 por minuto por IP.
+- `/boletin/altcha`: 30 por minuto por IP.
 
-1. Carlos fusiona el PR que agrega `src/content/posts/NN-slug.md`.
-2. El despliegue publica el sitio y comprueba que responde, igual que hoy.
-3. Un paso nuevo compara los artículos antes y después del merge. Por cada artículo nuevo, llama a la API de Listmonk con un usuario de API de permisos mínimos (crear campañas y enviar pruebas). Ese paso:
-   - crea una campaña **borrador** con asunto (título), resumen (dek), imagen y botón "Leer el artículo", con la plantilla de la marca;
-   - envía la **vista previa** a `info@opencivicsolutions.org`.
-4. Carlos revisa el correo de prueba, entra al panel y pulsa **Enviar**. Si no lo hace, no sale nada.
-5. Si el artículo ya tiene campaña (por ejemplo, porque se volvió a desplegar), no se crea otra.
+Corrección respecto a la versión anterior: el límite de Traefik es **por IP**, no "por persona". El límite **por destinatario** lo pone el portero.
+
+### Flujo
+
+1. La persona escribe su correo. El navegador resuelve el ALTCHA, una prueba de trabajo de unos segundos, sin terceros.
+2. El portero responde 303 a `/blog/suscripcion` y reenvía a Listmonk en segundo plano.
+3. Listmonk crea la suscripción en la lista "Blog OpenCivic", que es de **doble confirmación**, y envía "Confirma tu suscripción".
+4. Solo quien hace clic queda suscrito. Cada correo lleva enlace de baja y la cabecera `List-Unsubscribe`.
+
+### Lo que Traefik bloquea desde fuera, en `boletin.`
+
+- `POST /api/public/subscription`: sin captcha y revelaría el estado.
+- `POST /subscription/form`: solo el portero llega a esta ruta, por la red interna.
+- Cualquier petición a `/api/*` con cabecera `Authorization: token …`: los tokens de API solo sirven dentro del servidor.
+
+Siguen accesibles:
+- `/subscription/optin/*`, `/subscription/*` (preferencias y baja) y `/campaign/*` (ver el correo en el navegador);
+- `/uploads`;
+- `/admin` y la API con sesión del navegador, para el panel.
+
+## 2. Borradores de artículos sin token en GitHub
+
+### Rediseño
+
+GitHub Actions **no guarda ninguna credencial de Listmonk**. El despliegue ya funciona con una llave SSH limitada a un único comando en el VPS (`/usr/local/bin/opencivic-deploy.sh`), que no puede ejecutar otra cosa. Después de `git pull` y `docker compose up`, ese mismo script:
+
+1. Compara los artículos antes y después del `pull`: `git diff --name-only --diff-filter=A <antes> <después> -- src/content/posts/`.
+2. Por cada artículo nuevo, lanza un contenedor efímero en la red interna de Docker. Ese contenedor llama a `http://listmonk:9000/api` con el usuario de API **`borradores`**, cuyo token vive solo en el `.env` del VPS.
+3. Crea la campaña borrador, que se llama `articulo:<slug>` para no duplicarla, con la plantilla de la marca, y envía la vista previa.
+
+### El rol `borradores`
+
+- Permisos: `campaigns:get`, `campaigns:manage` y `templates:get`. **Sin** `campaigns:send` y **sin** ningún permiso `subscribers:*`.
+- Acceso a listas: **solo** a la lista privada **"Revisión"**, cuyo único suscriptor es `info@opencivicsolutions.org`. **Ningún acceso** a "Blog OpenCivic".
+
+Consecuencias:
+- El borrador se crea dirigido a "Revisión". Para enviarlo, Carlos cambia la lista a **"Blog OpenCivic"** en el panel y pulsa Enviar. Es un clic más, y es justamente la aprobación.
+- Si el token se filtrara, solo podría crear borradores y enviar "pruebas" a `info@`:
+  - no puede iniciar campañas (le falta `campaigns:send`);
+  - no puede ver ni alcanzar a los suscriptores del blog (no tiene acceso a esa lista);
+  - desde internet no sirve, porque Traefik rechaza las peticiones con token.
+- La única forma de llegar a la lista es con la sesión de Carlos en el panel, protegida con contraseña y TOTP.
+
+## 3. Protección del panel
+
+- **Límite de intentos en Traefik**, por IP, en `/admin/login`, `/admin/login/twofa`, `/admin/forgot` y `/admin/reset`: **5 por minuto**, con ráfaga de 5. Listmonk no tiene límite propio (verificado).
+- **Doble factor TOTP obligatorio** para la cuenta de Carlos, con una app como Aegis, Google Authenticator o 1Password. **Recomendado**, porque:
+  - viene incluido en Listmonk 6.2;
+  - no depende de terceros;
+  - sigue funcionando aunque se caiga el proveedor de identidad.
+- **OIDC (por ejemplo, entrar con Google): no por ahora.** Hoy hay un único administrador. OIDC añadiría una dependencia externa y haría que la seguridad del panel dependiera de la de esa cuenta. Conviene cuando haya más de una persona administrando.
+- Contraseña del administrador: generada, de más de 20 caracteres y guardada en el gestor de contraseñas de Carlos.
+
+## 4. Copias de seguridad
+
+- **Cifrado de clave pública con [`age`](https://age-encryption.org)**:
+  - Carlos genera el par de claves **en su propia PC**;
+  - el VPS recibe **solo la clave pública**, así que puede cifrar copias pero no leerlas;
+  - la clave privada queda fuera del servidor, en el gestor de contraseñas y en un USB.
+  - Si el VPS cae en manos ajenas, las copias guardadas allí siguen ilegibles.
+- **Cada día**: `pg_dump` de la base de Listmonk, cifrado con `age` y guardado en el VPS durante 14 días.
+- **Copia fuera del VPS en Backblaze B2**, dentro del alcance:
+  - los primeros 10 GB son gratuitos ([precios](https://www.backblaze.com/cloud-storage/pricing)) y la copia diaria pesa kilobytes, así que el costo esperado es 0 USD;
+  - se sube con una llave limitada a ese único bucket y con permisos **solo de escritura**: sin `readFiles` ni `deleteFiles` ([capacidades](https://www.backblaze.com/docs/cloud-storage-application-key-capabilities));
+  - un intruso en el VPS no podría ni leer ni borrar las copias anteriores;
+  - una regla del bucket borra las de más de 90 días.
+- **Prueba de restauración** al montar el sistema y luego cada tres meses: Carlos descifra la última copia en su PC con su clave privada y se restaura en una instancia local.
+
+## 5. Enumeración de suscriptores
+
+- **Riesgo verificado**: sin mitigación, la página de Listmonk revela si un correo ya estaba confirmado (ver la tabla de verificación).
+- **Mitigación**:
+  - el portero responde siempre lo mismo, con el mismo código, el mismo destino y sin esperar a Listmonk;
+  - los endpoints que revelan el estado están bloqueados desde fuera;
+  - a Listmonk se le configura además un `next` de confianza, como segunda capa.
+- **Riesgo residual**: quien controle el buzón de la víctima ve si le llega una confirmación, pero quien controla ese buzón ya puede saber si recibe el boletín.
 
 ## Boletines propios
 
-Carlos crea una campaña en el panel con la plantilla de la marca y la envía a la lista.
+Carlos crea una campaña en el panel con la plantilla de la marca, elige la lista "Blog OpenCivic" y la envía.
 
-## Privacidad y seguridad
+## Privacidad
 
 - Se pide **solo el correo**.
-- `privacy.disable_tracking = true`: sin píxel de apertura ni enlaces de rastreo.
-- `privacy.record_optin_ip = false`: no se guarda la IP de quien confirma.
-- Quien se suscribe puede **exportar o borrar** sus datos desde su página de preferencias (`allow_export` y `allow_wipe`).
-- `security.trusted_urls` contiene solo `https://opencivicsolutions.org` y la página de confirmación: es lo que permite el redireccionamiento `next` y el reto ALTCHA entre dominios.
-- Panel con usuario administrador y contraseña larga.
+- `privacy.disable_tracking = true`, `privacy.individual_tracking = false` y `privacy.record_optin_ip = false`.
+- La página de preferencias permite **exportar o borrar** los propios datos.
 - Junto al formulario va un texto corto: qué se guarda, para qué y cómo darse de baja.
-- Copia diaria de la base de datos (`pg_dump`) en el VPS, con 14 días de retención. Cifrarla en el mismo servidor que guarda la clave no añadiría protección; una copia fuera del VPS queda para más adelante.
+
+## Envío y entregabilidad
+
+- **Límite de Hostinger**: depende del plan del buzón ([límites](https://www.hostinger.com/support/4625828-parameters-and-limits-of-hostinger-email/)), con un máximo de 100 destinatarios por mensaje. Listmonk envía uno por suscriptor, así que esto no afecta. El límite diario se cuenta en 24 horas móviles:
+
+  | Plan | Correos por día |
+  |---|---|
+  | Business Starter | 1.000 |
+  | Business Standard | 3.000 |
+  | Business Premium | 3.000 |
+  | Prueba gratuita | **100** |
+
+- Listmonk se configura con un ritmo de envío por debajo del límite del plan. Si una campaña supera el cupo diario, se reparte en varios días.
+- **DMARC**:
+  - Ahora: `p=none` y se añade `rua=mailto:dmarc@opencivicsolutions.org` para recibir informes. Hoy no se recibe ninguno.
+  - Se pasa a `p=quarantine` cuando se cumplan **las dos** condiciones:
+    1. al menos **4 semanas** de informes con el boletín ya enviando;
+    2. que el **98 % o más** de los mensajes legítimos pase SPF o DKIM alineado, sin fuentes legítimas fallando.
+  - Fecha de revisión: **15 de diciembre de 2026**.
 
 ## Lo que hace Carlos (guiado paso a paso)
 
-1. Crear el buzón `boletin@opencivicsolutions.org` en hPanel.
-2. Agregar el registro DNS `A  boletin  →  179.236.66.237`.
+1. Crear el buzón `boletin@opencivicsolutions.org` en hPanel y decirme qué plan tiene (hPanel → Correos → Buzones → Ver límites).
+2. Agregar el registro DNS `A  boletin  →  179.236.66.237` y el cambio de DMARC.
 3. Dejar la contraseña del buzón en el servidor de forma segura, sin pegarla en el chat.
+4. Activar TOTP en su cuenta del panel.
+5. Generar su par de claves `age` en su PC y guardar la clave privada.
+6. Crear la cuenta de Backblaze B2, el bucket y la llave de solo escritura.
 
 ## Fuera de alcance
 
 - Varias listas por tema o idioma.
-- Envío masivo con un proveedor dedicado (SES o similar). Si la lista supera el límite diario de Hostinger, se cambia el método de envío sin perder la lista.
+- Un proveedor de envío masivo dedicado. Si la lista supera el cupo del plan, se cambia el método de envío sin perder la lista.
 - Importar suscriptores de otro sitio.
+- OIDC (ver la sección 3).
 
 ## Cómo se prueba
 
-- **En local**, con Docker y un servidor SMTP de prueba (Mailpit):
-  - suscribirse, confirmar y darse de baja;
-  - que el formulario sin ALTCHA sea rechazado;
-  - que `/api/public/subscription` devuelva 403 detrás de Traefik.
-- **El script de campañas**, con un artículo de prueba:
-  - crea un único borrador aunque se ejecute dos veces;
-  - envía la vista previa.
-- **En producción**, antes de anunciarlo: Carlos se suscribe con su propio correo y comprueba que la confirmación no llega a spam.
+Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit antes de tocar producción.
 
-## Riesgos
+**Suscripción y límite por destinatario (punto 1)**
+- Suscribirse, confirmar y darse de baja funciona de principio a fin.
+- 5 envíos al mismo correo, desde 5 IPs distintas y con ALTCHA válido: **exactamente 1** correo en Mailpit en 24 horas.
+- Envíos sin ALTCHA o con ALTCHA inválido: **0** correos, y no gastan el cupo de esa dirección (luego un envío válido sí llega).
+- 61 envíos válidos a direcciones distintas en una hora: llegan **60**.
+- 11 envíos en un minuto desde la misma IP: el número 11 recibe **429**.
 
-- **Límite diario de envío del correo de Hostinger:** hay que verificar la cifra exacta en hPanel antes del primer envío grande.
-- **Que caiga en spam:** SPF, DKIM (`hostingermail-a/b/c`) y DMARC ya están publicados. DMARC está en `p=none` y se puede endurecer después.
-- **Bots en el formulario:** se mitigan con ALTCHA, el campo trampa (`nonce`) y el límite de frecuencia de Traefik.
+**Token de borradores (punto 2)**
+- Con el token `borradores`, dentro de la red interna:
+  - crear un borrador para "Revisión": funciona;
+  - `PUT /api/campaigns/:id/status` a `running` o `scheduled`: **403**;
+  - prueba a un correo suscrito a "Blog OpenCivic": rechazada;
+  - prueba a `info@`: llega;
+  - leer suscriptores: **403**.
+- El mismo token desde fuera, a través de Traefik: **403**.
+- Ejecutar dos veces el script con el mismo artículo: **un único** borrador.
+
+**Enumeración (punto 5)**
+- A través del portero, comparar un correo nuevo, uno sin confirmar, uno confirmado, uno dado de baja, uno bloqueado y uno inválido: **mismo código (303), mismo destino y mismo cuerpo**.
+- Mediana de tiempo de respuesta de 20 envíos por caso: diferencia entre casos **menor a 20 ms**.
+- `POST /api/public/subscription` y `POST /subscription/form` desde fuera: **403**.
+
+**Panel y copias**
+- 6 intentos de login en un minuto desde la misma IP: el número 6 recibe **429**.
+- Con TOTP activado, entrar sin código falla.
+- La copia diaria aparece en el VPS y en B2. Con la llave del VPS, leer o borrar en B2 falla. Carlos descifra la copia en su PC y se restaura bien.
+
+**En producción, antes de anunciarlo**
+- Carlos se suscribe con su propio correo y comprueba que la confirmación no cae en spam.
+- Se repite el caso de enumeración contra el SMTP real de Hostinger.
+
+## Riesgos residuales aceptados
+
+- **Cupo diario de Hostinger:** un ataque distribuido podría consumir hasta 60 confirmaciones por hora, unas 1.440 al día. En los planes de 1.000 o 100 correos diarios eso puede agotar el cupo de ese día y retrasar una campaña. Mitigaciones: ALTCHA, los límites por IP y el límite global. Si ocurre, se baja el límite global o se aumenta la dificultad de ALTCHA.
+- **Una confirmación por dirección cada 24 horas:** un atacante puede hacer que una persona reciba **una** confirmación no pedida al día. Es inevitable con doble confirmación y no la suscribe a nada.
+- **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
+- **Quien controle el buzón de alguien** ve si le llega una confirmación (ver el punto 5).
+- **Pérdida de la clave privada `age`:** si Carlos la pierde, las copias cifradas no se pueden leer. Por eso se guarda en dos lugares.
+- **Compromiso total del VPS:** quien tenga control del servidor tiene la lista viva. Las copias en B2 siguen protegidas.
+
+## Preguntas abiertas para Carlos
+
+1. ¿Qué plan tiene el correo de Hostinger (Business Starter, Standard, Premium o prueba gratuita)? Define el ritmo de envío y si conviene mejorar el plan antes de lanzar.
+2. ¿Dónde guardarás la clave privada `age`: gestor de contraseñas, USB o los dos?
