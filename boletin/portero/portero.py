@@ -90,6 +90,13 @@ class Limiter:
                     return False
                 self._cond.wait(remaining)
 
+    def stats(self) -> dict:
+        """Totales de la ventana actual, sin ninguna dirección."""
+        with self._cond:
+            self._purge(self._clock())
+            return {"aceptadas": len(self._recent), "en_vuelo": len(self._pending),
+                    "limite": self._global_limit}
+
     def commit(self, email: str) -> None:
         """Listmonk aceptó (o pudo haber enviado): la reserva cuenta."""
         digest = self._digest(email)
@@ -148,14 +155,19 @@ class Config:
 
     def process(self, email: str, altcha: str) -> None:
         if not self.limiter.try_reserve(email):
-            log.info("limitado")
+            self._log("limitado")
             return
         if self.forward(email, altcha):
             self.limiter.commit(email)
-            log.info("reenviado")
+            self._log("reenviado")
         else:
             self.limiter.release(email)
-            log.info("rechazado-o-sin-listmonk")
+            self._log("rechazado-o-sin-listmonk")
+
+    def _log(self, event: str) -> None:
+        # Solo totales: el registro nunca lleva direcciones ni IP.
+        st = self.limiter.stats()
+        log.info("%s (hoy %d/%d, en curso %d)", event, st["aceptadas"], st["limite"], st["en_vuelo"])
 
 
 def make_server(cfg: Config, port: int = 8080) -> ThreadingHTTPServer:

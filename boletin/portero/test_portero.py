@@ -92,6 +92,11 @@ class LimiterTest(unittest.TestCase):
         t.join(2)
         self.assertTrue(out["ok"])
 
+    def test_estadisticas_del_dia(self):
+        self.assertTrue(self.accept("a@ejemplo.org"))
+        self.assertTrue(self.lim.try_reserve("b@ejemplo.org"))
+        self.assertEqual(self.lim.stats(), {"aceptadas": 1, "en_vuelo": 1, "limite": 3})
+
     def test_no_guarda_direcciones_legibles(self):
         self.lim.try_reserve("ana@ejemplo.org")
         self.assertNotIn("ana@ejemplo.org", repr(self.lim.__dict__))
@@ -253,6 +258,20 @@ class PorteroHTTPTest(unittest.TestCase):
         lim = self.httpd.cfg.limiter
         lim.max_wait = 0.2
         self.assertTrue(lim.try_reserve("ana@ejemplo.org"))
+
+    def test_registro_con_el_total_y_sin_direcciones(self):
+        fake = FakeListmonk()
+        url = self.start(fake, global_limit=1)
+        with self.assertLogs("portero", level="INFO") as logs:
+            post(url, {"email": "ana@ejemplo.org", "altcha": "x"})
+            self.assertTrue(self.wait_for(lambda: len(fake.received) == 1))
+            time.sleep(0.2)
+            post(url, {"email": "beto@ejemplo.org", "altcha": "x"})
+            time.sleep(0.5)
+        text = chr(10).join(logs.output)
+        self.assertIn("reenviado (hoy 1/1", text)
+        self.assertIn("limitado (hoy 1/1", text)
+        self.assertNotIn("@", text)
 
     def test_limite_global_por_http(self):
         fake = FakeListmonk()
