@@ -602,7 +602,7 @@ Cambia las etiquetas del servicio `web` para que los hosts salgan de variables. 
 - traefik.http.routers.hrp-dashboard.rule=Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)
 ```
 
-Agrega al final de `services:` (antes de `volumes:`):
+Agrega al final de `services:` (antes de `volumes:`). El fragmento está escrito sin la sangría de `services:`: al pegarlo, cada línea va **dos espacios** más a la derecha, igual que los servicios `web` y `comments`. Lo mismo vale para las dos líneas de `volumes:`.
 
 ```yaml
 # ── Boletín (spec: docs/superpowers/specs/2026-10-11-suscripcion-boletin-design.md) ──
