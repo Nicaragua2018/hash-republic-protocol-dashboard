@@ -3,13 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { getPostBySlug } from '../content/posts';
 import Seo from '../components/Seo';
 import { getPostMeta } from '../content/seo';
+import { formatDate } from '../content/format';
 import ShareBar from '../components/ShareBar';
 import PinnedComments from '../components/PinnedComments';
 import Comments from '../components/Comments';
 import NotFound from './NotFound';
-
-const formatDate = (iso) =>
-  new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
 
 function Inline({ tokens }) {
   return tokens.map((tok, i) => {
@@ -17,9 +15,15 @@ function Inline({ tokens }) {
     if (tok.t === 'em') return <em key={i}>{tok.v}</em>;
     if (tok.t === 'link') {
       const label = tok.children ? <Inline tokens={tok.children} /> : tok.v;
+      // Site pages use the router, anchors stay on the page, and only web
+      // and mail links leave it — anything else (javascript:, data:) is
+      // shown as plain text rather than turned into a link.
       if (tok.url.startsWith('/')) return <Link key={i} to={tok.url}>{label}</Link>;
+      if (tok.url.startsWith('#')) return <a key={i} href={tok.url}>{label}</a>;
+      if (/^mailto:/i.test(tok.url)) return <a key={i} href={tok.url}>{label}</a>;
+      if (!/^https?:\/\//i.test(tok.url)) return <React.Fragment key={i}>{label}</React.Fragment>;
       return (
-        <a key={i} href={tok.url} target="_blank" rel="noreferrer">
+        <a key={i} href={tok.url} target="_blank" rel="noopener noreferrer">
           {label}
         </a>
       );

@@ -15,6 +15,25 @@ const defaultReport = {
   }
 };
 
+// Deterministic serialization: object keys sorted at every depth, no
+// whitespace. Two reports with the same data always give the same string,
+// and a change anywhere in the tree — nested fields included — changes it.
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value !== null && typeof value === 'object') {
+    const entries = Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`);
+    return `{${entries.join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+async function sha256Hex(text) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export default function ReportHub() {
   const [jsonText, setJsonText] = useState(JSON.stringify(defaultReport, null, 2));
   const [hashResult, setHashResult] = useState('');
@@ -25,25 +44,30 @@ export default function ReportHub() {
   const [verifyText, setVerifyText] = useState('');
   const [verificationResult, setVerificationResult] = useState(null);
 
-  // Client-side SHA-256 calculation
-  const calculateSha256 = async (text) => {
-    try {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text.trim());
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      setHashResult(hashHex);
-    } catch (err) {
-      setHashResult('Error calculando hash');
-    }
-  };
-
+  // The anchored hash covers the report's canonical form, not the text as
+  // typed, so whitespace or key order never change it — the same rule the
+  // verifier below applies.
   useEffect(() => {
-    calculateSha256(jsonText);
+    let alive = true;
+    let canonical;
+    try {
+      canonical = canonicalJson(JSON.parse(jsonText));
+    } catch {
+      setHashResult('JSON inválido: corrija el reporte para calcular su hash');
+      return;
+    }
+    sha256Hex(canonical).then((hex) => {
+      if (alive) setHashResult(hex);
+    });
+    return () => {
+      alive = false;
+    };
   }, [jsonText]);
 
+  const hashIsValid = /^[0-9a-f]{64}$/.test(hashResult);
+
   const handleAnchor = () => {
+    if (!hashIsValid) return;
     setAnchoringState('anchoring');
     
     // Simulate mining wait
@@ -65,34 +89,27 @@ export default function ReportHub() {
       return;
     }
     
+    let canonical;
     try {
-      const parsed = JSON.parse(verifyText);
-      
-      // Re-serialize in a standardized form (keys sorted)
-      const sortedJson = JSON.stringify(parsed, Object.keys(parsed).sort());
-      
-      // Calculate hash
-      const encoder = new TextEncoder();
-      const data = encoder.encode(sortedJson.trim());
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      
-      const isMatch = anchoringState === 'anchored' && hashHex === anchoringData.opReturnPayload;
-      
+      canonical = canonicalJson(JSON.parse(verifyText));
+    } catch {
       setVerificationResult({
-        status: isMatch ? 'success' : 'mismatch',
-        hash: hashHex,
-        msg: isMatch 
-          ? '¡Verificación exitosa! El hash del documento coincide exactamente con la firma anclada en Bitcoin OP_RETURN.' 
-          : 'Advertencia: El hash no coincide con ninguna firma temporal anclada en esta sesión, o las claves/valores han sido manipuladas.'
+        status: 'error',
+        msg: 'Error de análisis: El texto ingresado no es un JSON válido. Compruebe la sintaxis.'
       });
-    } catch (err) {
-      setVerificationResult({ 
-        status: 'error', 
-        msg: 'Error de análisis: El texto ingresado no es un JSON válido. Compruebe la sintaxis.' 
-      });
+      return;
     }
+
+    const hashHex = await sha256Hex(canonical);
+    const isMatch = anchoringState === 'anchored' && hashHex === anchoringData.opReturnPayload;
+
+    setVerificationResult({
+      status: isMatch ? 'success' : 'mismatch',
+      hash: hashHex,
+      msg: isMatch
+        ? '¡Verificación exitosa! El hash del documento coincide exactamente con la firma anclada en Bitcoin OP_RETURN.'
+        : 'Advertencia: El hash no coincide con ninguna firma temporal anclada en esta sesión, o las claves/valores han sido manipuladas.'
+    });
   };
 
   return (
@@ -175,6 +192,7 @@ export default function ReportHub() {
                 id="btn-trigger-anchoring"
                 className="btn btn-primary" 
                 onClick={handleAnchor}
+                disabled={!hashIsValid}
                 style={{ padding: '12px 24px' }}
               >
                 Publicar Anclaje en Bitcoin

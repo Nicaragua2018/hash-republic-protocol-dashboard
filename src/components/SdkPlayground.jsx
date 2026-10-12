@@ -151,6 +151,17 @@ export default function SdkPlayground() {
   const [logs, setLogs] = useState([]);
   const [done, setDone] = useState(false);
   const logEndRef = useRef(null);
+  // Pending log timers of the current run, so switching snippets or leaving
+  // the tab stops a run instead of letting its lines land in the next one.
+  const timersRef = useRef([]);
+
+  const stopRun = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setRunning(false);
+  };
+
+  useEffect(() => () => timersRef.current.forEach(clearTimeout), []);
 
   useEffect(() => {
     if (logEndRef.current) {
@@ -159,6 +170,7 @@ export default function SdkPlayground() {
   }, [logs]);
 
   const runSnippet = () => {
+    stopRun();
     setRunning(true);
     setDone(false);
     setLogs([]);
@@ -166,7 +178,7 @@ export default function SdkPlayground() {
     const snippet = activeSnippet;
     let completed = 0;
 
-    snippet.logs.forEach((entry) => {
+    timersRef.current = snippet.logs.map((entry) =>
       setTimeout(() => {
         setLogs(prev => [...prev, { ...entry, ts: new Date().toLocaleTimeString() }]);
         completed++;
@@ -174,11 +186,12 @@ export default function SdkPlayground() {
           setRunning(false);
           setDone(true);
         }
-      }, entry.t);
-    });
+      }, entry.t)
+    );
   };
 
   const clearLogs = () => {
+    stopRun();
     setLogs([]);
     setDone(false);
   };

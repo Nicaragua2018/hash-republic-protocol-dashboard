@@ -2,16 +2,35 @@ import React, { useRef, useState, useEffect } from 'react';
 
 const SESSION_KEY = 'oc-intro-seen';
 
+// sessionStorage throws when the browser blocks site storage (for example
+// with "block all cookies"). Failing to remember the intro must never take
+// the whole page down, so both reads and writes are best-effort.
+const wasSeen = () => {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+
+const markSeen = () => {
+  try {
+    sessionStorage.setItem(SESSION_KEY, '1');
+  } catch {
+    // Without storage the intro simply plays again on the next visit.
+  }
+};
+
 export default function IntroSplash() {
   const videoRef = useRef(null);
   const [phase, setPhase] = useState('hidden'); // hidden | playing | leaving | done
 
   useEffect(() => {
-    const alreadySeen = sessionStorage.getItem(SESSION_KEY) === '1';
+    const alreadySeen = wasSeen();
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (alreadySeen || reducedMotion) {
-      sessionStorage.setItem(SESSION_KEY, '1');
+      markSeen();
       setPhase('done');
       return;
     }
@@ -35,7 +54,7 @@ export default function IntroSplash() {
   }, [phase]);
 
   const finish = () => {
-    sessionStorage.setItem(SESSION_KEY, '1');
+    markSeen();
     setPhase('leaving');
     window.setTimeout(() => setPhase('done'), 400);
   };

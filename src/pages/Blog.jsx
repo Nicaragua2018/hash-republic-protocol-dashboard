@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import posts from '../content/posts';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
-
-const formatDate = (iso) =>
-  new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
+import { formatDate } from '../content/format';
 
 export default function Blog() {
   const [email, setEmail] = useState('');

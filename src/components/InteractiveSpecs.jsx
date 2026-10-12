@@ -118,6 +118,13 @@ const dataFlowSteps = [
   { id: 7, label: 'SHA-256 + Anchor', desc: 'Hash criptográfico del reporte anclado en OpenTimestamps o Bitcoin OP_RETURN.', output: 'report_hash + timestamp_proof', color: '#ef4444' },
 ];
 
+// Renders **bold** spans as React elements instead of injecting HTML.
+function BoldText({ text }) {
+  return text.split(/\*\*(.*?)\*\*/g).map((part, i) =>
+    i % 2 ? <strong key={i} style={{ color: 'white' }}>{part}</strong> : part
+  );
+}
+
 // ─── Component ─────────────────────────────────────────────────────────
 export default function InteractiveSpecs() {
   const [openSection, setOpenSection] = useState('abstract');
@@ -195,13 +202,11 @@ export default function InteractiveSpecs() {
                     <div style={{ padding: '0 24px 24px', display: 'flex', flexDirection: 'column', gap: '20px', animation: 'fadeIn 0.3s ease' }}>
                       {/* Markdown-style content */}
                       <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
-                        {sec.content.split('\n\n').map((para, i) => {
-                          const formatted = para.replace(/\*\*(.*?)\*\*/g, '<strong style="color:white">$1</strong>');
-                          return (
-                            <p key={i} style={{ fontSize: '0.925rem', color: 'var(--text-secondary)', marginBottom: '12px', lineHeight: '1.7' }}
-                              dangerouslySetInnerHTML={{ __html: formatted }} />
-                          );
-                        })}
+                        {sec.content.split('\n\n').map((para, i) => (
+                          <p key={i} style={{ fontSize: '0.925rem', color: 'var(--text-secondary)', marginBottom: '12px', lineHeight: '1.7' }}>
+                            <BoldText text={para} />
+                          </p>
+                        ))}
                       </div>
                       {/* ASCII diagram */}
                       <pre style={{

@@ -111,10 +111,19 @@ function parseBody(body) {
 }
 
 export function parsePost(raw, file = '') {
-  const normalized = raw.replace(/\r\n/g, '\n');
+  // Editors on Windows may save with a byte-order mark and CRLF line ends.
+  const normalized = raw.replace(/^﻿/, '').replace(/\r\n/g, '\n');
   const { meta, body } = parseFrontmatter(normalized);
   for (const required of ['slug', 'title', 'dek', 'date']) {
     if (!meta[required]) throw new Error(`Artículo ${file}: falta "${required}" en la cabecera`);
+  }
+  // The slug becomes the URL and, in prerender, a file name in dist/: only
+  // lowercase letters, digits and hyphens, so it can never point elsewhere.
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.slug)) {
+    throw new Error(`Artículo ${file}: el slug "${meta.slug}" solo puede tener minúsculas, números y guiones`);
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(meta.date) || Number.isNaN(Date.parse(meta.date))) {
+    throw new Error(`Artículo ${file}: la fecha "${meta.date}" debe tener el formato AAAA-MM-DD`);
   }
   return {
     slug: meta.slug,

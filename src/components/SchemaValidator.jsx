@@ -32,6 +32,12 @@ function validateReport(jsonText) {
     return { valid: false, errors: [{ field: 'JSON', msg: 'Sintaxis JSON inválida: ' + e.message, severity: 'error' }], warnings: [], successes: [], parsed: null };
   }
 
+  // Valid JSON can still be a number, a string, null or an array; every check
+  // below reads fields of an object, so stop here instead of crashing.
+  if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return { valid: false, errors: [{ field: 'JSON', msg: 'El reporte debe ser un objeto JSON ({ ... })', severity: 'error' }], warnings: [], successes: [], parsed: null };
+  }
+
   // Required fields
   SCHEMA.required.forEach(field => {
     if (parsed[field] === undefined || parsed[field] === null) {
@@ -45,6 +51,9 @@ function validateReport(jsonText) {
     errors.push({ field: 'protocol', msg: `Valor incorrecto: debe ser "hash_republic_protocol", encontrado: "${parsed['protocol']}"`, severity: 'error' });
   }
 
+  if (parsed['sources'] !== undefined && parsed['sources'] !== null && (typeof parsed['sources'] !== 'object' || Array.isArray(parsed['sources']))) {
+    errors.push({ field: 'sources', msg: '"sources" debe ser un objeto con un hash por capa', severity: 'error' });
+  }
   if (parsed['version'] !== undefined && !/^\d+\.\d+$/.test(parsed['version'])) {
     warnings.push({ field: 'version', msg: `Formato de versión inusual: "${parsed['version']}" (esperado: "0.3")`, severity: 'warning' });
   }
@@ -63,13 +72,16 @@ function validateReport(jsonText) {
   }
 
   // Sources object validation
-  if (parsed['sources'] && typeof parsed['sources'] === 'object') {
+  if (parsed['sources'] && typeof parsed['sources'] === 'object' && !Array.isArray(parsed['sources'])) {
     const required = SCHEMA.properties.sources.requiredChildren;
     required.forEach(child => {
-      if (!parsed['sources'][child]) {
+      const value = parsed['sources'][child];
+      if (!value) {
         errors.push({ field: `sources.${child}`, msg: `Hash de fuente ausente: "sources.${child}"`, severity: 'error' });
+      } else if (typeof value !== 'string') {
+        errors.push({ field: `sources.${child}`, msg: `"sources.${child}" debe ser texto, no ${Array.isArray(value) ? 'una lista' : typeof value}`, severity: 'error' });
       } else {
-        if (!parsed['sources'][child].startsWith('sha256:')) {
+        if (!value.startsWith('sha256:')) {
           warnings.push({ field: `sources.${child}`, msg: `"sources.${child}" debería comenzar con "sha256:"`, severity: 'warning' });
         } else {
           successes.push({ field: `sources.${child}`, msg: `Hash de fuente válido ✓` });
