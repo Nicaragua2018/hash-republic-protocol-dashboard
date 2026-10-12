@@ -1,6 +1,6 @@
 # Suscripción al blog y boletín — diseño
 
-Fecha: 11 de octubre de 2026 · Versión 2 (incorpora la revisión de Carlos) · Estado: pendiente de que Carlos apruebe esta versión
+Fecha: 11 de octubre de 2026 · Versión 2.1 (incorpora la revisión de Carlos y sus respuestas: correo gratuito, clave en gestor de contraseñas) · Estado: pendiente de que Carlos apruebe esta versión
 
 ## Objetivo
 
@@ -15,18 +15,20 @@ Como parte de los lectores pueden estar en el exilio o en riesgo:
 
 ## Decisiones tomadas
 
-| Tema                     | Decisión                                                                                       | Origen      |
-| ------------------------ | ---------------------------------------------------------------------------------------------- | ----------- |
-| Dónde vive la lista      | Listmonk 6.2 autoalojado en el VPS                                                             | Carlos      |
-| Correos por artículo     | Se genera un borrador solo; Carlos lo autoriza                                                 | Carlos      |
-| Boletines propios        | Sí, escritos por Carlos en Listmonk                                                            | Carlos      |
-| Envío                    | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org`                           | Diseño v1   |
-| Panel                    | `boletin.opencivicsolutions.org`                                                               | Diseño v1   |
-| Datos que se piden       | Solo el correo                                                                                 | Diseño v1   |
-| Rastreo                  | Ninguno: ni aperturas ni clics                                                                 | Diseño v1   |
-| Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                            | Revisión v2 |
-| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                              | Revisión v2 |
-| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2 | Revisión v2 |
+| Tema                     | Decisión                                                                                            | Origen      |
+| ------------------------ | --------------------------------------------------------------------------------------------------- | ----------- |
+| Dónde vive la lista      | Listmonk 6.2 autoalojado en el VPS                                                                  | Carlos      |
+| Correos por artículo     | Se genera un borrador solo; Carlos lo autoriza                                                      | Carlos      |
+| Boletines propios        | Sí, escritos por Carlos en Listmonk                                                                 | Carlos      |
+| Envío                    | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org`                                | Diseño v1   |
+| Panel                    | `boletin.opencivicsolutions.org`                                                                    | Diseño v1   |
+| Datos que se piden       | Solo el correo                                                                                      | Diseño v1   |
+| Rastreo                  | Ninguno: ni aperturas ni clics                                                                      | Diseño v1   |
+| Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                                 | Revisión v2 |
+| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                                   | Revisión v2 |
+| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2      | Revisión v2 |
+| Plan de correo           | Gratuito de Hostinger: **100 correos al día**, repartidos como indica "Presupuesto diario de envío" | Carlos      |
+| Clave privada `age`      | En el gestor de contraseñas de Carlos                                                               | Carlos      |
 
 ## Lo que se verificó antes de escribir esta versión
 
@@ -84,7 +86,7 @@ Listmonk no limita por destinatario (verificado), Traefik tampoco puede hacerlo 
 3. **Reenvía en segundo plano** a Listmonk (`/subscription/form`, por la red interna de Docker) el correo, la lista y la solución de ALTCHA. Listmonk verifica el ALTCHA como siempre.
 4. **Limita por destinatario**: como máximo **1 correo de confirmación por dirección cada 24 horas**. Lo que guarda es un HMAC de la dirección con una clave aleatoria que se crea al arrancar y vive solo en memoria. Así el portero no forma una segunda lista de correos; si se reinicia, los contadores empiezan de cero.
 5. **Solo cuenta los envíos que Listmonk aceptó** (ALTCHA válido). Un bot sin ALTCHA válido no puede gastar el cupo de una persona y bloquearle la suscripción.
-6. **Límite global**: como máximo **60 reenvíos por hora**. Protege el cupo diario de Hostinger aunque el ataque use muchas IPs y muchas direcciones.
+6. **Límite global**: como máximo **20 confirmaciones en 24 horas móviles**, el cupo reservado para confirmaciones en el presupuesto diario. Protege el cupo de Hostinger aunque el ataque use muchas IPs y muchas direcciones. Al llegar al límite, el portero sigue respondiendo lo mismo pero no reenvía, y anota el total en su registro.
 7. No escribe correos en sus registros, solo totales.
 
 El mensaje único de `/blog/suscripcion` dice: "Si el correo es válido y no estaba suscrito, en unos minutos recibirás un mensaje para confirmar. Revisa también la carpeta de spam."
@@ -154,7 +156,7 @@ Consecuencias:
 - **Cifrado de clave pública con [`age`](https://age-encryption.org)**:
   - Carlos genera el par de claves **en su propia PC**;
   - el VPS recibe **solo la clave pública**, así que puede cifrar copias pero no leerlas;
-  - la clave privada queda fuera del servidor, en el gestor de contraseñas y en un USB.
+  - la clave privada queda fuera del servidor, en el **gestor de contraseñas** de Carlos.
   - Si el VPS cae en manos ajenas, las copias guardadas allí siguen ilegibles.
 - **Cada día**: `pg_dump` de la base de Listmonk, cifrado con `age` y guardado en el VPS durante 14 días.
 - **Copia fuera del VPS en Backblaze B2**, dentro del alcance:
@@ -195,7 +197,22 @@ Carlos crea una campaña en el panel con la plantilla de la marca, elige la list
   | Business Premium  | 3.000           |
   | Prueba gratuita   | **100**         |
 
-- Listmonk se configura con un ritmo de envío por debajo del límite del plan. Si una campaña supera el cupo diario, se reparte en varios días.
+- **El plan de OpenCivic es el gratuito: 100 correos en 24 horas móviles.** Todo lo que sale del buzón cuenta: confirmaciones, vistas previas y campañas.
+
+### Presupuesto diario de envío
+
+| Uso                               | Cupo en 24 h | Cómo se hace cumplir                                                                            |
+| --------------------------------- | ------------ | ----------------------------------------------------------------------------------------------- |
+| Campañas (artículos y boletines)  | 70           | Ventana deslizante de Listmonk: `app.message_sliding_window = true`, duración `24h`, ritmo `70` |
+| Confirmaciones de suscripción     | 20           | Límite global del portero                                                                       |
+| Vistas previas a `info@` y margen | 10           | Una vista previa por artículo; el resto queda libre                                             |
+| **Total**                         | **100**      |                                                                                                 |
+
+Consecuencias:
+
+- Mientras la lista tenga **hasta 70 personas confirmadas**, cada campaña sale el mismo día.
+- Con más de 70, Listmonk la reparte sola en varios días (70 por cada 24 horas). Por ejemplo, 200 suscriptores tardan unos 3 días.
+- **Cuándo pasar a un plan de pago:** cuando la lista supere **70 personas** o cuando un día se agoten las 20 confirmaciones. El plan Business Starter (1.000 al día) basta para crecer mucho; solo cambian los números de esta tabla.
 - **DMARC**:
   - Ahora: `p=none` y se añade `rua=mailto:dmarc@opencivicsolutions.org` para recibir informes. Hoy no se recibe ninguno.
   - Se pasa a `p=quarantine` cuando se cumplan **las dos** condiciones:
@@ -228,7 +245,8 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 - Suscribirse, confirmar y darse de baja funciona de principio a fin.
 - 5 envíos al mismo correo, desde 5 IPs distintas y con ALTCHA válido: **exactamente 1** correo en Mailpit en 24 horas.
 - Envíos sin ALTCHA o con ALTCHA inválido: **0** correos, y no gastan el cupo de esa dirección (luego un envío válido sí llega).
-- 61 envíos válidos a direcciones distintas en una hora: llegan **60**.
+- 21 envíos válidos a direcciones distintas en 24 horas: llegan **20** confirmaciones.
+- Una campaña de prueba a una lista de 75 suscriptores de prueba: salen **70** el primer día y **5** al siguiente (con la ventana reducida para la prueba, por ejemplo 7 cada 10 minutos).
 - 11 envíos en un minuto desde la misma IP: el número 11 recibe **429**.
 
 **Token de borradores (punto 2)**
@@ -261,14 +279,17 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 ## Riesgos residuales aceptados
 
-- **Cupo diario de Hostinger:** un ataque distribuido podría consumir hasta 60 confirmaciones por hora, unas 1.440 al día. En los planes de 1.000 o 100 correos diarios eso puede agotar el cupo de ese día y retrasar una campaña. Mitigaciones: ALTCHA, los límites por IP y el límite global. Si ocurre, se baja el límite global o se aumenta la dificultad de ALTCHA.
+- **Confirmaciones agotadas por un ataque:** un ataque distribuido con ALTCHA resuelto puede gastar las 20 confirmaciones del día. Ese día, las personas reales que se suscriban verán el mensaje habitual pero no recibirán confirmación, y tendrán que intentarlo al día siguiente. **Las campañas no se ven afectadas**, porque tienen su propio cupo de 70. Mitigaciones: ALTCHA, el límite por IP y el registro de totales del portero.
+- **Campañas lentas mientras el plan sea gratuito:** con más de 70 suscriptores, cada campaña tarda varios días en llegar a todos.
+- **Prueba gratuita del correo:** si el buzón está en una prueba de Hostinger (de 30 días o de 1 año), al vencer deja de enviar. Hay que comprobar la fecha en hPanel.
 - **Una confirmación por dirección cada 24 horas:** un atacante puede hacer que una persona reciba **una** confirmación no pedida al día. Es inevitable con doble confirmación y no la suscribe a nada.
 - **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
 - **Quien controle el buzón de alguien** ve si le llega una confirmación (ver el punto 5).
-- **Pérdida de la clave privada `age`:** si Carlos la pierde, las copias cifradas no se pueden leer. Por eso se guarda en dos lugares.
+- **Pérdida de la clave privada `age`:** vive solo en el gestor de contraseñas de Carlos. Si pierde el acceso a ese gestor, las copias cifradas no se pueden leer. Depende de que el gestor tenga su propia sincronización o copia y su método de recuperación.
 - **Compromiso total del VPS:** quien tenga control del servidor tiene la lista viva. Las copias en B2 siguen protegidas.
 
 ## Preguntas abiertas para Carlos
 
-1. ¿Qué plan tiene el correo de Hostinger (Business Starter, Standard, Premium o prueba gratuita)? Define el ritmo de envío y si conviene mejorar el plan antes de lanzar.
-2. ¿Dónde guardarás la clave privada `age`: gestor de contraseñas, USB o los dos?
+1. ¿El correo gratuito es una **prueba** con fecha de vencimiento (de 30 días o de 1 año) o un plan gratuito sin vencimiento? Se ve en hPanel → Correos. Si vence, hay que decidir antes de lanzar si se pasa a Business Starter.
+
+Resueltas el 11 de octubre de 2026: plan de correo gratuito (100 al día); clave privada `age` en el gestor de contraseñas.
