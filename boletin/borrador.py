@@ -42,7 +42,10 @@ def parse_front_matter(text: str) -> dict:
 
 def build_html(meta: dict, site_url: str) -> str:
     url = f"{site_url}/blog/{quote(meta['slug'])}"
-    image = meta.get("image")
+    # Gmail y Outlook no muestran SVG: se usa la imagen para redes (PNG) y, si
+    # no hay, la ilustración solo cuando no es SVG.
+    image = next((x for x in (meta.get("ogImage"), meta.get("image"))
+                  if x and not x.lower().endswith(".svg")), None)
     img = ""
     if image:
         src = image if image.startswith("http") else site_url + image

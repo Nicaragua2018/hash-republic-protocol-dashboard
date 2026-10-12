@@ -38,6 +38,26 @@ class PureTest(unittest.TestCase):
         self.assertIn("Una idea &amp; una pregunta &lt;importante&gt;", html)
 
 
+class ImagenesCorreoTest(unittest.TestCase):
+    """Gmail y Outlook no muestran SVG: en el correo solo van PNG o JPG."""
+
+    def test_usa_og_image_png_en_vez_de_svg(self):
+        meta = {"slug": "a", "title": "T", "dek": "D", "image": "/ilustracion.svg", "ogImage": "/og-a.png"}
+        html = borrador.build_html(meta, "https://opencivicsolutions.org")
+        self.assertIn('src="https://opencivicsolutions.org/og-a.png"', html)
+        self.assertNotIn(".svg", html)
+
+    def test_solo_svg_sin_og_image_no_pone_imagen(self):
+        meta = {"slug": "a", "title": "T", "dek": "D", "image": "/ilustracion.svg"}
+        self.assertNotIn("<img", borrador.build_html(meta, "https://opencivicsolutions.org"))
+
+    def test_plantilla_sin_svg(self):
+        import os
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "plantilla-correo.html"),
+                  encoding="utf-8") as f:
+            self.assertNotIn(".svg", f.read())
+
+
 class FakeAPI:
     def __init__(self):
         self.campaigns, self.tests = [], []
