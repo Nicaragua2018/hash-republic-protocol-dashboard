@@ -26,3 +26,4 @@ dist-ssr
 
 # Token del Listmonk local de pruebas (boletin/local)
 boletin/local/.token.env
+__pycache__/
