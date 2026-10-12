@@ -2391,10 +2391,12 @@ Expected: `respaldo ok: listmonk-….sql.gz.age` y `subido: listmonk-…`. En la
 for p in /api/public/subscription; do curl -s -o /dev/null -w "$p %{http_code}\n" -X POST -d '{}' https://boletin.opencivicsolutions.org$p; done
 curl -s -o /dev/null -w "form %{http_code}\n" -X POST -d 'email=a@b.org' https://boletin.opencivicsolutions.org/subscription/form
 curl -s -o /dev/null -w "token %{http_code}\n" -H "Authorization: token borradores:x" https://boletin.opencivicsolutions.org/api/campaigns
+curl -s -o /dev/null -w "basic %{http_code}\n" -H "Authorization: Basic Ym9ycmFkb3Jlczp4" https://boletin.opencivicsolutions.org/api/campaigns
+curl -s -o /dev/null -w "sin-espacio %{http_code}\n" -H "Authorization: tokenborradores:x" https://boletin.opencivicsolutions.org/api/campaigns
 curl -s -o /dev/null -w "portero %{http_code}\n" -X POST -d 'email=a@b.org' https://opencivicsolutions.org/boletin/suscribir
 ```
 
-Expected: `403`, `403`, `403` y `303`.
+Expected: `403`, `403`, `403`, `403`, `403` y `303`.
 
 Luego:
 
