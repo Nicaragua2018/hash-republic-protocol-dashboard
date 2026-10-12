@@ -23,7 +23,12 @@ USER_ROLE = "borradores"
 LIST_ROLE = "solo-revision"
 
 
-def smtp_entry(current: list[dict], local: bool) -> dict:
+# El plan de correo de Hostinger solo permite un buzón: el boletín sale del
+# que ya existe. Se cambia con BOLETIN_REMITENTE si algún día hay otro.
+REMITENTE = os.environ.get("BOLETIN_REMITENTE", "info@opencivicsolutions.org")
+
+
+def smtp_entry(current: list[dict], local: bool, sender: str = REMITENTE) -> dict:
     """La única entrada SMTP: Hostinger o, en la pila local, Mailpit.
 
     La contraseña NO va aquí: Carlos la escribe en el panel. Con password vacío
@@ -36,7 +41,7 @@ def smtp_entry(current: list[dict], local: bool) -> dict:
                   "tls_type": "none", "tls_skip_verify": True}
     else:
         server = {"host": "smtp.hostinger.com", "port": 465, "auth_protocol": "login",
-                  "username": "boletin@opencivicsolutions.org", "tls_type": "TLS", "tls_skip_verify": False}
+                  "username": sender, "tls_type": "TLS", "tls_skip_verify": False}
     same = [x for x in current if x.get("host") == server["host"]]
     if same:
         base = same[0]
@@ -63,13 +68,13 @@ def configure_settings(lm: Client, root_url: str) -> None:
     s.update({
         "app.root_url": root_url,
         "app.lang": "es",
-        "app.from_email": "OpenCivic Solutions <boletin@opencivicsolutions.org>",
+        "app.from_email": f"OpenCivic Solutions <{REMITENTE}>",
         "app.notify_emails": [REVIEW_EMAIL],
         "app.enable_public_subscription_page": True,
         "app.send_optin_confirmation": True,
         "app.message_sliding_window": True,
         "app.message_sliding_window_duration": "24h",
-        "app.message_sliding_window_rate": 70,
+        "app.message_sliding_window_rate": 60,
         "privacy.disable_tracking": True,
         "privacy.individual_tracking": False,
         "privacy.record_optin_ip": False,

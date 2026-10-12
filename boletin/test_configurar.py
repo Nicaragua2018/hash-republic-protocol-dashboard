@@ -28,6 +28,15 @@ class SmtpEntryTest(unittest.TestCase):
         self.assertEqual(entry["password"], "")
         self.assertTrue(entry["msg_retry_delay"])
 
+    def test_remitente_es_el_buzon_existente_por_defecto(self):
+        # El plan de correo solo permite un buzón: el boletín sale de info@.
+        entry = configurar.smtp_entry([DEFAULT_SMTP], local=False)
+        self.assertEqual(entry["username"], "info@opencivicsolutions.org")
+
+    def test_remitente_configurable(self):
+        entry = configurar.smtp_entry([DEFAULT_SMTP], local=False, sender="boletin@opencivicsolutions.org")
+        self.assertEqual(entry["username"], "boletin@opencivicsolutions.org")
+
     def test_reutiliza_el_uuid_de_la_misma_entrada(self):
         # Con el mismo uuid y la contraseña vacía, Listmonk conserva la que
         # Carlos escribió en el panel.
