@@ -25,6 +25,14 @@ const posts = sortPosts(
     .map((f) => parsePost(readFileSync(join(postsDir, f), 'utf8'), f))
 );
 
+// Un artículo no puede usar la URL de una página del sitio (por ejemplo
+// /blog/suscripcion): el prerender la pisaría sin avisar.
+for (const post of posts) {
+  if (PAGES[`/blog/${post.slug}`]) {
+    throw new Error(`prerender: el slug "${post.slug}" está reservado por una página del sitio`);
+  }
+}
+
 const template = readFileSync(join(distDir, 'index.html'), 'utf8');
 
 const escapeHtml = (s) =>

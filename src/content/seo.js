@@ -24,6 +24,10 @@ export const PAGES = {
     title: 'Blog y boletín — OpenCivic Solutions',
     description: 'Artículos e informes de OpenCivic Solutions, siempre con fuentes verificables.',
   },
+  '/blog/suscripcion': {
+    title: 'Revisa tu correo — Boletín de OpenCivic Solutions',
+    description: 'Confirma tu suscripción al boletín de OpenCivic Solutions desde el mensaje que te enviamos.',
+  },
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
     description: 'Hash Republic Protocol, BitCuant, Nicaragua Decide y la Guía de seguridad digital: los proyectos de OpenCivic Solutions.',

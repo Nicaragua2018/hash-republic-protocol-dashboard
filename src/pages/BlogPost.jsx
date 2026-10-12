@@ -6,6 +6,7 @@ import { getPostMeta } from '../content/seo';
 import ShareBar from '../components/ShareBar';
 import PinnedComments from '../components/PinnedComments';
 import Comments from '../components/Comments';
+import SuscripcionForm from '../components/SuscripcionForm';
 import NotFound from './NotFound';
 
 const formatDate = (iso) =>
@@ -139,6 +140,9 @@ export default function BlogPost() {
         <div className="oc-container oc-prose">
           <div style={{ marginBottom: 40 }}>
             <ShareBar label="Compartir este artículo" url={meta.url} text={post.title} />
+          </div>
+          <div style={{ marginBottom: 40 }}>
+            <SuscripcionForm />
           </div>
           <h2 id="comentarios" style={{ marginTop: 0 }}>Comentarios</h2>
           <p style={{ fontSize: '0.92rem' }}>
