@@ -10,6 +10,7 @@ instalación, antes de que Carlos active el doble factor.
 import os
 import sys
 import time
+from urllib.parse import quote
 
 from lmapi import Client, ListmonkError
 
@@ -99,6 +100,34 @@ def ensure_list(lm: Client, name: str, type_: str, optin: str) -> int:
     return created["id"]
 
 
+SAMPLE_LISTS = ("Default list", "Opt-in list")
+
+
+def sample_lists_to_delete(lists: list[dict]) -> list[int]:
+    """Listas de ejemplo que Listmonk crea al instalarse, solo si están vacías."""
+    return [x["id"] for x in lists if x["name"] in SAMPLE_LISTS and not x.get("subscriber_count")]
+
+
+# Las dos personas de ejemplo que Listmonk crea al instalarse.
+SAMPLE_SUBSCRIBERS = {("john@example.com", "John Doe"), ("anon@example.com", "Anon Doe")}
+
+
+def sample_subscriber_ids(subs: list[dict]) -> list[int]:
+    return [x["id"] for x in subs if (x["email"], x["name"]) in SAMPLE_SUBSCRIBERS]
+
+
+def remove_sample_lists(lm: Client) -> None:
+    emails = ",".join(f"'{e}'" for e, _ in SAMPLE_SUBSCRIBERS)
+    subs = lm.get("/api/subscribers?per_page=all&query=" + quote(f"subscribers.email IN ({emails})"))
+    for sub_id in sample_subscriber_ids(subs if isinstance(subs, list) else subs.get("results", [])):
+        lm.delete(f"/api/subscribers/{sub_id}")
+        print(f"suscriptor de ejemplo borrado: {sub_id}")
+    lists = lm.get("/api/lists?per_page=all")
+    for list_id in sample_lists_to_delete(lists if isinstance(lists, list) else lists.get("results", [])):
+        lm.delete(f"/api/lists/{list_id}")
+        print(f"lista de ejemplo borrada: {list_id}")
+
+
 def ensure_review_subscriber(lm: Client, review_id: int) -> None:
     status, out = lm.raw("POST", "/api/subscribers", {
         "email": REVIEW_EMAIL, "name": "Revisión OpenCivic", "status": "enabled",
@@ -156,6 +185,7 @@ def main() -> None:
     configure_settings(lm, os.environ["BOLETIN_ROOT_URL"])
     lm.wait_ready()  # Listmonk se reinicia al guardar los ajustes.
     lm.login(os.environ["BOLETIN_ADMIN_USER"], os.environ["BOLETIN_ADMIN_PASSWORD"])
+    remove_sample_lists(lm)
     ensure_list(lm, BLOG_LIST, "public", "double")
     review_id = ensure_list(lm, REVIEW_LIST, "private", "single")
     ensure_review_subscriber(lm, review_id)

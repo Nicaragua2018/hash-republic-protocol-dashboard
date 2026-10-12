@@ -40,5 +40,30 @@ class SmtpEntryTest(unittest.TestCase):
         self.assertEqual(entry["idle_timeout"], "15s")
 
 
+class ListasDeEjemploTest(unittest.TestCase):
+    def test_borra_solo_las_de_ejemplo_vacias(self):
+        lists = [
+            {"id": 1, "name": "Default list", "subscriber_count": 0},
+            {"id": 2, "name": "Opt-in list", "subscriber_count": 0},
+            {"id": 3, "name": "Blog OpenCivic", "subscriber_count": 0},
+            {"id": 4, "name": "Revisión", "subscriber_count": 1},
+        ]
+        self.assertEqual(configurar.sample_lists_to_delete(lists), [1, 2])
+
+    def test_no_borra_una_de_ejemplo_con_suscriptores(self):
+        lists = [{"id": 1, "name": "Default list", "subscriber_count": 3}]
+        self.assertEqual(configurar.sample_lists_to_delete(lists), [])
+
+
+    def test_suscriptores_de_ejemplo_por_correo_y_nombre_exactos(self):
+        subs = [
+            {"id": 1, "email": "john@example.com", "name": "John Doe"},
+            {"id": 2, "email": "anon@example.com", "name": "Anon Doe"},
+            {"id": 3, "email": "john@example.com", "name": "Otra persona"},
+            {"id": 4, "email": "ana@ejemplo.org", "name": "Ana"},
+        ]
+        self.assertEqual(configurar.sample_subscriber_ids(subs), [1, 2])
+
+
 if __name__ == "__main__":
     unittest.main()
