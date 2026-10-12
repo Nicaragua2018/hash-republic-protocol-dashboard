@@ -27,6 +27,8 @@ export const PAGES = {
   '/blog/suscripcion': {
     title: 'Revisa tu correo — Boletín de OpenCivic Solutions',
     description: 'Confirma tu suscripción al boletín de OpenCivic Solutions desde el mensaje que te enviamos.',
+    // Página de respuesta del formulario: no se indexa ni va en sitemap.xml.
+    noindex: true,
   },
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
@@ -54,6 +56,7 @@ export function getPageMeta(pathname) {
     description: page.description,
     image: page.image || DEFAULT_IMAGE,
     url: SITE_URL + pathname,
+    noindex: Boolean(page.noindex),
   };
 }
 

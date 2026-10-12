@@ -111,7 +111,9 @@ writeFileSync(
 
 // sitemap.xml
 const urls = [
-  ...Object.keys(PAGES).map((p) => ({ loc: SITE_URL + p })),
+  ...Object.keys(PAGES)
+    .filter((p) => !PAGES[p].noindex)
+    .map((p) => ({ loc: SITE_URL + p })),
   ...posts.map((p) => ({ loc: `${SITE_URL}/blog/${p.slug}`, lastmod: p.date })),
 ];
 writeFileSync(
