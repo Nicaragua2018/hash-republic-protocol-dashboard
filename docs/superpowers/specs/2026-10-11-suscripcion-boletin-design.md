@@ -9,40 +9,41 @@ Que cualquier persona pueda dejar su correo en el blog, confirmar que es suyo y 
 **Ningún correo a la lista sale sin la aprobación de Carlos, aunque se filtre una credencial del sistema.**
 
 Como parte de los lectores pueden estar en el exilio o en riesgo:
+
 - la lista de suscriptores es un dato sensible y se guarda en el servidor de OpenCivic, no en un servicio de terceros;
 - **nadie debe poder averiguar, desde fuera, si un correo está en la lista**.
 
 ## Decisiones tomadas
 
-| Tema | Decisión | Origen |
-|---|---|---|
-| Dónde vive la lista | Listmonk 6.2 autoalojado en el VPS | Carlos |
-| Correos por artículo | Se genera un borrador solo; Carlos lo autoriza | Carlos |
-| Boletines propios | Sí, escritos por Carlos en Listmonk | Carlos |
-| Envío | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org` | Diseño v1 |
-| Panel | `boletin.opencivicsolutions.org` | Diseño v1 |
-| Datos que se piden | Solo el correo | Diseño v1 |
-| Rastreo | Ninguno: ni aperturas ni clics | Diseño v1 |
-| Entrada pública | Un "portero" propio delante de Listmonk (ver abajo) | Revisión v2 |
-| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk | Revisión v2 |
-| Copias | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2 | Revisión v2 |
+| Tema                     | Decisión                                                                                       | Origen      |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | ----------- |
+| Dónde vive la lista      | Listmonk 6.2 autoalojado en el VPS                                                             | Carlos      |
+| Correos por artículo     | Se genera un borrador solo; Carlos lo autoriza                                                 | Carlos      |
+| Boletines propios        | Sí, escritos por Carlos en Listmonk                                                            | Carlos      |
+| Envío                    | SMTP del correo de Hostinger, buzón `boletin@opencivicsolutions.org`                           | Diseño v1   |
+| Panel                    | `boletin.opencivicsolutions.org`                                                               | Diseño v1   |
+| Datos que se piden       | Solo el correo                                                                                 | Diseño v1   |
+| Rastreo                  | Ninguno: ni aperturas ni clics                                                                 | Diseño v1   |
+| Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                            | Revisión v2 |
+| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                              | Revisión v2 |
+| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2 | Revisión v2 |
 
 ## Lo que se verificó antes de escribir esta versión
 
 Todo lo siguiente se comprobó en el código de Listmonk **v6.2.0** (commit `ef0a758`) y con una instancia local de Listmonk 6.2, PostgreSQL 17 y Mailpit, el 11 de octubre de 2026.
 
-| Pregunta | Resultado |
-|---|---|
-| ¿ALTCHA protege todas las vías de suscripción? | **No.** Solo `POST /subscription/form`. `POST /api/public/subscription` no comprueba el captcha (`cmd/public.go`). |
-| ¿Listmonk limita los correos de confirmación por destinatario? | **No.** Si el correo ya existe, vuelve a enviar la confirmación en cada envío del formulario (`UpdateSubscriberWithLists` → `SendOptinConfirmation`). Prueba: 5 envíos seguidos al mismo correo produjeron **5 correos**. |
-| ¿Traefik puede limitar por correo destino? | **No.** Su `ratelimit` agrupa por IP, por cabecera o por host, nunca por un campo del cuerpo del formulario. |
-| ¿La respuesta revela si alguien ya está suscrito? | **Sí**, sin el parámetro `next`. Un correo nuevo, o uno sin confirmar o dado de baja, recibe "Se le ha enviado un correo…". Uno **ya confirmado** o **bloqueado** recibe "Suscrito correctamente". |
-| ¿Y con un `next` de confianza? | Todas las situaciones responden igual (303 a la misma URL). Solo un correo con formato inválido responde 400, y eso no depende de la lista. |
-| ¿Hay diferencia de tiempo de respuesta? | En local no (mediana de 175 ms frente a 185 ms), pero el aviso se envía con `Push` al mensajero de correo. Con el SMTP real de Hostinger no está medido; el diseño lo neutraliza igualmente (ver "Portero"). |
-| ¿Un rol puede crear campañas sin poder enviarlas? | **Sí.** Pasar una campaña a "running" o "scheduled" exige `campaigns:send` (`PUT /api/campaigns/:id/status`). Pero `campaigns:manage` permite **enviar "pruebas"** con asunto, remitente y contenido libres a cualquier suscriptor de las listas a las que el rol tiene acceso. Por eso el rol por sí solo no basta. |
-| ¿Listmonk limita los intentos de inicio de sesión? | **No** hay bloqueo ni límite en `/admin/login`. |
-| ¿Tiene doble factor y OIDC? | **Sí, los dos.** TOTP (`/admin/login/twofa`, librería `pquerna/otp`) y OIDC (`/auth/oidc`). |
-| ¿Hostinger permite boletines desde el buzón? | **Sí**, si los suscriptores dieron su consentimiento expreso, hay enlace de baja y se respetan los límites. Puede bloquear buzones que no lo cumplan ([política](https://www.hostinger.com/support/1583510-can-i-send-newsletters)). |
+| Pregunta                                                       | Resultado                                                                                                                                                                                                                                                                                                            |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ¿ALTCHA protege todas las vías de suscripción?                 | **No.** Solo `POST /subscription/form`. `POST /api/public/subscription` no comprueba el captcha (`cmd/public.go`).                                                                                                                                                                                                   |
+| ¿Listmonk limita los correos de confirmación por destinatario? | **No.** Si el correo ya existe, vuelve a enviar la confirmación en cada envío del formulario (`UpdateSubscriberWithLists` → `SendOptinConfirmation`). Prueba: 5 envíos seguidos al mismo correo produjeron **5 correos**.                                                                                            |
+| ¿Traefik puede limitar por correo destino?                     | **No.** Su `ratelimit` agrupa por IP, por cabecera o por host, nunca por un campo del cuerpo del formulario.                                                                                                                                                                                                         |
+| ¿La respuesta revela si alguien ya está suscrito?              | **Sí**, sin el parámetro `next`. Un correo nuevo, o uno sin confirmar o dado de baja, recibe "Se le ha enviado un correo…". Uno **ya confirmado** o **bloqueado** recibe "Suscrito correctamente".                                                                                                                   |
+| ¿Y con un `next` de confianza?                                 | Todas las situaciones responden igual (303 a la misma URL). Solo un correo con formato inválido responde 400, y eso no depende de la lista.                                                                                                                                                                          |
+| ¿Hay diferencia de tiempo de respuesta?                        | En local no (mediana de 175 ms frente a 185 ms), pero el aviso se envía con `Push` al mensajero de correo. Con el SMTP real de Hostinger no está medido; el diseño lo neutraliza igualmente (ver "Portero").                                                                                                         |
+| ¿Un rol puede crear campañas sin poder enviarlas?              | **Sí.** Pasar una campaña a "running" o "scheduled" exige `campaigns:send` (`PUT /api/campaigns/:id/status`). Pero `campaigns:manage` permite **enviar "pruebas"** con asunto, remitente y contenido libres a cualquier suscriptor de las listas a las que el rol tiene acceso. Por eso el rol por sí solo no basta. |
+| ¿Listmonk limita los intentos de inicio de sesión?             | **No** hay bloqueo ni límite en `/admin/login`.                                                                                                                                                                                                                                                                      |
+| ¿Tiene doble factor y OIDC?                                    | **Sí, los dos.** TOTP (`/admin/login/twofa`, librería `pquerna/otp`) y OIDC (`/auth/oidc`).                                                                                                                                                                                                                          |
+| ¿Hostinger permite boletines desde el buzón?                   | **Sí**, si los suscriptores dieron su consentimiento expreso, hay enlace de baja y se respetan los límites. Puede bloquear buzones que no lo cumplan ([política](https://www.hostinger.com/support/1583510-can-i-send-newsletters)).                                                                                 |
 
 ## Arquitectura
 
@@ -109,6 +110,7 @@ Corrección respecto a la versión anterior: el límite de Traefik es **por IP**
 - Cualquier petición a `/api/*` con cabecera `Authorization: token …`: los tokens de API solo sirven dentro del servidor.
 
 Siguen accesibles:
+
 - `/subscription/optin/*`, `/subscription/*` (preferencias y baja) y `/campaign/*` (ver el correo en el navegador);
 - `/uploads`;
 - `/admin` y la API con sesión del navegador, para el panel.
@@ -129,6 +131,7 @@ GitHub Actions **no guarda ninguna credencial de Listmonk**. El despliegue ya fu
 - Acceso a listas: **solo** a la lista privada **"Revisión"**, cuyo único suscriptor es `info@opencivicsolutions.org`. **Ningún acceso** a "Blog OpenCivic".
 
 Consecuencias:
+
 - El borrador se crea dirigido a "Revisión". Para enviarlo, Carlos cambia la lista a **"Blog OpenCivic"** en el panel y pulsa Enviar. Es un clic más, y es justamente la aprobación.
 - Si el token se filtrara, solo podría crear borradores y enviar "pruebas" a `info@`:
   - no puede iniciar campañas (le falta `campaigns:send`);
@@ -185,12 +188,12 @@ Carlos crea una campaña en el panel con la plantilla de la marca, elige la list
 
 - **Límite de Hostinger**: depende del plan del buzón ([límites](https://www.hostinger.com/support/4625828-parameters-and-limits-of-hostinger-email/)), con un máximo de 100 destinatarios por mensaje. Listmonk envía uno por suscriptor, así que esto no afecta. El límite diario se cuenta en 24 horas móviles:
 
-  | Plan | Correos por día |
-  |---|---|
-  | Business Starter | 1.000 |
-  | Business Standard | 3.000 |
-  | Business Premium | 3.000 |
-  | Prueba gratuita | **100** |
+  | Plan              | Correos por día |
+  | ----------------- | --------------- |
+  | Business Starter  | 1.000           |
+  | Business Standard | 3.000           |
+  | Business Premium  | 3.000           |
+  | Prueba gratuita   | **100**         |
 
 - Listmonk se configura con un ritmo de envío por debajo del límite del plan. Si una campaña supera el cupo diario, se reparte en varios días.
 - **DMARC**:
@@ -221,6 +224,7 @@ Carlos crea una campaña en el panel con la plantilla de la marca, elige la list
 Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit antes de tocar producción.
 
 **Suscripción y límite por destinatario (punto 1)**
+
 - Suscribirse, confirmar y darse de baja funciona de principio a fin.
 - 5 envíos al mismo correo, desde 5 IPs distintas y con ALTCHA válido: **exactamente 1** correo en Mailpit en 24 horas.
 - Envíos sin ALTCHA o con ALTCHA inválido: **0** correos, y no gastan el cupo de esa dirección (luego un envío válido sí llega).
@@ -228,6 +232,7 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 - 11 envíos en un minuto desde la misma IP: el número 11 recibe **429**.
 
 **Token de borradores (punto 2)**
+
 - Con el token `borradores`, dentro de la red interna:
   - crear un borrador para "Revisión": funciona;
   - `PUT /api/campaigns/:id/status` a `running` o `scheduled`: **403**;
@@ -238,16 +243,19 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 - Ejecutar dos veces el script con el mismo artículo: **un único** borrador.
 
 **Enumeración (punto 5)**
+
 - A través del portero, comparar un correo nuevo, uno sin confirmar, uno confirmado, uno dado de baja, uno bloqueado y uno inválido: **mismo código (303), mismo destino y mismo cuerpo**.
 - Mediana de tiempo de respuesta de 20 envíos por caso: diferencia entre casos **menor a 20 ms**.
 - `POST /api/public/subscription` y `POST /subscription/form` desde fuera: **403**.
 
 **Panel y copias**
+
 - 6 intentos de login en un minuto desde la misma IP: el número 6 recibe **429**.
 - Con TOTP activado, entrar sin código falla.
 - La copia diaria aparece en el VPS y en B2. Con la llave del VPS, leer o borrar en B2 falla. Carlos descifra la copia en su PC y se restaura bien.
 
 **En producción, antes de anunciarlo**
+
 - Carlos se suscribe con su propio correo y comprueba que la confirmación no cae en spam.
 - Se repite el caso de enumeración contra el SMTP real de Hostinger.
 
