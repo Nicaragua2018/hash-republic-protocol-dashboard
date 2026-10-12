@@ -27,13 +27,17 @@ console.log('[HRP] Domain:', session.domain);
 console.log('[HRP] Anchor providers:', session.anchors.join(', '));`,
     logs: [
       { t: 100, msg: '[HRP SDK v0.3.0] Loading protocol configuration...', type: 'info' },
-      { t: 280, msg: '[HRP] Validating domain schema: municipio.presupuesto-participativo ✓', type: 'success' },
+      {
+        t: 280,
+        msg: '[HRP] Validating domain schema: municipio.presupuesto-participativo ✓',
+        type: 'success',
+      },
       { t: 450, msg: '[HRP] Registering anchor provider: opentimestamps', type: 'info' },
       { t: 620, msg: '[HRP] Registering anchor provider: bitcoin-op-return', type: 'info' },
       { t: 820, msg: '[HRP] Session initialized: sess_7f3a8b2c9e1d4f06', type: 'success' },
       { t: 900, msg: '[HRP] Domain: municipio.presupuesto-participativo', type: 'log' },
       { t: 980, msg: '[HRP] Anchor providers: opentimestamps, bitcoin-op-return', type: 'log' },
-    ]
+    ],
   },
   {
     id: 'reputation',
@@ -68,7 +72,7 @@ console.log('[Reputation] Snapshot hash:', alice.snapshot_hash);`,
       { t: 870, msg: '[Reputation] Raw Score: 115.2', type: 'log' },
       { t: 1000, msg: '[Reputation] Multiplier: 1.300× (⚠️ Cap reached — clamped)', type: 'warning' },
       { t: 1100, msg: '[Reputation] Snapshot hash: sha256:a1b2c3d4...', type: 'success' },
-    ]
+    ],
   },
   {
     id: 'canonical',
@@ -104,7 +108,7 @@ console.log('[Canonical] Deterministic:', report.deterministic);`,
       { t: 900, msg: '[Canonical] Computing SHA-256...', type: 'info' },
       { t: 1050, msg: '[Canonical] Report hash: sha256:f7a93ec8b2d14a0c...', type: 'success' },
       { t: 1150, msg: '[Canonical] Deterministic: true ✓', type: 'success' },
-    ]
+    ],
   },
   {
     id: 'timestamp',
@@ -134,14 +138,18 @@ print(f"[BTC] Status: pending mempool confirmation")`,
       { t: 120, msg: '[HRP SDK] Loading anchoring module...', type: 'info' },
       { t: 280, msg: '[OTS] Connecting to OpenTimestamps calendar server...', type: 'info' },
       { t: 460, msg: '[OTS] Submitting hash: sha256:f7a93ec8b2d14a0c...', type: 'info' },
-      { t: 640, msg: '[OTS] Calendar timestamp: https://alice.btc.calendar.opentimestamps.org', type: 'success' },
+      {
+        t: 640,
+        msg: '[OTS] Calendar timestamp: https://alice.btc.calendar.opentimestamps.org',
+        type: 'success',
+      },
       { t: 820, msg: '[OTS] Pending confirmation in Bitcoin block #842107', type: 'log' },
       { t: 980, msg: '[OTS] Proof file saved: ./proofs/f7a93ec8.ots', type: 'success' },
       { t: 1100, msg: '[BTC] Broadcasting OP_RETURN transaction (fee: 5 sat/vB)...', type: 'info' },
       { t: 1280, msg: '[BTC] TXID: d8c47f8b9e0231aa3b4c5d6e7f8a9c0b1122334455', type: 'success' },
       { t: 1400, msg: '[BTC] Status: pending mempool confirmation (~10 min)', type: 'warning' },
-    ]
-  }
+    ],
+  },
 ];
 
 // ─── Component ──────────────────────────────────────────────────────────
@@ -151,6 +159,17 @@ export default function SdkPlayground() {
   const [logs, setLogs] = useState([]);
   const [done, setDone] = useState(false);
   const logEndRef = useRef(null);
+  // Pending log timers of the current run, so switching snippets or leaving
+  // the tab stops a run instead of letting its lines land in the next one.
+  const timersRef = useRef([]);
+
+  const stopRun = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setRunning(false);
+  };
+
+  useEffect(() => () => timersRef.current.forEach(clearTimeout), []);
 
   useEffect(() => {
     if (logEndRef.current) {
@@ -159,6 +178,7 @@ export default function SdkPlayground() {
   }, [logs]);
 
   const runSnippet = () => {
+    stopRun();
     setRunning(true);
     setDone(false);
     setLogs([]);
@@ -166,19 +186,20 @@ export default function SdkPlayground() {
     const snippet = activeSnippet;
     let completed = 0;
 
-    snippet.logs.forEach((entry) => {
+    timersRef.current = snippet.logs.map((entry) =>
       setTimeout(() => {
-        setLogs(prev => [...prev, { ...entry, ts: new Date().toLocaleTimeString() }]);
+        setLogs((prev) => [...prev, { ...entry, ts: new Date().toLocaleTimeString() }]);
         completed++;
         if (completed === snippet.logs.length) {
           setRunning(false);
           setDone(true);
         }
-      }, entry.t);
-    });
+      }, entry.t)
+    );
   };
 
   const clearLogs = () => {
+    stopRun();
     setLogs([]);
     setDone(false);
   };
@@ -188,38 +209,53 @@ export default function SdkPlayground() {
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-
       {/* Header */}
       <div style={{ textAlign: 'left' }}>
         <h1 style={{ margin: 0, fontSize: '2.2rem' }}>SDK Playground</h1>
         <p style={{ fontSize: '1.05rem', maxWidth: '820px', marginTop: '8px' }}>
-          Explora la API del Hash Republic Protocol con ejemplos de código reales. Selecciona un snippet, ejecútalo y observa los logs simulados de cada módulo del protocolo.
+          Explora la API del Hash Republic Protocol con ejemplos de código reales. Selecciona un snippet,
+          ejecútalo y observa los logs simulados de cada módulo del protocolo.
         </p>
         <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
           <span className="badge badge-info">JavaScript</span>
           <span className="badge badge-success">Python</span>
-          <span className="badge" style={{ background: 'rgba(167,139,250,0.1)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }}>@opencivic/hrp-sdk v0.3</span>
+          <span
+            className="badge"
+            style={{
+              background: 'rgba(167,139,250,0.1)',
+              color: '#a78bfa',
+              border: '1px solid rgba(167,139,250,0.3)',
+            }}
+          >
+            @opencivic/hrp-sdk v0.3
+          </span>
         </div>
       </div>
 
       {/* Snippet tabs */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        {snippets.map(s => (
+        {snippets.map((s) => (
           <button
             key={s.id}
             id={`snippet-tab-${s.id}`}
-            onClick={() => { setActiveSnippet(s); clearLogs(); }}
+            onClick={() => {
+              setActiveSnippet(s);
+              clearLogs();
+            }}
             style={{
               padding: '8px 16px',
               borderRadius: '8px',
               background: activeSnippet.id === s.id ? 'rgba(56,189,248,0.1)' : 'rgba(31,41,55,0.5)',
-              border: activeSnippet.id === s.id ? '1px solid rgba(56,189,248,0.4)' : '1px solid var(--border-color)',
+              border:
+                activeSnippet.id === s.id
+                  ? '1px solid rgba(56,189,248,0.4)'
+                  : '1px solid var(--border-color)',
               color: activeSnippet.id === s.id ? 'var(--color-accent)' : 'var(--text-secondary)',
               cursor: 'pointer',
               fontFamily: 'var(--font-display)',
               fontSize: '0.825rem',
               fontWeight: activeSnippet.id === s.id ? '600' : '400',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
             }}
           >
             {s.label}
@@ -229,66 +265,85 @@ export default function SdkPlayground() {
 
       {/* Main playground layout */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
-
         {/* Code Editor area */}
         <div className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
           {/* Editor top bar */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '12px 20px',
-            background: 'rgba(0,0,0,0.3)',
-            borderBottom: '1px solid var(--border-color)'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '12px 20px',
+              background: 'rgba(0,0,0,0.3)',
+              borderBottom: '1px solid var(--border-color)',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {/* macOS-style traffic lights */}
               {['#ef4444', '#f59e0b', '#10b981'].map((c, i) => (
-                <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c, opacity: 0.7 }} />
+                <div
+                  key={i}
+                  style={{ width: '10px', height: '10px', borderRadius: '50%', background: c, opacity: 0.7 }}
+                />
               ))}
-              <span style={{ fontSize: '0.825rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginLeft: '8px' }}>
+              <span
+                style={{
+                  fontSize: '0.825rem',
+                  color: 'var(--text-muted)',
+                  fontFamily: 'monospace',
+                  marginLeft: '8px',
+                }}
+              >
                 {activeSnippet.id}.{activeSnippet.lang === 'python' ? 'py' : 'js'}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="badge" style={{
-                background: activeSnippet.lang === 'python' ? 'rgba(59,130,246,0.1)' : 'rgba(245,158,11,0.1)',
-                color: activeSnippet.lang === 'python' ? '#60a5fa' : '#f59e0b',
-                border: `1px solid ${activeSnippet.lang === 'python' ? 'rgba(59,130,246,0.3)' : 'rgba(245,158,11,0.3)'}`,
-                fontSize: '0.7rem'
-              }}>
+              <span
+                className="badge"
+                style={{
+                  background:
+                    activeSnippet.lang === 'python' ? 'rgba(59,130,246,0.1)' : 'rgba(245,158,11,0.1)',
+                  color: activeSnippet.lang === 'python' ? '#60a5fa' : '#f59e0b',
+                  border: `1px solid ${activeSnippet.lang === 'python' ? 'rgba(59,130,246,0.3)' : 'rgba(245,158,11,0.3)'}`,
+                  fontSize: '0.7rem',
+                }}
+              >
                 {activeSnippet.lang === 'python' ? 'Python 3.12' : 'ES2025'}
               </span>
             </div>
           </div>
 
           {/* Code display */}
-          <pre style={{
-            margin: 0,
-            padding: '24px',
-            fontFamily: "'Fira Code', 'Cascadia Code', monospace",
-            fontSize: '0.875rem',
-            lineHeight: '1.7',
-            color: '#e2e8f0',
-            background: 'rgba(0,0,0,0.2)',
-            overflowX: 'auto',
-            whiteSpace: 'pre',
-            minHeight: '280px'
-          }}>
+          <pre
+            style={{
+              margin: 0,
+              padding: '24px',
+              fontFamily: "'Fira Code', 'Cascadia Code', monospace",
+              fontSize: '0.875rem',
+              lineHeight: '1.7',
+              color: '#e2e8f0',
+              background: 'rgba(0,0,0,0.2)',
+              overflowX: 'auto',
+              whiteSpace: 'pre',
+              minHeight: '280px',
+            }}
+          >
             <code>{activeSnippet.code}</code>
           </pre>
 
           {/* Run button bar */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '12px 20px',
-            background: 'rgba(0,0,0,0.3)',
-            borderTop: '1px solid var(--border-color)',
-            flexWrap: 'wrap',
-            gap: '8px'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '12px 20px',
+              background: 'rgba(0,0,0,0.3)',
+              borderTop: '1px solid var(--border-color)',
+              flexWrap: 'wrap',
+              gap: '8px',
+            }}
+          >
             <span style={{ fontSize: '0.825rem', color: 'var(--text-muted)' }}>{activeSnippet.desc}</span>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
@@ -309,14 +364,22 @@ export default function SdkPlayground() {
               >
                 {running ? (
                   <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{
-                      display: 'inline-block', width: '12px', height: '12px',
-                      border: '2px solid rgba(0,0,0,0.3)', borderTopColor: '#030712',
-                      borderRadius: '50%', animation: 'spin 0.8s linear infinite'
-                    }} />
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        width: '12px',
+                        height: '12px',
+                        border: '2px solid rgba(0,0,0,0.3)',
+                        borderTopColor: '#030712',
+                        borderRadius: '50%',
+                        animation: 'spin 0.8s linear infinite',
+                      }}
+                    />
                     Ejecutando...
                   </span>
-                ) : '▶ Ejecutar'}
+                ) : (
+                  '▶ Ejecutar'
+                )}
               </button>
             </div>
           </div>
@@ -325,45 +388,90 @@ export default function SdkPlayground() {
         {/* Terminal Output */}
         <div className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
           {/* Terminal header */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            padding: '10px 16px',
-            background: 'rgba(0,0,0,0.4)',
-            borderBottom: '1px solid var(--border-color)'
-          }}>
-            <svg width="14" height="14" fill="none" stroke="var(--text-muted)" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '10px 16px',
+              background: 'rgba(0,0,0,0.4)',
+              borderBottom: '1px solid var(--border-color)',
+            }}
+          >
+            <svg
+              width="14"
+              height="14"
+              fill="none"
+              stroke="var(--text-muted)"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
             </svg>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>HRP Console Output</span>
-            {done && <span className="badge badge-success" style={{ marginLeft: 'auto', fontSize: '0.7rem' }}>Ejecución completada</span>}
-            {running && <span className="badge badge-info" style={{ marginLeft: 'auto', fontSize: '0.7rem' }}>Ejecutando...</span>}
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+              HRP Console Output
+            </span>
+            {done && (
+              <span className="badge badge-success" style={{ marginLeft: 'auto', fontSize: '0.7rem' }}>
+                Ejecución completada
+              </span>
+            )}
+            {running && (
+              <span className="badge badge-info" style={{ marginLeft: 'auto', fontSize: '0.7rem' }}>
+                Ejecutando...
+              </span>
+            )}
           </div>
 
           {/* Log entries */}
-          <div style={{
-            minHeight: '200px',
-            maxHeight: '300px',
-            overflowY: 'auto',
-            padding: '16px',
-            fontFamily: "'Fira Code', 'Cascadia Code', monospace",
-            fontSize: '0.825rem',
-            background: 'rgba(0,0,0,0.3)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '6px'
-          }}>
+          <div
+            style={{
+              minHeight: '200px',
+              maxHeight: '300px',
+              overflowY: 'auto',
+              padding: '16px',
+              fontFamily: "'Fira Code', 'Cascadia Code', monospace",
+              fontSize: '0.825rem',
+              background: 'rgba(0,0,0,0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+            }}
+          >
             {logs.length === 0 && (
               <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                {running ? 'Inicializando entorno de ejecución...' : '// Presiona ▶ Ejecutar para ver los logs del protocolo'}
+                {running
+                  ? 'Inicializando entorno de ejecución...'
+                  : '// Presiona ▶ Ejecutar para ver los logs del protocolo'}
               </span>
             )}
             {logs.map((log, i) => (
-              <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', animation: 'fadeIn 0.2s ease' }}>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', flexShrink: 0, marginTop: '1px' }}>{log.ts}</span>
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  gap: '10px',
+                  alignItems: 'flex-start',
+                  animation: 'fadeIn 0.2s ease',
+                }}
+              >
+                <span
+                  style={{ color: 'var(--text-muted)', fontSize: '0.75rem', flexShrink: 0, marginTop: '1px' }}
+                >
+                  {log.ts}
+                </span>
                 <span style={{ color: logColors[log.type], flexShrink: 0 }}>{logPrefixes[log.type]}</span>
-                <span style={{ color: log.type === 'success' ? '#e2e8f0' : log.type === 'warning' ? '#fcd34d' : '#9ca3af', wordBreak: 'break-all' }}>
+                <span
+                  style={{
+                    color:
+                      log.type === 'success' ? '#e2e8f0' : log.type === 'warning' ? '#fcd34d' : '#9ca3af',
+                    wordBreak: 'break-all',
+                  }}
+                >
                   {log.msg}
                 </span>
               </div>

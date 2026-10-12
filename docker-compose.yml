@@ -61,7 +61,7 @@ services:
     volumes:
       - boletin-db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U listmonk"]
+      test: ['CMD-SHELL', 'pg_isready -U listmonk']
       interval: 5s
       retries: 30
 
@@ -75,7 +75,7 @@ services:
     environment:
       LISTMONK_app__address: 0.0.0.0:9000
       LISTMONK_db__host: boletin-db
-      LISTMONK_db__port: "5432"
+      LISTMONK_db__port: '5432'
       LISTMONK_db__user: listmonk
       LISTMONK_db__password: ${BOLETIN_DB_PASSWORD:?falta BOLETIN_DB_PASSWORD en .env}
       LISTMONK_db__database: listmonk
@@ -152,7 +152,7 @@ services:
       BOLETIN_REDIRECT: /blog/suscripcion
       BOLETIN_GLOBAL_LIMIT: ${BOLETIN_GLOBAL_LIMIT:-20}
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/salud"]
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/salud']
       interval: 10s
       retries: 3
     labels:

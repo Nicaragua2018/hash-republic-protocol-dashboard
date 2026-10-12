@@ -2,22 +2,43 @@ import React, { useRef, useState, useEffect } from 'react';
 
 const SESSION_KEY = 'oc-intro-seen';
 
+// sessionStorage throws when the browser blocks site storage (for example
+// with "block all cookies"). Failing to remember the intro must never take
+// the whole page down, so both reads and writes are best-effort.
+const wasSeen = () => {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+
+const markSeen = () => {
+  try {
+    sessionStorage.setItem(SESSION_KEY, '1');
+  } catch {
+    // Without storage the intro simply plays again on the next visit.
+  }
+};
+
 export default function IntroSplash() {
   const videoRef = useRef(null);
-  const [phase, setPhase] = useState('hidden'); // hidden | playing | leaving | done
-
-  useEffect(() => {
-    const alreadySeen = sessionStorage.getItem(SESSION_KEY) === '1';
+  // Decided on the first render (this site only renders in the browser),
+  // so returning visitors never see a flash of the splash.
+  const [phase, setPhase] = useState(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return wasSeen() || reducedMotion ? 'done' : 'playing';
+  }); // playing | leaving | done
 
-    if (alreadySeen || reducedMotion) {
-      sessionStorage.setItem(SESSION_KEY, '1');
-      setPhase('done');
-      return;
-    }
+  const finish = () => {
+    setPhase('leaving');
+    window.setTimeout(() => setPhase('done'), 400);
+  };
 
-    setPhase('playing');
-  }, []);
+  // Skipped or finished, the intro does not play again in this session.
+  useEffect(() => {
+    if (phase === 'done') markSeen();
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== 'playing') return;
@@ -34,13 +55,7 @@ export default function IntroSplash() {
     });
   }, [phase]);
 
-  const finish = () => {
-    sessionStorage.setItem(SESSION_KEY, '1');
-    setPhase('leaving');
-    window.setTimeout(() => setPhase('done'), 400);
-  };
-
-  if (phase === 'hidden' || phase === 'done') return null;
+  if (phase === 'done') return null;
 
   return (
     <div

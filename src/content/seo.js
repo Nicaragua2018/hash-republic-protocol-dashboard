@@ -26,13 +26,15 @@ export const PAGES = {
   },
   '/blog/suscripcion': {
     title: 'Revisa tu correo — Boletín de OpenCivic Solutions',
-    description: 'Confirma tu suscripción al boletín de OpenCivic Solutions desde el mensaje que te enviamos.',
+    description:
+      'Confirma tu suscripción al boletín de OpenCivic Solutions desde el mensaje que te enviamos.',
     // Página de respuesta del formulario: no se indexa ni va en sitemap.xml.
     noindex: true,
   },
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
-    description: 'Hash Republic Protocol, BitCuant, Nicaragua Decide y la Guía de seguridad digital: los proyectos de OpenCivic Solutions.',
+    description:
+      'Hash Republic Protocol, BitCuant, Nicaragua Decide y la Guía de seguridad digital: los proyectos de OpenCivic Solutions.',
   },
   '/unirse': {
     title: 'Unirse — Cómo contribuir a OpenCivic Solutions',
@@ -44,7 +46,8 @@ export const PAGES = {
   },
   '/proyectos/hash-republic-protocol': {
     title: 'Hash Republic Protocol — Dashboard',
-    description: 'Observabilidad del consenso, delegación líquida y reputación acotada para comunidades abiertas.',
+    description:
+      'Observabilidad del consenso, delegación líquida y reputación acotada para comunidades abiertas.',
   },
 };
 

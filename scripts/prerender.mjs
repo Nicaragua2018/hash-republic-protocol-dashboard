@@ -10,7 +10,15 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import { PAGES, SITE_URL, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_IMAGE, getPageMeta, getPostMeta } from '../src/content/seo.js';
+import {
+  PAGES,
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_IMAGE,
+  getPageMeta,
+  getPostMeta,
+} from '../src/content/seo.js';
 import { parsePost, sortPosts } from '../src/content/parsePost.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -124,10 +132,7 @@ writeFileSync(
 );
 
 // robots.txt
-writeFileSync(
-  join(distDir, 'robots.txt'),
-  `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
-);
+writeFileSync(join(distDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
 // rss.xml — un feed simple con los artículos del blog
 // `posts` ya viene ordenado (más reciente primero) por sortPosts.
@@ -152,6 +157,4 @@ writeFileSync(
   )}</description>\n  <language>es</language>\n${rssItems}\n</channel></rss>\n`
 );
 
-console.log(
-  `prerender: ${count} rutas, 404.html, sitemap.xml, rss.xml y robots.txt generados en dist/`
-);
+console.log(`prerender: ${count} rutas, 404.html, sitemap.xml, rss.xml y robots.txt generados en dist/`);

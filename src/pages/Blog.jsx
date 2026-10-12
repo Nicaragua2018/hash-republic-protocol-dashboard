@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import posts from '../content/posts';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
+import { formatDate } from '../content/format';
 import SuscripcionForm from '../components/SuscripcionForm';
-
-const formatDate = (iso) =>
-  new Date(iso + 'T00:00:00').toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' });
 
 export default function Blog() {
   return (
@@ -18,9 +16,9 @@ export default function Blog() {
           <span className="oc-eyebrow">Blog y boletín</span>
           <h1 className="oc-h1">Artículos e informes, con fuentes</h1>
           <p className="oc-lede">
-            Esta sección reunirá artículos, informes del CEO y avances de cada proyecto — siempre
-            con fuentes verificables. El lanzamiento del sitio completo está previsto para el 15
-            de enero de 2027; mientras tanto, publicamos aquí lo que ya está listo.
+            Esta sección reunirá artículos, informes del CEO y avances de cada proyecto — siempre con fuentes
+            verificables. El lanzamiento del sitio completo está previsto para el 15 de enero de 2027;
+            mientras tanto, publicamos aquí lo que ya está listo.
           </p>
         </div>
       </section>

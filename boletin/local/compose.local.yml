@@ -5,17 +5,17 @@ services:
   traefik:
     image: traefik:v3.6
     ports:
-      - "127.0.0.1:58443:443"
+      - '127.0.0.1:58443:443'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./boletin/local/traefik.yml:/etc/traefik/traefik.yml:ro
   mailpit:
     image: axllent/mailpit:latest
     ports:
-      - "127.0.0.1:58025:8025"
+      - '127.0.0.1:58025:8025'
   listmonk:
     ports:
-      - "127.0.0.1:59000:9000"
+      - '127.0.0.1:59000:9000'
   boletin-herramientas:
     environment:
       BOLETIN_SMTP: mailpit

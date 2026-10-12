@@ -6,7 +6,8 @@ import { PAGES } from '../content/seo';
 const PROJECTS = [
   {
     name: 'Hash Republic Protocol',
-    blurb: 'Protocolo abierto de delegación líquida por dominio, reputación con tope, detección de captura e informes canónicos.',
+    blurb:
+      'Protocolo abierto de delegación líquida por dominio, reputación con tope, detección de captura e informes canónicos.',
     phase: 'Arquitectura v0.1',
     phaseClass: 'oc-phase--spec',
     to: '/proyectos/hash-republic-protocol',
@@ -14,13 +15,15 @@ const PROJECTS = [
   },
   {
     name: 'BitCuant',
-    blurb: 'Una comunidad conversa y un agente propone consultas breves y trazables. El agente no vota ni decide.',
+    blurb:
+      'Una comunidad conversa y un agente propone consultas breves y trazables. El agente no vota ni decide.',
     phase: 'Especificación lista',
     phaseClass: 'oc-phase--spec',
   },
   {
     name: 'Nicaragua Decide',
-    blurb: 'Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad.',
+    blurb:
+      'Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad.',
     phase: 'Idea',
     phaseClass: 'oc-phase--idea',
   },
@@ -41,9 +44,9 @@ export default function Projects() {
         <span className="oc-eyebrow">Proyectos</span>
         <h1 className="oc-h1">Construimos en abierto</h1>
         <p className="oc-lede" style={{ marginBottom: 40 }}>
-          Decimos en qué fase está cada cosa: idea, borrador, especificación o arquitectura.
-          Ningún proyecto gobierna por sí solo — cada uno produce evidencia o herramientas,
-          y el juicio final siempre es de la comunidad.
+          Decimos en qué fase está cada cosa: idea, borrador, especificación o arquitectura. Ningún proyecto
+          gobierna por sí solo — cada uno produce evidencia o herramientas, y el juicio final siempre es de la
+          comunidad.
         </p>
 
         <div className="oc-grid oc-grid--3">
@@ -61,11 +64,18 @@ export default function Projects() {
               </>
             );
             return p.to ? (
-              <Link to={p.to} className="oc-card" key={p.name} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+              <Link
+                to={p.to}
+                className="oc-card"
+                key={p.name}
+                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+              >
                 {Card}
               </Link>
             ) : (
-              <div className="oc-card" key={p.name}>{Card}</div>
+              <div className="oc-card" key={p.name}>
+                {Card}
+              </div>
             );
           })}
         </div>

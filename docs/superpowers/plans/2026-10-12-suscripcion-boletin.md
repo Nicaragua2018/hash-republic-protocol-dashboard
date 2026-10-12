@@ -617,7 +617,7 @@ boletin-db:
   volumes:
     - boletin-db:/var/lib/postgresql/data
   healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U listmonk"]
+    test: ['CMD-SHELL', 'pg_isready -U listmonk']
     interval: 5s
     retries: 30
 
@@ -631,7 +631,7 @@ listmonk:
   environment:
     LISTMONK_app__address: 0.0.0.0:9000
     LISTMONK_db__host: boletin-db
-    LISTMONK_db__port: "5432"
+    LISTMONK_db__port: '5432'
     LISTMONK_db__user: listmonk
     LISTMONK_db__password: ${BOLETIN_DB_PASSWORD:?falta BOLETIN_DB_PASSWORD en .env}
     LISTMONK_db__database: listmonk
@@ -704,7 +704,7 @@ boletin-portero:
     BOLETIN_REDIRECT: /blog/suscripcion
     BOLETIN_GLOBAL_LIMIT: ${BOLETIN_GLOBAL_LIMIT:-20}
   healthcheck:
-    test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/salud"]
+    test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/salud']
     interval: 10s
     retries: 3
   labels:
@@ -766,7 +766,7 @@ REMARK_ADMIN_PASSWD=prueba-local
 ```yaml
 entryPoints:
   websecure:
-    address: ":443"
+    address: ':443'
     http:
       tls: {}
 providers:
@@ -794,17 +794,17 @@ services:
   traefik:
     image: traefik:v3.6
     ports:
-      - "127.0.0.1:58443:443"
+      - '127.0.0.1:58443:443'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./boletin/local/traefik.yml:/etc/traefik/traefik.yml:ro
   mailpit:
     image: axllent/mailpit:latest
     ports:
-      - "127.0.0.1:58025:8025"
+      - '127.0.0.1:58025:8025'
   listmonk:
     ports:
-      - "127.0.0.1:59000:9000"
+      - '127.0.0.1:59000:9000'
   boletin-herramientas:
     environment:
       BOLETIN_SMTP: mailpit
@@ -957,16 +957,8 @@ class Client:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ .Campaign.Subject }}</title>
   </head>
-  <body
-    style="margin:0;background:#F4F6FA;font-family:Inter,Arial,sans-serif;color:#0F172A;"
-  >
-    <table
-      role="presentation"
-      width="100%"
-      cellpadding="0"
-      cellspacing="0"
-      style="background:#F4F6FA;"
-    >
+  <body style="margin:0;background:#F4F6FA;font-family:Inter,Arial,sans-serif;color:#0F172A;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6FA;">
       <tr>
         <td align="center" style="padding:24px 12px;">
           <table
@@ -987,23 +979,14 @@ class Client:
               </td>
             </tr>
             <tr>
-              <td style="padding:28px;font-size:16px;line-height:1.6;">
-                {{ template "content" . }}
-              </td>
+              <td style="padding:28px;font-size:16px;line-height:1.6;">{{ template "content" . }}</td>
             </tr>
             <tr>
-              <td
-                style="padding:20px 28px;border-top:4px solid #F2B00A;font-size:13px;color:#5A6B85;"
-              >
-                Recibes este correo porque te suscribiste al blog de OpenCivic
-                Solutions.
-                <a href="{{ UnsubscribeURL }}" style="color:#0A3880;"
-                  >Darte de baja</a
-                >
+              <td style="padding:20px 28px;border-top:4px solid #F2B00A;font-size:13px;color:#5A6B85;">
+                Recibes este correo porque te suscribiste al blog de OpenCivic Solutions.
+                <a href="{{ UnsubscribeURL }}" style="color:#0A3880;">Darte de baja</a>
                 ·
-                <a href="{{ ManageURL }}" style="color:#0A3880;"
-                  >Tus datos y preferencias</a
-                >
+                <a href="{{ ManageURL }}" style="color:#0A3880;">Tus datos y preferencias</a>
               </td>
             </tr>
           </table>
@@ -1516,24 +1499,24 @@ Expected hoy: el build **termina sin error** y pisa `dist/blog/suscripcion.html`
 `src/pages/Suscripcion.jsx`:
 
 ```jsx
-import React from "react";
-import { Link } from "react-router-dom";
-import Seo from "../components/Seo";
-import { PAGES } from "../content/seo";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Seo from '../components/Seo';
+import { PAGES } from '../content/seo';
 
 // Única respuesta del formulario, para cualquier correo: no revela si la
 // dirección ya estaba suscrita (spec del boletín, punto 5).
 export default function Suscripcion() {
   return (
     <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
-      <Seo {...PAGES["/blog/suscripcion"]} />
+      <Seo {...PAGES['/blog/suscripcion']} />
       <div className="oc-hero-bees" aria-hidden="true" />
-      <div className="oc-container oc-prose" style={{ position: "relative" }}>
+      <div className="oc-container oc-prose" style={{ position: 'relative' }}>
         <span className="oc-eyebrow">Boletín</span>
         <h1 className="oc-h1">Revisa tu correo</h1>
         <p className="oc-lede">
-          Si el correo es válido y no estaba suscrito, en unos minutos recibirás
-          un mensaje para confirmar. Revisa también la carpeta de spam.
+          Si el correo es válido y no estaba suscrito, en unos minutos recibirás un mensaje para confirmar.
+          Revisa también la carpeta de spam.
         </p>
         <p>Solo quedarás suscrito si confirmas desde ese mensaje.</p>
         <Link to="/blog" className="oc-btn oc-btn--outline">
@@ -1557,7 +1540,7 @@ En `src/content/seo.js`, dentro de `PAGES`, después de `'/blog'`:
 En `src/App.jsx`, importa la página y agrega la ruta **antes** de `/blog/:slug`:
 
 ```jsx
-import Suscripcion from "./pages/Suscripcion";
+import Suscripcion from './pages/Suscripcion';
 ```
 
 ```jsx
@@ -1574,9 +1557,7 @@ En `scripts/prerender.mjs`, justo después de construir `posts`:
 // /blog/suscripcion): el prerender la pisaría sin avisar.
 for (const post of posts) {
   if (PAGES[`/blog/${post.slug}`]) {
-    throw new Error(
-      `prerender: el slug "${post.slug}" está reservado por una página del sitio`,
-    );
+    throw new Error(`prerender: el slug "${post.slug}" está reservado por una página del sitio`);
   }
 }
 ```
@@ -1594,9 +1575,9 @@ Expected: pasa, y `dist/blog/suscripcion.html` existe y contiene `Revisa tu corr
 `src/components/SuscripcionForm.jsx`:
 
 ```jsx
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-const WIDGET_SRC = "/boletin/altcha.js";
+const WIDGET_SRC = '/boletin/altcha.js';
 
 // Formulario HTML normal hacia el portero (/boletin/suscribir). El widget
 // ALTCHA es el que sirve Listmonk, así siempre coincide con su verificador.
@@ -1604,23 +1585,17 @@ const WIDGET_SRC = "/boletin/altcha.js";
 export default function SuscripcionForm() {
   useEffect(() => {
     if (document.querySelector(`script[src="${WIDGET_SRC}"]`)) return;
-    const script = document.createElement("script");
-    script.type = "module";
+    const script = document.createElement('script');
+    script.type = 'module';
     script.src = WIDGET_SRC;
     document.head.appendChild(script);
   }, []);
 
   return (
     <div className="oc-card">
-      <h2 style={{ fontSize: "1.3rem" }}>Suscríbete al boletín</h2>
-      <p style={{ fontSize: "0.92rem" }}>
-        Te escribimos cuando publicamos un artículo nuevo.
-      </p>
-      <form
-        method="post"
-        action="/boletin/suscribir"
-        style={{ display: "grid", gap: 12 }}
-      >
+      <h2 style={{ fontSize: '1.3rem' }}>Suscríbete al boletín</h2>
+      <p style={{ fontSize: '0.92rem' }}>Te escribimos cuando publicamos un artículo nuevo.</p>
+      <form method="post" action="/boletin/suscribir" style={{ display: 'grid', gap: 12 }}>
         <input
           type="email"
           name="email"
@@ -1629,10 +1604,10 @@ export default function SuscripcionForm() {
           placeholder="tu@correo.com"
           aria-label="Correo electrónico"
           style={{
-            padding: "12px 16px",
+            padding: '12px 16px',
             borderRadius: 999,
-            border: "1px solid rgba(10,56,128,0.25)",
-            fontSize: "0.95rem",
+            border: '1px solid rgba(10,56,128,0.25)',
+            fontSize: '0.95rem',
           }}
         />
         {/* Campo trampa: las personas no lo ven; si viene lleno, es un bot. */}
@@ -1642,21 +1617,16 @@ export default function SuscripcionForm() {
           tabIndex={-1}
           autoComplete="off"
           aria-hidden="true"
-          style={{ position: "absolute", left: "-9999px" }}
+          style={{ position: 'absolute', left: '-9999px' }}
         />
         <altcha-widget challengeurl="/boletin/altcha" name="altcha" />
-        <button
-          type="submit"
-          className="oc-btn oc-btn--primary"
-          style={{ justifySelf: "start" }}
-        >
+        <button type="submit" className="oc-btn oc-btn--primary" style={{ justifySelf: 'start' }}>
           Suscribirme
         </button>
       </form>
-      <p style={{ fontSize: "0.8rem", marginTop: 12, marginBottom: 0 }}>
-        Solo guardamos tu correo, en nuestro propio servidor, para enviarte el
-        boletín. No rastreamos si abres los correos. Puedes darte de baja,
-        descargar o borrar tus datos desde el enlace que va al pie de cada
+      <p style={{ fontSize: '0.8rem', marginTop: 12, marginBottom: 0 }}>
+        Solo guardamos tu correo, en nuestro propio servidor, para enviarte el boletín. No rastreamos si abres
+        los correos. Puedes darte de baja, descargar o borrar tus datos desde el enlace que va al pie de cada
         mensaje.
       </p>
     </div>

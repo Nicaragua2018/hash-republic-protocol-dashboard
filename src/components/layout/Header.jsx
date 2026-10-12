@@ -48,7 +48,11 @@ export default function Header() {
           gap: 16,
         }}
       >
-        <NavLink to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }} aria-label="OpenCivic Solutions — Inicio">
+        <NavLink
+          to="/"
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+          aria-label="OpenCivic Solutions — Inicio"
+        >
           <img src="/opencivic-horizontal-color.svg" alt="OpenCivic Solutions" style={{ height: 36 }} />
         </NavLink>
 
