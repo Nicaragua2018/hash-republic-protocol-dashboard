@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ .Campaign.Subject }}</title>
+  </head>
+  <body
+    style="margin:0;background:#F4F6FA;font-family:Inter,Arial,sans-serif;color:#0F172A;"
+  >
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background:#F4F6FA;"
+    >
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table
+            role="presentation"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;"
+          >
+            <tr>
+              <td style="background:#0A3880;padding:20px 28px;">
+                <img
+                  src="https://opencivicsolutions.org/opencivic-horizontal-invertido.svg"
+                  alt="OpenCivic Solutions"
+                  height="32"
+                  style="display:block;"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px;font-size:16px;line-height:1.6;">
+                {{ template "content" . }}
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="padding:20px 28px;border-top:4px solid #F2B00A;font-size:13px;color:#5A6B85;"
+              >
+                Recibes este correo porque te suscribiste al blog de OpenCivic
+                Solutions.
+                <a href="{{ UnsubscribeURL }}" style="color:#0A3880;"
+                  >Darte de baja</a
+                >
+                ·
+                <a href="{{ ManageURL }}" style="color:#0A3880;"
+                  >Tus datos y preferencias</a
+                >
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
