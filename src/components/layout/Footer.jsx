@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export default function Footer() {
   return (
     <footer style={{ background: 'var(--oc-blue)', color: 'var(--oc-white)', marginTop: 64 }}>
@@ -63,7 +65,7 @@ export default function Footer() {
           color: 'rgba(255,255,255,0.6)',
         }}
       >
-        © {new Date().getFullYear()} OpenCivic Solutions · Las instituciones también son tecnologías.
+        © {CURRENT_YEAR} OpenCivic Solutions · Las instituciones también son tecnologías.
       </div>
 
       <style>{`

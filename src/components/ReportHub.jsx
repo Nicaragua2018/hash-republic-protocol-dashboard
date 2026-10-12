@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 const defaultReport = {
   protocol: "hash_republic_protocol",
@@ -36,7 +36,6 @@ async function sha256Hex(text) {
 
 export default function ReportHub() {
   const [jsonText, setJsonText] = useState(JSON.stringify(defaultReport, null, 2));
-  const [hashResult, setHashResult] = useState('');
   const [anchoringState, setAnchoringState] = useState('idle'); // idle, anchoring, anchored
   const [anchoringData, setAnchoringData] = useState(null);
   
@@ -47,22 +46,31 @@ export default function ReportHub() {
   // The anchored hash covers the report's canonical form, not the text as
   // typed, so whitespace or key order never change it — the same rule the
   // verifier below applies.
-  useEffect(() => {
-    let alive = true;
-    let canonical;
+  const canonical = useMemo(() => {
     try {
-      canonical = canonicalJson(JSON.parse(jsonText));
+      return canonicalJson(JSON.parse(jsonText));
     } catch {
-      setHashResult('JSON inválido: corrija el reporte para calcular su hash');
-      return;
+      return null;
     }
+  }, [jsonText]);
+
+  // SHA-256 in the browser is asynchronous; remember which text each digest
+  // belongs to so a stale result is never shown for newer input.
+  const [digest, setDigest] = useState({ of: null, hex: '' });
+  useEffect(() => {
+    if (canonical === null) return;
+    let alive = true;
     sha256Hex(canonical).then((hex) => {
-      if (alive) setHashResult(hex);
+      if (alive) setDigest({ of: canonical, hex });
     });
     return () => {
       alive = false;
     };
-  }, [jsonText]);
+  }, [canonical]);
+
+  let hashResult = 'Calculando…';
+  if (canonical === null) hashResult = 'JSON inválido: corrija el reporte para calcular su hash';
+  else if (digest.of === canonical) hashResult = digest.hex;
 
   const hashIsValid = /^[0-9a-f]{64}$/.test(hashResult);
 

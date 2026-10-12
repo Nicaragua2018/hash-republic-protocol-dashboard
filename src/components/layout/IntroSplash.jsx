@@ -23,20 +23,22 @@ const markSeen = () => {
 
 export default function IntroSplash() {
   const videoRef = useRef(null);
-  const [phase, setPhase] = useState('hidden'); // hidden | playing | leaving | done
-
-  useEffect(() => {
-    const alreadySeen = wasSeen();
+  // Decided on the first render (this site only renders in the browser),
+  // so returning visitors never see a flash of the splash.
+  const [phase, setPhase] = useState(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return wasSeen() || reducedMotion ? 'done' : 'playing';
+  }); // playing | leaving | done
 
-    if (alreadySeen || reducedMotion) {
-      markSeen();
-      setPhase('done');
-      return;
-    }
+  const finish = () => {
+    setPhase('leaving');
+    window.setTimeout(() => setPhase('done'), 400);
+  };
 
-    setPhase('playing');
-  }, []);
+  // Skipped or finished, the intro does not play again in this session.
+  useEffect(() => {
+    if (phase === 'done') markSeen();
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== 'playing') return;
@@ -53,13 +55,7 @@ export default function IntroSplash() {
     });
   }, [phase]);
 
-  const finish = () => {
-    markSeen();
-    setPhase('leaving');
-    window.setTimeout(() => setPhase('done'), 400);
-  };
-
-  if (phase === 'hidden' || phase === 'done') return null;
+  if (phase === 'done') return null;
 
   return (
     <div
