@@ -193,6 +193,17 @@ class Enumeracion(unittest.TestCase):
         self.assertEqual(len(seen), 1, seen)
         self.assertLess(max(times.values()) - min(times.values()), 20, times)
 
+    def test_mediana_de_20_por_caso_sin_diferencia(self):
+        # Directo al portero, dentro de la red de Docker: 20 mediciones por caso.
+        cases = ["enum-nueva2@ejemplo.org", "enum-confirmada@ejemplo.org", "enum-pendiente@ejemplo.org",
+                 "enum-baja@ejemplo.org", "enum-bloqueada@ejemplo.org", "no-es-un-correo"]
+        out = subprocess.run(COMPOSE + ["run", "--rm", "-T", "boletin-herramientas", "python",
+                                        "/app/local/tiempos.py", *cases],
+                             capture_output=True, text=True, check=True, stdin=subprocess.DEVNULL).stdout
+        medianas = json.loads(out.strip().splitlines()[-1])
+        self.assertEqual(len(medianas), len(cases))
+        self.assertLess(max(medianas.values()) - min(medianas.values()), 20, medianas)
+
     def test_endpoints_que_revelan_estado_bloqueados(self):
         for method, path, data in [("POST", "/api/public/subscription", b"{}"),
                                    ("POST", "/subscription/form", {"email": "a@b.org"})]:
