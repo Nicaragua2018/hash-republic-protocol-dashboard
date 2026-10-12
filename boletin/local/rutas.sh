@@ -3,7 +3,8 @@
 set -u
 S=https://localhost:58443
 B=https://boletin.localhost:58443
-R="--resolve boletin.localhost:58443:127.0.0.1 --resolve localhost:58443:127.0.0.1"
+W=https://www.localhost:58443
+R="--resolve boletin.localhost:58443:127.0.0.1 --resolve localhost:58443:127.0.0.1 --resolve www.localhost:58443:127.0.0.1"
 fail=0
 check() { # descripción, código esperado, argumentos de curl
   desc=$1; want=$2; shift 2
@@ -14,6 +15,9 @@ check "panel responde"                       200 "$B/health"
 check "reto ALTCHA en el sitio"              200 "$S/boletin/altcha"
 check "widget ALTCHA en el sitio"            200 "$S/boletin/altcha.js"
 check "portero responde 303"                 303 -X POST -d "email=a@b.org" "$S/boletin/suscribir"
+check "portero en www"                      303 -X POST -d "email=a@b.org" "$W/boletin/suscribir"
+check "reto ALTCHA en www"                   200 "$W/boletin/altcha"
+check "widget ALTCHA en www"                 200 "$W/boletin/altcha.js"
 check "API pública de suscripción bloqueada" 403 -X POST -H 'Content-Type: application/json' -d '{}' "$B/api/public/subscription"
 check "formulario directo bloqueado"         403 -X POST -d "email=a@b.org" "$B/subscription/form"
 check "API con token bloqueada"              403 -H "Authorization: token borradores:x" "$B/api/campaigns"
