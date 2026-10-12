@@ -281,7 +281,7 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 - **Confirmaciones agotadas por un ataque:** un ataque distribuido con ALTCHA resuelto puede gastar las 20 confirmaciones del día. Ese día, las personas reales que se suscriban verán el mensaje habitual pero no recibirán confirmación, y tendrán que intentarlo al día siguiente. **Las campañas no se ven afectadas**, porque tienen su propio cupo de 70. Mitigaciones: ALTCHA, el límite por IP y el registro de totales del portero.
 - **Campañas lentas mientras el plan sea gratuito:** con más de 70 suscriptores, cada campaña tarda varios días en llegar a todos.
-- **Prueba gratuita del correo:** si el buzón está en una prueba de Hostinger (de 30 días o de 1 año), al vencer deja de enviar. Hay que comprobar la fecha en hPanel.
+- **Vencimiento de la prueba de correo:** es probablemente la prueba de 1 año de Hostinger. Al vencer, el buzón deja de enviar. Mitigación: anotar la fecha exacta y decidir un mes antes si se pasa a Business Starter.
 - **Una confirmación por dirección cada 24 horas:** un atacante puede hacer que una persona reciba **una** confirmación no pedida al día. Es inevitable con doble confirmación y no la suscribe a nada.
 - **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
 - **Quien controle el buzón de alguien** ve si le llega una confirmación (ver el punto 5).
@@ -290,6 +290,6 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 ## Preguntas abiertas para Carlos
 
-1. ¿El correo gratuito es una **prueba** con fecha de vencimiento (de 30 días o de 1 año) o un plan gratuito sin vencimiento? Se ve en hPanel → Correos. Si vence, hay que decidir antes de lanzar si se pasa a Business Starter.
+1. **Fecha exacta de vencimiento de la prueba de correo.** Carlos cree que es la prueba de **1 año** de Hostinger. Hay que confirmar la fecha en hPanel → Correos antes de lanzar y anotarla aquí. Un mes antes de esa fecha se decide si se pasa a Business Starter. Si vence sin renovar, el buzón deja de enviar y el boletín se detiene.
 
-Resueltas el 11 de octubre de 2026: plan de correo gratuito (100 al día); clave privada `age` en el gestor de contraseñas.
+Resueltas el 11 de octubre de 2026: correo gratuito (100 al día, probablemente la prueba de 1 año); clave privada `age` en el gestor de contraseñas.
