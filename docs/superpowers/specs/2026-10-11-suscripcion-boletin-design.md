@@ -1,6 +1,6 @@
 # Suscripción al blog y boletín — diseño
 
-Fecha: 11 de octubre de 2026 · Versión 2.2 (12 oct.: un solo buzón; el boletín sale de info@) · Estado: aprobado por Carlos (v2.1); la v2.2 recoge su decisión del 12 de octubre
+Fecha: 11 de octubre de 2026 · Versión 2.3 (12 oct.: un solo buzón, el boletín sale de info@; 1.000 envíos al día) · Estado: aprobado por Carlos (v2.1); la v2.2 recoge su decisión del 12 de octubre
 
 ## Objetivo
 
@@ -15,20 +15,20 @@ Como parte de los lectores pueden estar en el exilio o en riesgo:
 
 ## Decisiones tomadas
 
-| Tema                     | Decisión                                                                                                                                                                                      | Origen           |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| Dónde vive la lista      | Listmonk 6.2 autoalojado en el VPS                                                                                                                                                            | Carlos           |
-| Correos por artículo     | Se genera un borrador solo; Carlos lo autoriza                                                                                                                                                | Carlos           |
-| Boletines propios        | Sí, escritos por Carlos en Listmonk                                                                                                                                                           | Carlos           |
-| Envío                    | SMTP del correo de Hostinger, desde el buzón que ya existe (`info@opencivicsolutions.org`): el plan solo permite uno                                                                          | Carlos (12 oct.) |
-| Panel                    | `boletin.opencivicsolutions.org`                                                                                                                                                              | Diseño v1        |
-| Datos que se piden       | Solo el correo                                                                                                                                                                                | Diseño v1        |
-| Rastreo                  | Ninguno: ni aperturas ni clics                                                                                                                                                                | Diseño v1        |
-| Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                                                                                                                           | Revisión v2      |
-| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                                                                                                                             | Revisión v2      |
-| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2                                                                                                | Revisión v2      |
-| Plan de correo           | Starter Business Email (1 buzón, 1/1 en uso), vence el **8 de octubre de 2027** con renovación automática; se presupuestan **100 correos al día**, compartidos con el correo normal de Carlos | Carlos           |
-| Clave privada `age`      | En el gestor de contraseñas de Carlos                                                                                                                                                         | Carlos           |
+| Tema                     | Decisión                                                                                                                                                                                                                   | Origen           |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| Dónde vive la lista      | Listmonk 6.2 autoalojado en el VPS                                                                                                                                                                                         | Carlos           |
+| Correos por artículo     | Se genera un borrador solo; Carlos lo autoriza                                                                                                                                                                             | Carlos           |
+| Boletines propios        | Sí, escritos por Carlos en Listmonk                                                                                                                                                                                        | Carlos           |
+| Envío                    | SMTP del correo de Hostinger, desde el buzón que ya existe (`info@opencivicsolutions.org`): el plan solo permite uno                                                                                                       | Carlos (12 oct.) |
+| Panel                    | `boletin.opencivicsolutions.org`                                                                                                                                                                                           | Diseño v1        |
+| Datos que se piden       | Solo el correo                                                                                                                                                                                                             | Diseño v1        |
+| Rastreo                  | Ninguno: ni aperturas ni clics                                                                                                                                                                                             | Diseño v1        |
+| Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                                                                                                                                                        | Revisión v2      |
+| Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                                                                                                                                                          | Revisión v2      |
+| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2                                                                                                                             | Revisión v2      |
+| Plan de correo           | Starter Business Email (1 buzón, 1/1 en uso), vence el **8 de octubre de 2027** con renovación automática; permite **1.000 correos al día** (visto en hPanel el 12 de octubre), compartidos con el correo normal de Carlos | Carlos           |
+| Clave privada `age`      | En el gestor de contraseñas de Carlos                                                                                                                                                                                      | Carlos           |
 
 ## Lo que se verificó antes de escribir esta versión
 
@@ -86,7 +86,7 @@ Listmonk no limita por destinatario (verificado), Traefik tampoco puede hacerlo 
 3. **Reenvía en segundo plano** a Listmonk (`/subscription/form`, por la red interna de Docker) el correo, la lista y la solución de ALTCHA. Listmonk verifica el ALTCHA como siempre.
 4. **Limita por destinatario**: como máximo **1 correo de confirmación por dirección cada 24 horas**. Lo que guarda es un HMAC de la dirección con una clave aleatoria que se crea al arrancar y vive solo en memoria. Así el portero no forma una segunda lista de correos; si se reinicia, los contadores empiezan de cero.
 5. **Solo cuenta los envíos que Listmonk aceptó** (ALTCHA válido). Un bot sin ALTCHA válido no puede gastar el cupo de una persona y bloquearle la suscripción.
-6. **Límite global**: como máximo **20 confirmaciones en 24 horas móviles**, el cupo reservado para confirmaciones en el presupuesto diario. Protege el cupo de Hostinger aunque el ataque use muchas IPs y muchas direcciones. Al llegar al límite, el portero sigue respondiendo lo mismo pero no reenvía, y anota el total en su registro.
+6. **Límite global**: como máximo **100 confirmaciones en 24 horas móviles**, el cupo reservado para confirmaciones en el presupuesto diario. Protege el cupo de Hostinger aunque el ataque use muchas IPs y muchas direcciones. Al llegar al límite, el portero sigue respondiendo lo mismo pero no reenvía, y anota el total en su registro.
 7. No escribe correos en sus registros, solo totales.
 
 El mensaje único de `/blog/suscripcion` dice: "Si el correo es válido y no estaba suscrito, en unos minutos recibirás un mensaje para confirmar. Revisa también la carpeta de spam."
@@ -197,22 +197,22 @@ Carlos crea una campaña en el panel con la plantilla de la marca, elige la list
   | Business Premium  | 3.000           |
   | Prueba gratuita   | **100**         |
 
-- **Se presupuestan 100 correos en 24 horas móviles**, el límite de la prueba gratuita, hasta confirmar en hPanel el límite real del plan Starter Business Email. Todo lo que sale de `info@` cuenta: confirmaciones, vistas previas, campañas **y el correo normal de Carlos**, porque es el mismo buzón.
+- **El plan permite 1.000 correos en 24 horas móviles** (hPanel → Buzones → Ver límites, 12 de octubre de 2026). Todo lo que sale de `info@` cuenta: confirmaciones, vistas previas, campañas **y el correo normal de Carlos**, porque es el mismo buzón.
 
 ### Presupuesto diario de envío
 
-| Uso                                      | Cupo en 24 h | Cómo se hace cumplir                                                                            |
-| ---------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------- |
-| Campañas (artículos y boletines)         | 60           | Ventana deslizante de Listmonk: `app.message_sliding_window = true`, duración `24h`, ritmo `60` |
-| Confirmaciones de suscripción            | 20           | Límite global del portero                                                                       |
-| Vistas previas y correo normal de Carlos | 20           | Una vista previa por artículo; el resto, para el correo de `info@`                              |
-| **Total**                                | **100**      |                                                                                                 |
+| Uso                                      | Cupo en 24 h | Cómo se hace cumplir                                                                             |
+| ---------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| Campañas (artículos y boletines)         | 800          | Ventana deslizante de Listmonk: `app.message_sliding_window = true`, duración `24h`, ritmo `800` |
+| Confirmaciones de suscripción            | 100          | Límite global del portero                                                                        |
+| Vistas previas y correo normal de Carlos | 100          | Una vista previa por artículo; el resto, para el correo de `info@`                               |
+| **Total**                                | **100**      |                                                                                                  |
 
 Consecuencias:
 
-- Mientras la lista tenga **hasta 60 personas confirmadas**, cada campaña sale el mismo día.
-- Con más de 60, Listmonk la reparte sola en varios días (60 por cada 24 horas). Por ejemplo, 200 suscriptores tardan unos 4 días.
-- **Cuándo pasar a un plan de pago:** cuando la lista supere **60 personas** o cuando un día se agoten las 20 confirmaciones. El plan Business Starter (1.000 al día) basta para crecer mucho; solo cambian los números de esta tabla.
+- Mientras la lista tenga **hasta 800 personas confirmadas**, cada campaña sale el mismo día.
+- Con más de 800, Listmonk la reparte sola en varios días (800 por cada 24 horas). Por ejemplo, 2.000 suscriptores tardan unos 3 días.
+- **Cuándo pasar a un plan de pago:** cuando la lista supere **800 personas** o cuando un día se agoten las 100 confirmaciones. Un plan con más envíos diarios o un proveedor dedicado; solo cambian los números de esta tabla.
 - **DMARC**:
   - Ahora: `p=none` y se añade `rua=mailto:dmarc@opencivicsolutions.org` para recibir informes. Hoy no se recibe ninguno.
   - Se pasa a `p=quarantine` cuando se cumplan **las dos** condiciones:
@@ -245,8 +245,8 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 - Suscribirse, confirmar y darse de baja funciona de principio a fin.
 - 5 envíos al mismo correo, desde 5 IPs distintas y con ALTCHA válido: **exactamente 1** correo en Mailpit en 24 horas.
 - Envíos sin ALTCHA o con ALTCHA inválido: **0** correos, y no gastan el cupo de esa dirección (luego un envío válido sí llega).
-- 21 envíos válidos a direcciones distintas en 24 horas: llegan **20** confirmaciones.
-- Una campaña de prueba a una lista de 75 suscriptores de prueba: salen **60** el primer día y **15** al siguiente (con la ventana reducida para la prueba, por ejemplo 7 cada 10 minutos).
+- Con el límite global reducido para la prueba (3), 4 envíos válidos a direcciones distintas: llegan **3** confirmaciones. En producción el límite es 100.
+- Una campaña de prueba a una lista de 75 suscriptores de prueba: con la ventana reducida para la prueba a 60, salen **60** el primer día y **15** al siguiente.
 - 11 envíos en un minuto desde la misma IP: el número 11 recibe **429**.
 
 **Token de borradores (punto 2)**
@@ -279,8 +279,8 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 ## Riesgos residuales aceptados
 
-- **Confirmaciones agotadas por un ataque:** un ataque distribuido con ALTCHA resuelto puede gastar las 20 confirmaciones del día. Ese día, las personas reales que se suscriban verán el mensaje habitual pero no recibirán confirmación, y tendrán que intentarlo al día siguiente. **Las campañas no se ven afectadas**, porque tienen su propio cupo de 70. Mitigaciones: ALTCHA, el límite por IP y el registro de totales del portero.
-- **Campañas lentas mientras el plan sea gratuito:** con más de 60 suscriptores, cada campaña tarda varios días en llegar a todos.
+- **Confirmaciones agotadas por un ataque:** un ataque distribuido con ALTCHA resuelto puede gastar las 100 confirmaciones del día. Ese día, las personas reales que se suscriban verán el mensaje habitual pero no recibirán confirmación, y tendrán que intentarlo al día siguiente. **Las campañas no se ven afectadas**, porque tienen su propio cupo de 70. Mitigaciones: ALTCHA, el límite por IP y el registro de totales del portero.
+- **Campañas lentas con una lista grande:** con más de 800 suscriptores, cada campaña tarda varios días en llegar a todos.
 - **Vencimiento de la prueba de correo:** es probablemente la prueba de 1 año de Hostinger. Al vencer, el buzón deja de enviar. Mitigación: anotar la fecha exacta y decidir un mes antes si se pasa a Business Starter.
 - **Una confirmación por dirección cada 24 horas:** un atacante puede hacer que una persona reciba **una** confirmación no pedida al día. Es inevitable con doble confirmación y no la suscribe a nada.
 - **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
@@ -290,9 +290,10 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 ## Preguntas abiertas para Carlos
 
-1. **Límite diario real del plan Starter Business Email.** Se ve en hPanel → Correos → Buzones → Ver límites. Si es 1.000 o más, se suben los números del presupuesto (campañas y confirmaciones).
+Ninguna.
 
 Resueltas:
 
 - 11 de octubre de 2026: clave privada `age` en el gestor de contraseñas.
 - 12 de octubre de 2026: el plan vence el 8 de octubre de 2027 con renovación automática; tiene un solo buzón (1/1), así que el boletín sale de `info@opencivicsolutions.org` y comparte su cupo con el correo normal.
+- 12 de octubre de 2026: el plan permite 1.000 envíos cada 24 horas; presupuesto 800 campañas, 100 confirmaciones y 100 de margen.

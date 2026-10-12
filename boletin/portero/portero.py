@@ -226,7 +226,7 @@ def main() -> None:
         listmonk_url=os.environ.get("LISTMONK_URL", "http://listmonk:9000"),
         list_name=os.environ.get("BOLETIN_LIST_NAME", "Blog OpenCivic"),
         redirect=os.environ.get("BOLETIN_REDIRECT", "/blog/suscripcion"),
-        limiter=Limiter(global_limit=int(os.environ.get("BOLETIN_GLOBAL_LIMIT", "20"))),
+        limiter=Limiter(global_limit=int(os.environ.get("BOLETIN_GLOBAL_LIMIT", "100"))),
     )
     httpd = make_server(cfg, int(os.environ.get("PORT", "8080")))
     log.info("portero escuchando")

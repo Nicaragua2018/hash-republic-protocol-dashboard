@@ -16,7 +16,7 @@
 - El código Python usa **solo la biblioteca estándar** (sin `pip install`).
 - Se pide **solo el correo**. Nada guarda IP ni rastrea aperturas o clics: `privacy.disable_tracking = true`, `privacy.individual_tracking = false`, `privacy.record_optin_ip = false`.
 - Lista pública **"Blog OpenCivic"** con doble confirmación. Lista privada **"Revisión"**, con `info@opencivicsolutions.org` como único suscriptor.
-- Presupuesto diario del correo gratuito de Hostinger, 100 en 24 horas: campañas **60** (ventana deslizante de Listmonk, `24h`, ritmo `60`), confirmaciones **20** (límite global del portero), vistas previas y correo normal de `info@` **20**. El boletín sale de `info@opencivicsolutions.org` (`BOLETIN_REMITENTE`): el plan de correo solo permite un buzón (cambio del 12 de octubre).
+- Presupuesto diario del correo gratuito de Hostinger, 100 en 24 horas: campañas **800** (ventana deslizante de Listmonk, `24h`, ritmo `800`), confirmaciones **100** (límite global del portero), vistas previas y correo normal de `info@` **100** (el plan permite 1.000 cada 24 h). El boletín sale de `info@opencivicsolutions.org` (`BOLETIN_REMITENTE`): el plan de correo solo permite un buzón (cambio del 12 de octubre).
 - Portero: **1 confirmación por dirección cada 24 h**, **20 en total cada 24 h**. Responde **303 a `/blog/suscripcion`** antes de hablar con Listmonk. Guarda solo HMAC de las direcciones, con una clave aleatoria en memoria.
 - Límites de Traefik por IP: `/boletin/suscribir` 10/min; `/boletin/altcha` 30/min; login, 2FA, olvido y restablecimiento del panel 5/min (ráfaga 5).
 - Traefik bloquea desde fuera, en el subdominio del boletín: `/api/public/subscription`, `POST /subscription/form` y cualquier `/api/*` con `Authorization: token …`.
@@ -2263,7 +2263,7 @@ Pasos de **Carlos** (los guía quien ejecuta el plan, uno por uno):
 
 - [ ] **Step 1: Carlos mira el límite diario del buzón**
 
-No se crea ningún buzón: el plan solo permite uno y el boletín sale de `info@` (el plan vence el 8 de octubre de 2027, con renovación automática). En hPanel → Correos → Buzones → `info@` → Ver límites, Carlos anota el **límite diario de envío**. Si es 1.000 o más, se suben el ritmo de campañas (`app.message_sliding_window_rate`) y `BOLETIN_GLOBAL_LIMIT`.
+No se crea ningún buzón: el plan solo permite uno y el boletín sale de `info@` (el plan vence el 8 de octubre de 2027, con renovación automática). En hPanel → Correos → Buzones → `info@` → Ver límites, Hecho el 12 de octubre: el límite es **1.000 cada 24 horas** y el presupuesto ya está ajustado (800 / 100 / 100).
 
 - [ ] **Step 2: Carlos agrega dos registros DNS en Hostinger**
 

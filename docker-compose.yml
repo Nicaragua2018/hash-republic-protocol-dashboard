@@ -150,7 +150,7 @@ services:
       LISTMONK_URL: http://listmonk:9000
       BOLETIN_LIST_NAME: Blog OpenCivic
       BOLETIN_REDIRECT: /blog/suscripcion
-      BOLETIN_GLOBAL_LIMIT: ${BOLETIN_GLOBAL_LIMIT:-20}
+      BOLETIN_GLOBAL_LIMIT: ${BOLETIN_GLOBAL_LIMIT:-100}
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/salud']
       interval: 10s
