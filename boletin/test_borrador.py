@@ -58,6 +58,20 @@ class ImagenesCorreoTest(unittest.TestCase):
             self.assertNotIn(".svg", f.read())
 
 
+class LlavesDePlantillaTest(unittest.TestCase):
+    """Listmonk compila asunto y cuerpo como plantillas Go: "{{" debe salir literal."""
+
+    def test_escapa_llaves(self):
+        self.assertEqual(borrador.escape_template("a {{ b }} c"), 'a {{"{{"}} b {{"}}"}} c')
+        self.assertEqual(borrador.escape_template("sin llaves"), "sin llaves")
+
+    def test_html_escapa_llaves_del_titulo_y_resumen(self):
+        meta = {"slug": "a", "title": "Uso de {{ plantillas }}", "dek": "y }} sueltas"}
+        html = borrador.build_html(meta, "https://opencivicsolutions.org")
+        self.assertNotIn("{{ plantillas", html)
+        self.assertIn('{{"{{"}}', html)
+
+
 class FakeAPI:
     def __init__(self):
         self.campaigns, self.tests = [], []

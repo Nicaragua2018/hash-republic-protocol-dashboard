@@ -10,6 +10,7 @@ desde el panel, la cambia a "Blog OpenCivic" y la envía.
 
 import html
 import os
+import re
 import sys
 from urllib.parse import quote
 
@@ -40,6 +41,17 @@ def parse_front_matter(text: str) -> dict:
     return meta
 
 
+def escape_template(text: str) -> str:
+    """Listmonk compila asunto y cuerpo como plantillas Go: "{{" y "}}" del
+    artículo se escriben como texto literal para no romper la plantilla."""
+    return re.sub(r"\{\{|\}\}", lambda m: '{{"' + m.group(0) + '"}}', text)
+
+
+def esc(text: str) -> str:
+    """Escape HTML y de plantilla, para texto del artículo dentro del cuerpo."""
+    return escape_template(html.escape(text))
+
+
 def build_html(meta: dict, site_url: str) -> str:
     url = f"{site_url}/blog/{quote(meta['slug'])}"
     # Gmail y Outlook no muestran SVG: se usa la imagen para redes (PNG) y, si
@@ -49,12 +61,12 @@ def build_html(meta: dict, site_url: str) -> str:
     img = ""
     if image:
         src = image if image.startswith("http") else site_url + image
-        img = (f'<p><img src="{html.escape(src)}" alt="{html.escape(meta.get("imageAlt", ""))}" '
+        img = (f'<p><img src="{html.escape(src)}" alt="{esc(meta.get("imageAlt", ""))}" '
                'width="544" style="width:100%;height:auto;border-radius:8px;" /></p>')
     return (
-        f'<h1 style="color:#0A3880;font-size:24px;line-height:1.3;">{html.escape(meta["title"])}</h1>'
+        f'<h1 style="color:#0A3880;font-size:24px;line-height:1.3;">{esc(meta["title"])}</h1>'
         f"{img}"
-        f'<p style="font-size:17px;">{html.escape(meta["dek"])}</p>'
+        f'<p style="font-size:17px;">{esc(meta["dek"])}</p>'
         f'<p><a href="{html.escape(url)}" style="display:inline-block;background:#0A3880;color:#ffffff;'
         'padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600;">'
         "Leer el artículo</a></p>"
@@ -81,7 +93,7 @@ def create_draft(listmonk_url: str, token: str, meta: dict, site_url: str) -> st
         raise RuntimeError("faltan la lista Revisión o la plantilla: ejecuta configurar.py")
     campaign = {
         "name": name,
-        "subject": meta["title"],
+        "subject": escape_template(meta["title"]),
         "lists": [review["id"]],
         "type": "regular",
         "content_type": "html",
