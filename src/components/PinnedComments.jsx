@@ -36,7 +36,11 @@ export default function PinnedComments({ url, title }) {
         const quote = excerpt((c.orig || '').trim());
         const name = c.user?.name || 'Anónimo';
         return (
-          <figure key={c.id} className="oc-card" style={{ borderLeft: '4px solid var(--oc-yellow)', margin: '0 0 16px' }}>
+          <figure
+            key={c.id}
+            className="oc-card"
+            style={{ borderLeft: '4px solid var(--oc-yellow)', margin: '0 0 16px' }}
+          >
             <blockquote style={{ margin: 0, fontSize: '1.02rem', lineHeight: 1.65, whiteSpace: 'pre-line' }}>
               «{quote}»
             </blockquote>
