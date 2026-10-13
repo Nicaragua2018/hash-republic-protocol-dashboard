@@ -2289,13 +2289,9 @@ Carlos:
 
 Quien ejecuta el plan guarda la clave pública en `boletin/respaldo/age-recipient.txt` y hace commit.
 
-- [ ] **Step 4: Carlos crea el bucket y la llave en Backblaze B2**
+- [ ] **Step 4: Sin Backblaze (decisión de Carlos, 12 de octubre)**
 
-1. Crear cuenta en backblaze.com (plan B2).
-2. Crear bucket **privado** `opencivic-boletin-respaldos`.
-3. En su configuración de ciclo de vida, poner **ocultar a los 90 días** y **borrar 1 día después**.
-4. En "Application Keys", crear una llave con acceso **solo a ese bucket** y tipo **Write Only**.
-5. Pasar por el chat `keyID`, `applicationKey` y el `bucketId`. Es una llave que solo puede agregar archivos: no puede leer ni borrar.
+No se crea cuenta en Backblaze. Las copias quedan solo en el VPS y Carlos exporta la lista a CSV una vez al mes. El script sube a B2 solo si existe `/etc/opencivic-respaldo.env`; para activarlo más adelante basta con crear ese archivo con una llave de solo escritura.
 
 Pasos de **quien ejecuta el plan**, por SSH en el VPS, con el acceso de las sesiones anteriores:
 
@@ -2342,18 +2338,12 @@ Verificación: cerrar sesión y entrar de nuevo; debe pedir el código de 6 díg
 ```bash
 install -m 755 /docker/hrp-dashboard/deploy/opencivic-deploy.sh /usr/local/bin/opencivic-deploy.sh
 apt-get install -y age
-cat > /etc/opencivic-respaldo.env <<'EOF'
-export B2_KEY_ID=<keyID de Carlos>
-export B2_APP_KEY=<applicationKey de Carlos>
-export B2_BUCKET_ID=<bucketId de Carlos>
-EOF
-chmod 600 /etc/opencivic-respaldo.env
 chmod 755 /docker/hrp-dashboard/boletin/respaldo/respaldo.sh
 /docker/hrp-dashboard/boletin/respaldo/respaldo.sh
 ( crontab -l 2>/dev/null; echo "15 3 * * * /docker/hrp-dashboard/boletin/respaldo/respaldo.sh >> /var/log/opencivic-respaldo.log 2>&1" ) | crontab -
 ```
 
-Expected: `respaldo ok: listmonk-….sql.gz.age` y `subido: listmonk-…`. En la web de B2 aparece el archivo.
+Expected: `respaldo ok: listmonk-….sql.gz.age (solo en el VPS)`.
 
 - [ ] **Step 9: Verificación en producción**
 
@@ -2371,7 +2361,7 @@ Expected: `403`, `403`, `403`, `403`, `403` y `303`.
 Luego:
 
 1. **Carlos** se suscribe desde `https://opencivicsolutions.org/blog` con su propio correo. Confirma que el mensaje llega, que **no** cae en spam y que el enlace lo deja suscrito.
-2. **Carlos** descifra en su PC la copia de B2 con su clave privada, como prueba de restauración:
+2. Se copia a la PC de Carlos una copia cifrada del VPS (`scp`; viaja cifrada) y **Carlos** la descifra con su clave privada, como prueba de restauración:
 
    ```powershell
    age -d -i clave.txt listmonk-….sql.gz.age > dump.sql.gz

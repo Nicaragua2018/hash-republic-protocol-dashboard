@@ -1,6 +1,6 @@
 # Suscripción al blog y boletín — diseño
 
-Fecha: 11 de octubre de 2026 · Versión 2.3 (12 oct.: un solo buzón, el boletín sale de info@; 1.000 envíos al día) · Estado: aprobado por Carlos (v2.1); la v2.2 recoge su decisión del 12 de octubre
+Fecha: 11 de octubre de 2026 · Versión 2.4 (12 oct.: un solo buzón, el boletín sale de info@; 1.000 envíos al día; copias solo en el VPS) · Estado: aprobado por Carlos (v2.1); la v2.2 recoge su decisión del 12 de octubre
 
 ## Objetivo
 
@@ -26,7 +26,7 @@ Como parte de los lectores pueden estar en el exilio o en riesgo:
 | Rastreo                  | Ninguno: ni aperturas ni clics                                                                                                                                                                                             | Diseño v1        |
 | Entrada pública          | Un "portero" propio delante de Listmonk (ver abajo)                                                                                                                                                                        | Revisión v2      |
 | Credencial de borradores | Solo en el VPS; GitHub no tiene token de Listmonk                                                                                                                                                                          | Revisión v2      |
-| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; copia fuera del VPS en Backblaze B2                                                                                                                             | Revisión v2      |
+| Copias                   | Cifradas con `age`; clave privada solo en poder de Carlos; **solo en el VPS** (14 días) más una exportación mensual a CSV en la PC de Carlos; Backblaze B2 queda preparado pero desactivado                                | Carlos (12 oct.) |
 | Plan de correo           | Starter Business Email (1 buzón, 1/1 en uso), vence el **8 de octubre de 2027** con renovación automática; permite **1.000 correos al día** (visto en hPanel el 12 de octubre), compartidos con el correo normal de Carlos | Carlos           |
 | Clave privada `age`      | En el gestor de contraseñas de Carlos                                                                                                                                                                                      | Carlos           |
 
@@ -64,7 +64,7 @@ boletin.opencivicsolutions.org ─► Traefik ─► Listmonk 6.2 (panel de Carl
 Despliegue (script del VPS, ya existente) ─► contenedor efímero en la red interna ─► API de Listmonk
                                               (crea el borrador y envía la vista previa a info@)
 
-Copia diaria: pg_dump ─► age (clave pública) ─► VPS (14 días) + Backblaze B2 (90 días)
+Copia diaria: pg_dump ─► age (clave pública) ─► VPS (14 días)   ·   mensual: CSV ─► PC de Carlos
 ```
 
 ### Componentes
@@ -159,11 +159,10 @@ Consecuencias:
   - la clave privada queda fuera del servidor, en el **gestor de contraseñas** de Carlos.
   - Si el VPS cae en manos ajenas, las copias guardadas allí siguen ilegibles.
 - **Cada día**: `pg_dump` de la base de Listmonk, cifrado con `age` y guardado en el VPS durante 14 días.
-- **Copia fuera del VPS en Backblaze B2**, dentro del alcance:
-  - los primeros 10 GB son gratuitos ([precios](https://www.backblaze.com/cloud-storage/pricing)) y la copia diaria pesa kilobytes, así que el costo esperado es 0 USD;
-  - se sube con una llave limitada a ese único bucket y con permisos **solo de escritura**: sin `readFiles` ni `deleteFiles` ([capacidades](https://www.backblaze.com/docs/cloud-storage-application-key-capabilities));
-  - un intruso en el VPS no podría ni leer ni borrar las copias anteriores;
-  - una regla del bucket borra las de más de 90 días.
+- **Sin copia automática fuera del VPS** (decisión de Carlos, 12 de octubre de 2026, por ahora):
+  - la única copia externa es la **exportación mensual de la lista a CSV** que Carlos descarga desde el panel de Listmonk y guarda en su PC;
+  - la subida a **Backblaze B2** queda programada pero desactivada: se activa creando `/etc/opencivic-respaldo.env` con una llave de **solo escritura**, sin `readFiles` ni `deleteFiles` ([capacidades](https://www.backblaze.com/docs/cloud-storage-application-key-capabilities)), y el script empieza a subir solo. Los primeros 10 GB son gratuitos ([precios](https://www.backblaze.com/cloud-storage/pricing));
+  - conviene activarla cuando la lista crezca o haya más servicios en el VPS.
 - **Prueba de restauración** al montar el sistema y luego cada tres meses: Carlos descifra la última copia en su PC con su clave privada y se restaura en una instancia local.
 
 ## 5. Enumeración de suscriptores
@@ -227,7 +226,7 @@ Consecuencias:
 3. Escribir la contraseña de `info@` directamente en el panel de Listmonk, sin pegarla en el chat.
 4. Activar TOTP en su cuenta del panel.
 5. Generar su par de claves `age` en su PC y guardar la clave privada.
-6. Crear la cuenta de Backblaze B2, el bucket y la llave de solo escritura.
+6. Exportar la lista de suscriptores a CSV una vez al mes (panel → Suscriptores → Exportar) y guardarla en su PC.
 
 ## Fuera de alcance
 
@@ -270,7 +269,7 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 
 - 6 intentos de login en un minuto desde la misma IP: el número 6 recibe **429**.
 - Con TOTP activado, entrar sin código falla.
-- La copia diaria aparece en el VPS y en B2. Con la llave del VPS, leer o borrar en B2 falla. Carlos descifra la copia en su PC y se restaura bien.
+- La copia diaria aparece en el VPS. Sin la configuración de Backblaze, el script termina bien y deja la copia solo en el VPS (`test_respaldo.sh`). Carlos descifra una copia en su PC y se restaura bien.
 
 **En producción, antes de anunciarlo**
 
@@ -286,7 +285,8 @@ Todo se prueba en local con Docker, Traefik, Listmonk 6.2, el portero y Mailpit 
 - **Contadores en memoria:** si el portero se reinicia, una dirección podría recibir una segunda confirmación ese mismo día.
 - **Quien controle el buzón de alguien** ve si le llega una confirmación (ver el punto 5).
 - **Pérdida de la clave privada `age`:** vive solo en el gestor de contraseñas de Carlos. Si pierde el acceso a ese gestor, las copias cifradas no se pueden leer. Depende de que el gestor tenga su propia sincronización o copia y su método de recuperación.
-- **Compromiso total del VPS:** quien tenga control del servidor tiene la lista viva. Las copias en B2 siguen protegidas.
+- **Compromiso total del VPS:** quien tenga control del servidor tiene la lista viva. Las copias guardadas allí siguen cifradas e ilegibles sin la clave privada.
+- **Pérdida del VPS o de la cuenta de Hostinger:** las copias diarias se pierden con el servidor (los backups semanales de Hostinger están con el mismo proveedor). La única copia externa es el CSV mensual de Carlos, así que se pueden perder hasta un mes de altas. Se acepta mientras la lista sea pequeña; se reduce activando Backblaze.
 
 ## Preguntas abiertas para Carlos
 
@@ -296,4 +296,5 @@ Resueltas:
 
 - 11 de octubre de 2026: clave privada `age` en el gestor de contraseñas.
 - 12 de octubre de 2026: el plan vence el 8 de octubre de 2027 con renovación automática; tiene un solo buzón (1/1), así que el boletín sale de `info@opencivicsolutions.org` y comparte su cupo con el correo normal.
+- 12 de octubre de 2026: copias solo en el VPS, sin Backblaze por ahora, más un CSV mensual en la PC de Carlos.
 - 12 de octubre de 2026: el plan permite 1.000 envíos cada 24 horas; el boletín usa como máximo 800 (700 campañas + 100 confirmaciones) y quedan 200 para el correo normal de info@ (propuesta de Carlos).
