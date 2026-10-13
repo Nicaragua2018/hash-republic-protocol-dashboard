@@ -26,11 +26,16 @@ age -R "$RECIPIENT" -o "$FILE.tmp" "$FILE.tmp.gz"
 rm -f "$FILE.tmp.gz"
 mv "$FILE.tmp" "$FILE"
 find "$DIR" -name 'listmonk-*.sql.gz.age' -mtime +14 -delete
-if [ "${RESPALDO_SIN_SUBIDA:-}" != 1 ]; then
+# Copia fuera del VPS en Backblaze B2 solo si sus llaves están configuradas.
+# Decisión de Carlos (12 oct. 2026): por ahora, sin Backblaze; la única copia
+# externa es la exportación mensual a CSV que él guarda en su PC.
+if [ "${RESPALDO_SIN_SUBIDA:-}" != 1 ] && [ -f "$ENV_FILE" ]; then
   # shellcheck source=/dev/null
   . "$ENV_FILE"
   docker run --rm -v "$DIR:/datos:ro" -v "$REPO/boletin/respaldo:/app:ro" \
     -e B2_KEY_ID -e B2_APP_KEY -e B2_BUCKET_ID python:3.13-alpine \
     python /app/subir_b2.py "/datos/$(basename "$FILE")"
+  echo "$(date -u +%FT%TZ) respaldo ok: $(basename "$FILE") (VPS y Backblaze)"
+else
+  echo "$(date -u +%FT%TZ) respaldo ok: $(basename "$FILE") (solo en el VPS)"
 fi
-echo "$(date -u +%FT%TZ) respaldo ok: $(basename "$FILE")"

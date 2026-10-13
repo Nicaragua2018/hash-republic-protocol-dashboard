@@ -26,5 +26,14 @@ tablas=$( [ -n "$f" ] && age -d -i "$W/clave.txt" "$f" | gunzip | grep -c 'CREAT
 if [ "$rc" -eq 0 ] && [ "${tablas:-0}" -gt 10 ]; then echo "ok    copia buena: $tablas tablas"
 else echo "FALLA copia buena: rc=$rc, tablas=${tablas:-0}"; fail=1; fi
 
+# 3. Sin configuración de Backblaze (no existe el archivo de llaves), la copia
+#    queda en el VPS y el script termina bien: es el modo actual.
+unset RESPALDO_SIN_SUBIDA
+RESPALDO_DIR="$W/solo-vps" RESPALDO_ENV="$W/no-existe.env" BOLETIN_DB_CONTAINER=opencivic-boletin-db   sh /r/respaldo.sh > "$W/salida.txt" 2>&1
+rc=$?
+n=$(find "$W/solo-vps" -name 'listmonk-*.age' | wc -l)
+if [ "$rc" -eq 0 ] && [ "$n" -eq 1 ] && grep -q "solo en el VPS" "$W/salida.txt"; then echo "ok    sin Backblaze: copia en el VPS"
+else echo "FALLA sin Backblaze: rc=$rc, copias=$n, salida: $(cat "$W/salida.txt")"; fail=1; fi
+
 rm -rf "$W"
 exit $fail
