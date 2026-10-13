@@ -1,0 +1,18 @@
+entryPoints:
+  websecure:
+    address: ':443'
+    http:
+      tls: {}
+providers:
+  docker:
+    exposedByDefault: false
+certificatesResolvers:
+  # Mismo nombre que en producción; en local no obtiene certificados y
+  # Traefik usa su certificado autofirmado por defecto.
+  letsencrypt:
+    acme:
+      email: pruebas@example.org
+      storage: /tmp/acme.json
+      tlsChallenge: {}
+log:
+  level: WARN

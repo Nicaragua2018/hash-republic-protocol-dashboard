@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ .Campaign.Subject }}</title>
+  </head>
+  <body style="margin: 0; background: #f4f6fa; font-family: Inter, Arial, sans-serif; color: #0f172a">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background: #f4f6fa">
+      <tr>
+        <td align="center" style="padding: 24px 12px">
+          <table
+            role="presentation"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="max-width: 600px; width: 100%; background: #ffffff; border-radius: 12px; overflow: hidden"
+          >
+            <tr>
+              <td style="background: #0a3880; padding: 20px 28px">
+                <!-- PNG y no SVG: Gmail y Outlook no muestran SVG. -->
+                <img
+                  src="https://opencivicsolutions.org/opencivic-icono-192.png"
+                  alt=""
+                  width="32"
+                  height="32"
+                  style="display: inline-block; vertical-align: middle; border-radius: 6px"
+                />
+                <span
+                  style="
+                    color: #ffffff;
+                    font-family: Poppins, Arial, sans-serif;
+                    font-weight: 600;
+                    font-size: 18px;
+                    vertical-align: middle;
+                    margin-left: 10px;
+                  "
+                  >OpenCivic Solutions</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 28px; font-size: 16px; line-height: 1.6">{{ template "content" . }}</td>
+            </tr>
+            <tr>
+              <td style="padding: 20px 28px; border-top: 4px solid #f2b00a; font-size: 13px; color: #5a6b85">
+                Recibes este correo porque te suscribiste al blog de OpenCivic Solutions.
+                <a href="{{ UnsubscribeURL }}" style="color: #0a3880">Darte de baja</a>
+                ·
+                <a href="{{ ManageURL }}" style="color: #0a3880">Tus datos y preferencias</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

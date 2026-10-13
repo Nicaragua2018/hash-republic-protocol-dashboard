@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.hrp-dashboard.rule=Host(`opencivicsolutions.org`) || Host(`www.opencivicsolutions.org`)
+      - traefik.http.routers.hrp-dashboard.rule=Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)
       - traefik.http.routers.hrp-dashboard.entrypoints=websecure
       - traefik.http.routers.hrp-dashboard.tls.certresolver=letsencrypt
       - traefik.http.services.hrp-dashboard.loadbalancer.server.port=80
@@ -49,5 +49,146 @@ services:
       - traefik.http.middlewares.opencivic-comments-strip.stripprefix.prefixes=/comentarios
       - traefik.http.services.opencivic-comments.loadbalancer.server.port=8080
 
+  # ── Boletín (spec: docs/superpowers/specs/2026-10-11-suscripcion-boletin-design.md) ──
+  boletin-db:
+    image: postgres:17-alpine
+    container_name: opencivic-boletin-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: listmonk
+      POSTGRES_PASSWORD: ${BOLETIN_DB_PASSWORD:?falta BOLETIN_DB_PASSWORD en .env}
+      POSTGRES_DB: listmonk
+    volumes:
+      - boletin-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U listmonk']
+      interval: 5s
+      retries: 30
+
+  listmonk:
+    image: listmonk/listmonk:v6.2.0
+    container_name: opencivic-listmonk
+    restart: unless-stopped
+    depends_on:
+      boletin-db:
+        condition: service_healthy
+    environment:
+      LISTMONK_app__address: 0.0.0.0:9000
+      LISTMONK_db__host: boletin-db
+      LISTMONK_db__port: '5432'
+      LISTMONK_db__user: listmonk
+      LISTMONK_db__password: ${BOLETIN_DB_PASSWORD:?falta BOLETIN_DB_PASSWORD en .env}
+      LISTMONK_db__database: listmonk
+      LISTMONK_db__ssl_mode: disable
+      # Solo se usan la primera vez, para crear la cuenta de Carlos.
+      LISTMONK_ADMIN_USER: ${BOLETIN_ADMIN_USER:?falta BOLETIN_ADMIN_USER en .env}
+      LISTMONK_ADMIN_PASSWORD: ${BOLETIN_ADMIN_PASSWORD:?falta BOLETIN_ADMIN_PASSWORD en .env}
+      TZ: America/Managua
+    command:
+      [
+        sh,
+        -c,
+        "./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''",
+      ]
+    volumes:
+      - boletin-uploads:/listmonk/uploads
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.opencivic-listmonk.loadbalancer.server.port=9000
+      # Panel y páginas públicas de Listmonk en el subdominio.
+      - traefik.http.routers.boletin.rule=Host(`${BOLETIN_HOST:-boletin.opencivicsolutions.org}`)
+      - traefik.http.routers.boletin.priority=10
+      - traefik.http.routers.boletin.entrypoints=websecure
+      - traefik.http.routers.boletin.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin.service=opencivic-listmonk
+      # Lo que nunca debe llegar desde internet (spec, punto 1 y 2): 403.
+      - traefik.http.routers.boletin-bloqueos.rule=Host(`${BOLETIN_HOST:-boletin.opencivicsolutions.org}`) && (Path(`/api/public/subscription`) || (Path(`/subscription/form`) && Method(`POST`)) || (PathPrefix(`/api`) && HeaderRegexp(`Authorization`, `.*`)))
+      - traefik.http.routers.boletin-bloqueos.priority=300
+      - traefik.http.routers.boletin-bloqueos.entrypoints=websecure
+      - traefik.http.routers.boletin-bloqueos.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin-bloqueos.middlewares=boletin-denegar
+      - traefik.http.routers.boletin-bloqueos.service=opencivic-listmonk
+      - traefik.http.middlewares.boletin-denegar.ipallowlist.sourcerange=127.0.0.1/32
+      # Límite de intentos de inicio de sesión (Listmonk no tiene uno propio).
+      - traefik.http.routers.boletin-login.rule=Host(`${BOLETIN_HOST:-boletin.opencivicsolutions.org}`) && Method(`POST`) && (Path(`/admin/login`) || Path(`/admin/login/twofa`) || Path(`/admin/forgot`) || Path(`/admin/reset`))
+      - traefik.http.routers.boletin-login.priority=200
+      - traefik.http.routers.boletin-login.entrypoints=websecure
+      - traefik.http.routers.boletin-login.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin-login.middlewares=boletin-rl-login
+      - traefik.http.routers.boletin-login.service=opencivic-listmonk
+      - traefik.http.middlewares.boletin-rl-login.ratelimit.average=5
+      - traefik.http.middlewares.boletin-rl-login.ratelimit.period=1m
+      - traefik.http.middlewares.boletin-rl-login.ratelimit.burst=5
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-login.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
+      # Reto y widget ALTCHA, servidos desde el dominio del sitio (sin CORS).
+      - traefik.http.routers.boletin-altcha.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/boletin/altcha`)
+      - traefik.http.routers.boletin-altcha.priority=110
+      - traefik.http.routers.boletin-altcha.entrypoints=websecure
+      - traefik.http.routers.boletin-altcha.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin-altcha.middlewares=boletin-rl-altcha,boletin-ruta-altcha
+      - traefik.http.routers.boletin-altcha.service=opencivic-listmonk
+      - traefik.http.middlewares.boletin-rl-altcha.ratelimit.average=30
+      - traefik.http.middlewares.boletin-rl-altcha.ratelimit.period=1m
+      - traefik.http.middlewares.boletin-rl-altcha.ratelimit.burst=30
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-altcha.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
+      - traefik.http.middlewares.boletin-ruta-altcha.replacepath.path=/api/public/captcha/altcha
+      - traefik.http.routers.boletin-altcha-js.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/boletin/altcha.js`)
+      - traefik.http.routers.boletin-altcha-js.priority=110
+      - traefik.http.routers.boletin-altcha-js.entrypoints=websecure
+      - traefik.http.routers.boletin-altcha-js.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin-altcha-js.middlewares=boletin-ruta-altcha-js
+      - traefik.http.routers.boletin-altcha-js.service=opencivic-listmonk
+      - traefik.http.middlewares.boletin-ruta-altcha-js.replacepath.path=/public/static/altcha.umd.js
+
+  boletin-portero:
+    build: ./boletin/portero
+    container_name: opencivic-boletin-portero
+    restart: unless-stopped
+    environment:
+      LISTMONK_URL: http://listmonk:9000
+      BOLETIN_LIST_NAME: Blog OpenCivic
+      BOLETIN_REDIRECT: /blog/suscripcion
+      BOLETIN_GLOBAL_LIMIT: ${BOLETIN_GLOBAL_LIMIT:-100}
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/salud']
+      interval: 10s
+      retries: 3
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.boletin-suscribir.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/boletin/suscribir`) && Method(`POST`)
+      - traefik.http.routers.boletin-suscribir.priority=110
+      - traefik.http.routers.boletin-suscribir.entrypoints=websecure
+      - traefik.http.routers.boletin-suscribir.tls.certresolver=letsencrypt
+      - traefik.http.routers.boletin-suscribir.middlewares=boletin-rl-suscribir,boletin-quitar-prefijo
+      - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.average=10
+      - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.period=1m
+      - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.burst=10
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.boletin-rl-suscribir.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
+      - traefik.http.middlewares.boletin-quitar-prefijo.stripprefix.prefixes=/boletin
+      - traefik.http.services.opencivic-boletin-portero.loadbalancer.server.port=8080
+
+  # Herramientas de una sola ejecución (configurar, borradores, copias).
+  # No arranca con "up": se usa con "docker compose run --rm boletin-herramientas …".
+  boletin-herramientas:
+    image: python:3.13-alpine
+    profiles: [herramientas]
+    working_dir: /app
+    volumes:
+      - ./boletin:/app:ro
+      - ./src/content/posts:/posts:ro
+    environment:
+      LISTMONK_URL: http://listmonk:9000
+      SITE_URL: https://${SITE_HOST:-opencivicsolutions.org}
+      BOLETIN_ROOT_URL: https://${BOLETIN_HOST:-boletin.opencivicsolutions.org}
+      BOLETIN_ADMIN_USER: ${BOLETIN_ADMIN_USER:-}
+      BOLETIN_ADMIN_PASSWORD: ${BOLETIN_ADMIN_PASSWORD:-}
+      BOLETIN_BORRADORES_TOKEN: ${BOLETIN_BORRADORES_TOKEN:-}
+      BOLETIN_REMITENTE: ${BOLETIN_REMITENTE:-info@opencivicsolutions.org}
+
 volumes:
   comments-data:
+  boletin-db:
+  boletin-uploads:

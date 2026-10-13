@@ -4,3 +4,5 @@ public
 package-lock.json
 # Los artículos son texto editorial: su formato lo decide quien escribe.
 src/content/posts
+# Espacio de trabajo local de los planes (ignorado por git)
+.superpowers

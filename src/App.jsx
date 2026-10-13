@@ -7,6 +7,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import Suscripcion from './pages/Suscripcion';
 import Join from './pages/Join';
 import Contact from './pages/Contact';
 import HashRepublicDashboard from './pages/HashRepublicDashboard';
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/sobre" element={<About />} />
           <Route path="/proyectos" element={<Projects />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/suscripcion" element={<Suscripcion />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/unirse" element={<Join />} />
           <Route path="/contacto" element={<Contact />} />

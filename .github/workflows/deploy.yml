@@ -45,12 +45,28 @@ jobs:
         # Containers being recreated (and Remark42 passing its healthcheck)
         # leave Traefik without a backend for a few seconds, so retry.
         run: |
-          for path in / /blog /sitemap.xml /comentarios/ping; do
+          for url in https://opencivicsolutions.org/ https://opencivicsolutions.org/blog                      https://opencivicsolutions.org/sitemap.xml https://opencivicsolutions.org/comentarios/ping; do
             for attempt in $(seq 1 18); do
-              code=$(curl -s -o /dev/null -w '%{http_code}' "https://opencivicsolutions.org$path")
+              code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
               [ "$code" = 200 ] && break
               sleep 5
             done
-            echo "$path -> $code"
+            echo "$url -> $code"
             [ "$code" = 200 ]
           done
+
+      - name: Comprobar el boletín
+        # Una caída de Listmonk no debe marcar como fallido el despliegue del
+        # sitio: queda como aviso visible en el resumen de la ejecución.
+        continue-on-error: true
+        run: |
+          for attempt in $(seq 1 18); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://boletin.opencivicsolutions.org/health)
+            [ "$code" = 200 ] && break
+            sleep 5
+          done
+          echo "boletín -> $code"
+          if [ "$code" != 200 ]; then
+            echo "::warning title=Boletín sin responder::boletin.opencivicsolutions.org/health respondió $code"
+            exit 1
+          fi

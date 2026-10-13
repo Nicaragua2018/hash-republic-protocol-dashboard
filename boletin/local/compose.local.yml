@@ -1,0 +1,22 @@
+# Solo para pruebas locales:
+#   docker compose --env-file boletin/local/local.env -f docker-compose.yml -f boletin/local/compose.local.yml \
+#     up -d --build web boletin-db listmonk boletin-portero traefik mailpit
+services:
+  traefik:
+    image: traefik:v3.6
+    ports:
+      - '127.0.0.1:58443:443'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./boletin/local/traefik.yml:/etc/traefik/traefik.yml:ro
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - '127.0.0.1:58025:8025'
+  listmonk:
+    ports:
+      - '127.0.0.1:59000:9000'
+  boletin-herramientas:
+    environment:
+      BOLETIN_SMTP: mailpit
+      BOLETIN_ROOT_URL: https://boletin.localhost:58443
