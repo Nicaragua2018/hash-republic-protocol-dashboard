@@ -1,6 +1,6 @@
 # HONEY v1 — diseño técnico del asistente del sitio
 
-**Versión:** 1.0 (borrador para revisión de Carlos) · **Fecha:** 2026-10-14
+**Versión:** 1.1 (aprobado por Carlos el 2026-10-15; 1.1 agrega detalles de implementación) · **Fecha:** 2026-10-15
 **Documento de producto:** [HONEY v1 — Especificación](https://claude.ai/code/artifact/fec1a344-7ded-4443-924b-abdd28fbb16d) (personalidad, reglas, preguntas frecuentes). Este documento dice _cómo_ se construye; aquel dice _qué_ responde.
 
 ## 1. Decisiones de Carlos (14 oct 2026)
@@ -66,9 +66,16 @@ Cada documento va como bloque `document` con `citations: {enabled: true}`. La AP
 - **Rutas:**
   - `POST /honey/chat` responde preguntas.
   - `POST /honey/util` registra los votos «Útil» y «No útil».
-  - `GET /honey/salud` devuelve 200 cuando el servicio está listo.
-- **Enrutamiento:** Traefik, con prioridad sobre el sitio, como `/boletin/suscribir`. Si el servicio está apagado, nginx responde 503 en `/honey/` y la burbuja no aparece.
-- **Intercambio de modelo:** una sola variable, `HONEY_MODELO`. Hoy vale `anthropic:claude-haiku-5-5`; mañana podrá ser `local:<nombre>`. El servicio habla con una interfaz `Modelo.responder(base, historial, pregunta) → Respuesta(texto, citas)` y cada proveedor la implementa.
+  - `GET /honey/salud` devuelve 200 con `{"activo": true}` cuando HONEY está encendido, y 503 con `{"activo": false}` cuando está apagado.
+  - `GET /honey/vivo` devuelve siempre 200. Lo usa el chequeo de salud de Docker, para que el contenedor apagado no aparezca como «con problemas» en hPanel.
+- **Encendido:** HONEY responde solo si `HONEY_ACTIVO=1` y existe `ANTHROPIC_API_KEY` en el `.env`. Si falta cualquiera de las dos, el contenedor corre apagado.
+- **Enrutamiento:** Traefik, con prioridad sobre el sitio, como `/boletin/suscribir`. Si el contenedor no está, nginx responde 404 en `/honey/` y la burbuja no aparece.
+- **Intercambio de modelo:** una sola variable, `HONEY_MODELO`.
+  - Hoy vale `anthropic:claude-haiku-5-5`.
+  - `falso:` es un modelo de prueba que no llama a ninguna API. Sirve para las pruebas locales y la vista previa.
+  - Más adelante se agrega `local:<nombre>`.
+
+  Cada proveedor recibe la base al crearse e implementa `responder(historial, pregunta) → Respuesta(texto, estado, fuentes)`.
 
 **Petición** (JSON, como máximo 8 KB):
 
@@ -102,9 +109,10 @@ Cada documento va como bloque `document` con `citations: {enabled: true}`. La AP
 
 ### 3.3 Llamada al modelo
 
-- Modelo `claude-haiku-5-5` con `output_config: {effort: "low"}`, porque es chat corto. `max_tokens: 1024`.
+- Modelo `claude-haiku-5-5` con `output_config: {effort: "low"}`, porque es chat corto. `max_tokens: 4096`, con margen para el razonamiento interno del modelo.
 - `system` lleva el prompt de HONEY: personalidad, las 10 reglas y el formato de respuesta. Es texto fijo de la imagen, sin fechas ni datos variables, para que la caché funcione.
 - La base va en el primer mensaje como bloques `document` con `cache_control` en el último. Después van el historial y la pregunta.
+- Cuando la base no cubre la pregunta, el prompt pide empezar la respuesta con la marca `[SIN_RESPUESTA]`. El servicio quita la marca y devuelve `estado: sin_respuesta`. Así la detección no depende de adivinar.
 - Se revisa `stop_reason`:
   - `refusal` → `rechazada`;
   - `max_tokens` → se corta en la última frase completa.
@@ -112,15 +120,28 @@ Cada documento va como bloque `document` con `citations: {enabled: true}`. La AP
 
 ### 3.4 Base de conocimiento
 
-Vive en `honey/conocimiento/`, un archivo `.md` por fuente, con cabecera:
+Vive en `honey/base/`, un archivo `.md` por fuente, con cabecera:
 
 ```yaml
-titulo: Preguntas frecuentes de HONEY
+titulo: Licencias de OpenCivic
 url: /
-version: 2026-10-14
+version: 2026-10-12
 ```
 
-- Solo entran preguntas frecuentes en estado **Aprobada** en el documento de producto. Hoy son la 10 (licencia) y la 13 (quién está detrás). Las demás se agregan a medida que Carlos las apruebe.
+`url` siempre es una ruta del propio sitio (empieza con `/`), y los títulos no se repiten.
+
+Base inicial:
+
+| Archivo                       | Título                              | Enlace                              |
+| ----------------------------- | ----------------------------------- | ----------------------------------- |
+| `faq-10-licencias.md`         | Licencias de OpenCivic              | `/`                                 |
+| `faq-13-quien-esta-detras.md` | Quién está detrás de OpenCivic      | `/sobre`                            |
+| `razon-de-ser.md`             | Razón de ser de OpenCivic Solutions | `/sobre`                            |
+| `proyectos.md`                | Proyectos de OpenCivic              | `/proyectos`                        |
+| `whitepaper-v0.5.md`          | Whitepaper de Hash Republic v0.5    | `/proyectos/hash-republic-protocol` |
+
+- Solo entran preguntas frecuentes en estado **Aprobada** en el documento de producto, una por archivo. Hoy son la 10 (licencia) y la 13 (quién está detrás). Las demás se agregan a medida que Carlos las apruebe.
+- El Whitepaper v0.5 se convierte del `.docx` con un script incluido (`honey/docx_a_texto.py`). Ya no menciona el observatorio ni a HAD Foundation.
 - Cambiar la base es un PR, igual que el blog. Al desplegar, la imagen se reconstruye con los archivos nuevos.
 - Una prueba automática verifica que cada archivo tenga `titulo`, `url` y `version`, y que la base total no pase de 150 000 tokens (estimados por caracteres).
 
@@ -128,9 +149,9 @@ version: 2026-10-14
 
 - **Filtro de datos personales.** Corre antes de enviar a la API y antes de guardar en los registros. Sustituye:
   - correos por `[correo]`;
-  - teléfonos (7 o más dígitos, con o sin `+`, espacios o guiones) por `[teléfono]`;
-  - cédulas nicaragüenses (`###-######-####X`) y otras secuencias largas de dígitos por `[documento]`;
-  - tarjetas de 13 a 19 dígitos por `[tarjeta]`.
+  - cédulas nicaragüenses (`###-######-####X`, con o sin guiones) por `[documento]`;
+  - tarjetas de 13 a 19 dígitos por `[tarjeta]`;
+  - cualquier otra secuencia de 7 o más dígitos (con `+`, espacios, guiones o paréntesis) por `[teléfono]`. Las fechas `AAAA-MM-DD` no se tocan.
 
   El historial también pasa por el filtro, en cada petición.
 
@@ -159,7 +180,7 @@ version: 2026-10-14
   - la pregunta tiene como máximo 500 caracteres;
   - el historial guarda como máximo las 6 últimas intervenciones, de 1 000 caracteres cada una;
   - el cuerpo pesa como máximo 8 KB.
-- **Límite diario del servicio:** `HONEY_LIMITE_DIARIO`, por defecto 300 preguntas. Al llegar al límite responde `no_disponible` hasta medianoche, hora de Managua.
+- **Límite diario del servicio:** `HONEY_LIMITE_DIARIO`, por defecto 300 preguntas. Al llegar al límite responde `no_disponible` hasta medianoche, hora de Managua. El contador vive en memoria: si el contenedor se reinicia, vuelve a cero. Se acepta porque el tope de gasto de la consola sigue protegiendo.
 - **Tope de gasto:** se fija en la consola de Anthropic. Recomendado: **US$10 al mes**.
 
   Costo estimado con Haiku 5.5, con unos 25 000 tokens de base:
@@ -175,8 +196,8 @@ version: 2026-10-14
 
 ## 6. El widget
 
-- **Integración:** un componente React en `src/components/honey/`. Se carga perezosamente después de que la página termina de pintar, así no frena el sitio.
-- **Cuándo se muestra:** solo si `GET /honey/salud` responde 200.
+- **Integración:** un componente React en `src/components/honey/`. Se carga con `React.lazy` en un archivo aparte, así no frena el sitio.
+- **Cuándo se muestra:** solo si `GET /honey/salud` responde 200 con `{"activo": true}`. Se exige el JSON porque, sin el contenedor, una ruta desconocida podría devolver la página del sitio con 200.
 - **Aspecto:**
   - burbuja con el ícono de la abeja de OpenCivic (`opencivic-icono-192.png`) mientras no lleguen las imágenes de la mascota HONEY;
   - las imágenes por estado del documento de producto se agregan cuando Carlos las comparta;
@@ -184,7 +205,7 @@ version: 2026-10-14
 - **Contenido del panel:**
   - encabezado «HONEY · asistente IA de OpenCivic»;
   - presentación fija;
-  - 4 preguntas sugeridas;
+  - 4 preguntas sugeridas, elegidas entre las que la base aprobada ya responde: «¿Qué es OpenCivic?», «¿Qué proyectos tienen?», «¿Qué licencia usan?» y «¿Quién está detrás de OpenCivic?». Se cambian cuando crezca la base;
   - respuestas con chip de fuente y botones «Útil» y «No útil»;
   - pie fijo con el aviso de IA y el enlace a la nota de privacidad.
 - **Estados:** cerrado, escribiendo (tres puntos animados), respondió, no sabe y no disponible.
@@ -212,8 +233,7 @@ version: 2026-10-14
   - la burbuja aparece o no según `/honey/salud`;
   - flujo de pregunta y respuesta contra el servicio con modelo falso.
 - **Evaluación real, con autorización de Carlos (unos centavos de dólar):** 30 preguntas:
-  - las 14 frecuentes;
-  - variaciones;
+  - preguntas que la base aprobada responde, y sus variaciones;
   - preguntas fuera de tema;
   - intentos de manipulación;
   - datos personales.
