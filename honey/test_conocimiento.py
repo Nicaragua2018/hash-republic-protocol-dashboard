@@ -89,14 +89,13 @@ class BaseRealTest(unittest.TestCase):
                 "Quién está detrás de OpenCivic",
                 "Proyectos de OpenCivic",
                 "Razón de ser de OpenCivic Solutions",
-                "Whitepaper de Hash Republic v0.5",
             ],
         )
         self.assertLess(conocimiento.estimar_tokens(docs), 30_000)
 
     def test_la_base_no_menciona_temas_retirados(self):
         for d in conocimiento.cargar(Path(__file__).with_name("base")):
-            for retirado in ["observatorio", "HAD Foundation"]:
+            for retirado in ["observatorio", "HAD Foundation", "BitCuant", "Hash Republic"]:
                 with self.subTest(doc=d.titulo, retirado=retirado):
                     self.assertNotIn(retirado.lower(), d.texto.lower())
 

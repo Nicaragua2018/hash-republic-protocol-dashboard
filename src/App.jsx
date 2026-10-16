@@ -10,7 +10,7 @@ import BlogPost from './pages/BlogPost';
 import Suscripcion from './pages/Suscripcion';
 import Join from './pages/Join';
 import Contact from './pages/Contact';
-import HashRepublicDashboard from './pages/HashRepublicDashboard';
+import RedirigirFuera, { PANEL_HRP_ARCHIVO } from './components/RedirigirFuera';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -29,8 +29,8 @@ export default function App() {
           <Route path="/contacto" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-        {/* Standalone: the project has its own dark "protocol" theme and nav */}
-        <Route path="/proyectos/hash-republic-protocol" element={<HashRepublicDashboard />} />
+        {/* El panel técnico quedó archivado en GitHub. */}
+        <Route path="/proyectos/hash-republic-protocol" element={<RedirigirFuera a={PANEL_HRP_ARCHIVO} />} />
       </Routes>
     </BrowserRouter>
   );
