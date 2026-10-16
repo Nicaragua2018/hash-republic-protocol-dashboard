@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
-import posts from '../content/posts';
+import { getPostBySlug } from '../content/posts';
 import { formatDate } from '../content/format';
 
 const FORMULA = [
@@ -28,8 +28,14 @@ const FORMULA = [
   },
 ];
 
-// Las tres entradas más recientes (posts ya viene ordenado de la más nueva a la más vieja).
-const RECIENTES = posts.slice(0, 3);
+// Las tres entradas que Carlos eligió para Inicio, en este orden.
+const DESTACADAS = [
+  'por-que-existe-opencivic',
+  'la-evolucion-del-lenguaje-como-tecnologia',
+  'las-instituciones-tambien-son-tecnologia',
+]
+  .map(getPostBySlug)
+  .filter(Boolean);
 
 export default function Home() {
   return (
@@ -125,7 +131,7 @@ export default function Home() {
             Por qué existe OpenCivic, en qué se apoya y qué puedes hacer con ello.
           </p>
           <div className="oc-grid oc-grid--3">
-            {RECIENTES.map((post) => (
+            {DESTACADAS.map((post) => (
               <Link
                 to={`/blog/${post.slug}`}
                 className="oc-card"

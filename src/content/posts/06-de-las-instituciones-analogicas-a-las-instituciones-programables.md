@@ -1,6 +1,6 @@
 ---
 slug: de-las-instituciones-analogicas-a-las-instituciones-programables
-title: De las instituciones analógicas a las instituciones programables
+title: La necesaria modernización de las instituciones públicas
 dek: "Paper conceptual de política pública (versión 1.2): tecnología, cooperación, participación democrática y patrimonio común para una nueva generación de instituciones."
 date: 2026-10-11
 author: Carlos Robleto

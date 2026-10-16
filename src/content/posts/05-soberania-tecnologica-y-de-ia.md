@@ -1,6 +1,6 @@
 ---
 slug: soberania-tecnologica-y-de-ia
-title: "Soberanía tecnológica y de IA: el conocimiento como patrimonio común"
+title: Soberanía tecnológica
 dek: Lo que la humanidad aprendió en común no debería quedar en manos de unos pocos. Tampoco debería borrar el mérito de quien lo hace avanzar.
 date: 2026-10-11
 author: Equipo OpenCivic
