@@ -92,3 +92,35 @@ test('votar', async () => {
   assert.deepEqual(cuerpo, { id: 'r_1', util: true });
   assert.equal(await votar('r_1', false, falla), false);
 });
+
+test('recortarHistorial descarta los intercambios que fallaron', () => {
+  const h = [
+    { rol: 'usuario', texto: 'u0' },
+    { rol: 'asistente', texto: 'a0', estado: 'ok' },
+    { rol: 'usuario', texto: 'u1' },
+    { rol: 'asistente', texto: 'Ahora mismo no puedo responder.', estado: 'no_disponible' },
+    { rol: 'usuario', texto: 'u2' },
+    { rol: 'asistente', texto: 'a2', estado: 'ok' },
+  ];
+  assert.deepEqual(
+    recortarHistorial(h).map((t) => t.texto),
+    ['u0', 'a0', 'u2', 'a2']
+  );
+});
+
+test('preguntar recorta el historial más viejo hasta que el cuerpo quepa en 8 KB', async () => {
+  let cuerpo;
+  const fetchFn = async (url, o) => {
+    cuerpo = o.body;
+    return responde(200, { id: 'r_1', texto: 'T', estado: 'ok', fuentes: [] })();
+  };
+  const historial = Array.from({ length: 6 }, (_, i) => ({
+    rol: i % 2 === 0 ? 'usuario' : 'asistente',
+    texto: `${i}` + 'ñ😀'.repeat(330),
+  }));
+  await preguntar('¿Y ahora?', historial, fetchFn);
+  const enviado = JSON.parse(cuerpo);
+  assert.ok(new TextEncoder().encode(cuerpo).length <= 8000);
+  assert.ok(enviado.historial.length > 0 && enviado.historial.length % 2 === 0);
+  assert.equal(enviado.historial.at(-1).texto, historial.at(-1).texto);
+});

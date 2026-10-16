@@ -63,7 +63,8 @@ export default function HoneyWidget() {
   async function enviar(texto) {
     const pregunta = texto.trim();
     if (!pregunta || escribiendo) return;
-    const historial = mensajes.map((m) => ({ rol: m.rol, texto: m.texto }));
+    // recortarHistorial deja solo rol y texto, y descarta los intercambios fallidos.
+    const historial = mensajes;
     setMensajes((ms) => [...ms, { rol: 'usuario', texto: pregunta }]);
     setEntrada('');
     setEscribiendo(true);

@@ -113,6 +113,12 @@ class AtenderChatTest(Base):
         self.assertEqual((codigo, cuerpo["estado"], cuerpo["texto"]), (200, "no_disponible", servidor.TEXTO_LIMITE))
         self.assertEqual(len(self.modelo.llamadas), 1)
 
+    def test_no_disponible_no_se_registra_ni_se_vota(self):
+        self.modelo.respuesta = Respuesta(modelo.TEXTO_NO_DISPONIBLE, "no_disponible")
+        codigo, cuerpo = servidor.atender_chat(self.config(), {"pregunta": "hola"})
+        self.assertEqual((codigo, cuerpo["estado"], cuerpo["id"]), (200, "no_disponible", None))
+        self.assertEqual(list(self.dir.glob("*.jsonl")), [])
+
     def test_si_falla_el_registro_igual_responde(self):
         codigo, cuerpo = servidor.atender_chat(self.config(registro=RegistroRoto(self.dir)), {"pregunta": "hola"})
         self.assertEqual((codigo, cuerpo["estado"], cuerpo["id"]), (200, "ok", None))

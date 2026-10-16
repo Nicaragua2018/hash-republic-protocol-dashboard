@@ -86,11 +86,13 @@ def atender_chat(cfg: Config, datos) -> tuple[int, dict]:
     pregunta = filtrar(pregunta)
     historial = [{"rol": t["rol"], "texto": filtrar(t["texto"])} for t in historial]
     respuesta: Respuesta = cfg.modelo.responder(historial, pregunta)
-    try:
-        rid = cfg.registro.guardar(pregunta, respuesta)
-    except OSError:
-        log.exception("no se pudo guardar el registro")
-        rid = None
+    rid = None
+    # Un error no es una respuesta: no se guarda ni se ofrece para votar.
+    if respuesta.estado != "no_disponible":
+        try:
+            rid = cfg.registro.guardar(pregunta, respuesta)
+        except OSError:
+            log.exception("no se pudo guardar el registro")
     log.info("pregunta respondida: %s", respuesta.estado)
     return 200, {"id": rid, "texto": respuesta.texto, "fuentes": respuesta.fuentes, "estado": respuesta.estado}
 

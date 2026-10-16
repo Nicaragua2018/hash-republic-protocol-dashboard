@@ -3,6 +3,8 @@
 
 export const MAX_TURNOS = 6;
 export const MAX_TURNO = 1000;
+// Por debajo de los 8 KB que acepta el servidor (MAX_BODY = 8192).
+export const MAX_BYTES = 8000;
 
 export const NO_DISPONIBLE = {
   id: null,
@@ -28,12 +30,27 @@ export async function honeyActivo(fetchFn = fetch) {
 }
 
 // El servidor exige pares usuario/asistente completos: se descarta un turno
-// suelto al final y se dejan los MAX_TURNOS más recientes.
+// suelto al final, los intercambios que fallaron (no se le reenvían al modelo
+// textos de error) y se dejan los MAX_TURNOS más recientes.
 export function recortarHistorial(historial) {
   const completos = historial.slice(0, historial.length - (historial.length % 2));
-  return completos
-    .slice(-MAX_TURNOS)
-    .map((t) => ({ rol: t.rol, texto: String(t.texto).slice(0, MAX_TURNO) }));
+  const pares = [];
+  for (let i = 0; i < completos.length; i += 2) {
+    if (completos[i + 1].estado !== 'no_disponible') pares.push(completos[i], completos[i + 1]);
+  }
+  return pares.slice(-MAX_TURNOS).map((t) => ({ rol: t.rol, texto: String(t.texto).slice(0, MAX_TURNO) }));
+}
+
+// Con acentos o emojis, 6 turnos pueden pasar de 8 KB: se quitan los pares
+// más viejos hasta que el cuerpo quepa.
+function cuerpoChat(pregunta, historial) {
+  let turnos = recortarHistorial(historial);
+  let cuerpo = JSON.stringify({ pregunta, historial: turnos });
+  while (turnos.length > 0 && new TextEncoder().encode(cuerpo).length > MAX_BYTES) {
+    turnos = turnos.slice(2);
+    cuerpo = JSON.stringify({ pregunta, historial: turnos });
+  }
+  return cuerpo;
 }
 
 // Solo rutas del propio sitio: una fuente nunca lleva a otro dominio.
@@ -51,7 +68,7 @@ export async function preguntar(pregunta, historial, fetchFn = fetch) {
     const res = await fetchFn('/honey/chat', {
       method: 'POST',
       headers: JSON_HEADERS,
-      body: JSON.stringify({ pregunta, historial: recortarHistorial(historial) }),
+      body: cuerpoChat(pregunta, historial),
     });
     if (res.status === 429) {
       return { ...NO_DISPONIBLE, texto: 'Vas muy rápido. Espera un momento y vuelve a preguntar.' };
