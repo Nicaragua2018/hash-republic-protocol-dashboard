@@ -22,6 +22,15 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
+      - run: npm test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Pruebas de HONEY
+        working-directory: honey
+        run: |
+          pip install -q -r requirements.txt
+          python -m unittest discover -v
       - run: npm run build
 
   deploy:

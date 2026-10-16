@@ -6,3 +6,6 @@ package-lock.json
 src/content/posts
 # Espacio de trabajo local de los planes (ignorado por git)
 .superpowers
+
+# Base de conocimiento de HONEY: texto editorial, como los artículos.
+honey/base

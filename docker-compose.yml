@@ -170,6 +170,56 @@ services:
       - traefik.http.middlewares.boletin-quitar-prefijo.stripprefix.prefixes=/boletin
       - traefik.http.services.opencivic-boletin-portero.loadbalancer.server.port=8080
 
+  # HONEY, el asistente del sitio (docs/superpowers/specs/2026-10-14-honey-asistente-design.md).
+  # Apagado mientras .env no tenga HONEY_ACTIVO=1 y ANTHROPIC_API_KEY: la burbuja no aparece.
+  honey:
+    build: ./honey
+    container_name: opencivic-honey
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    environment:
+      HONEY_ACTIVO: ${HONEY_ACTIVO:-0}
+      HONEY_MODELO: ${HONEY_MODELO:-anthropic:claude-haiku-5-5}
+      HONEY_LIMITE_DIARIO: ${HONEY_LIMITE_DIARIO:-300}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      PYTHONDONTWRITEBYTECODE: '1'
+      TZ: America/Managua
+    volumes:
+      - honey-registros:/registros
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/vivo']
+      interval: 10s
+      retries: 3
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.opencivic-honey.loadbalancer.server.port=8080
+      # /honey/salud, /honey/vivo y /honey/util: límite amplio (cada página consulta la salud).
+      - traefik.http.routers.honey.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && PathPrefix(`/honey/`)
+      - traefik.http.routers.honey.priority=110
+      - traefik.http.routers.honey.entrypoints=websecure
+      - traefik.http.routers.honey.tls.certresolver=letsencrypt
+      - traefik.http.routers.honey.middlewares=honey-rl-general,honey-quitar-prefijo
+      - traefik.http.routers.honey.service=opencivic-honey
+      # /honey/chat: cada pregunta cuesta; 6 por minuto con ráfaga de 3.
+      - traefik.http.routers.honey-chat.rule=(Host(`${SITE_HOST:-opencivicsolutions.org}`) || Host(`www.${SITE_HOST:-opencivicsolutions.org}`)) && Path(`/honey/chat`)
+      - traefik.http.routers.honey-chat.priority=120
+      - traefik.http.routers.honey-chat.entrypoints=websecure
+      - traefik.http.routers.honey-chat.tls.certresolver=letsencrypt
+      - traefik.http.routers.honey-chat.middlewares=honey-rl-chat,honey-quitar-prefijo
+      - traefik.http.routers.honey-chat.service=opencivic-honey
+      - traefik.http.middlewares.honey-rl-chat.ratelimit.average=6
+      - traefik.http.middlewares.honey-rl-chat.ratelimit.period=1m
+      - traefik.http.middlewares.honey-rl-chat.ratelimit.burst=3
+      # IPv6: agrupa por red /64 para que cambiar de dirección no salte el límite.
+      - traefik.http.middlewares.honey-rl-chat.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
+      - traefik.http.middlewares.honey-rl-general.ratelimit.average=60
+      - traefik.http.middlewares.honey-rl-general.ratelimit.period=1m
+      - traefik.http.middlewares.honey-rl-general.ratelimit.burst=30
+      - traefik.http.middlewares.honey-rl-general.ratelimit.sourcecriterion.ipstrategy.ipv6subnet=64
+      - traefik.http.middlewares.honey-quitar-prefijo.stripprefix.prefixes=/honey
+
   # Herramientas de una sola ejecución (configurar, borradores, copias).
   # No arranca con "up": se usa con "docker compose run --rm boletin-herramientas …".
   boletin-herramientas:
@@ -192,3 +242,4 @@ volumes:
   comments-data:
   boletin-db:
   boletin-uploads:
+  honey-registros:
