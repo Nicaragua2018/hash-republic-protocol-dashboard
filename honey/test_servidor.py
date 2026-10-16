@@ -1,6 +1,7 @@
 """Pruebas del servidor de HONEY, con un modelo falso."""
 
 import json
+import socket
 import tempfile
 import threading
 import unittest
@@ -26,6 +27,11 @@ class ModeloGrabador:
     def responder(self, historial, pregunta):
         self.llamadas.append((historial, pregunta))
         return self.respuesta
+
+
+class ModeloRoto:
+    def responder(self, historial, pregunta):
+        raise RuntimeError("objeto inesperado del SDK")
 
 
 class RegistroRoto(Registro):
@@ -119,6 +125,22 @@ class AtenderChatTest(Base):
         self.assertEqual((codigo, cuerpo["estado"], cuerpo["id"]), (200, "no_disponible", None))
         self.assertEqual(list(self.dir.glob("*.jsonl")), [])
 
+    def test_error_inesperado_del_modelo_da_no_disponible(self):
+        codigo, cuerpo = servidor.atender_chat(self.config(modelo=ModeloRoto()), {"pregunta": "hola"})
+        self.assertEqual((codigo, cuerpo["estado"], cuerpo["id"]), (200, "no_disponible", None))
+
+    def test_tope_de_preguntas_simultaneas(self):
+        cfg = self.config(limite=1)
+        cfg.simultaneas = threading.BoundedSemaphore(1)
+        cfg.simultaneas.acquire()  # otra pregunta ocupa el único lugar
+        with mock.patch.object(servidor, "ESPERA_CUPO", 0.05):
+            codigo, cuerpo = servidor.atender_chat(cfg, {"pregunta": "hola"})
+        self.assertEqual((codigo, cuerpo["estado"], cuerpo["texto"]), (200, "no_disponible", servidor.TEXTO_OCUPADO))
+        self.assertEqual(self.modelo.llamadas, [])
+        cfg.simultaneas.release()
+        # No gastó el cupo diario: la siguiente pregunta sí se responde.
+        self.assertEqual(servidor.atender_chat(cfg, {"pregunta": "hola"})[1]["estado"], "ok")
+
     def test_si_falla_el_registro_igual_responde(self):
         codigo, cuerpo = servidor.atender_chat(self.config(registro=RegistroRoto(self.dir)), {"pregunta": "hola"})
         self.assertEqual((codigo, cuerpo["estado"], cuerpo["id"]), (200, "ok", None))
@@ -179,6 +201,15 @@ class HttpTest(Base):
         self.assertEqual(self.pedir(f"{base}/chat", "POST", b"x" * 9000)[0], 413)
         self.assertEqual(self.pedir(f"{base}/otra")[0], 404)
         self.assertEqual(self.pedir(f"{base}/chat")[0], 404)
+
+    def test_cierra_conexiones_lentas(self):
+        srv = servidor.make_server(self.config(), 0, tiempo_lectura=0.5)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        self.addCleanup(srv.server_close)
+        self.addCleanup(srv.shutdown)
+        with socket.create_connection(("127.0.0.1", srv.server_address[1]), timeout=5) as s:
+            s.sendall(b"POST /chat HTTP/1.1\r\n")  # y nunca termina la petición
+            self.assertEqual(s.recv(1024), b"")  # el servidor cierra antes de 5 s
 
     def test_voto(self):
         base = self.arrancar(self.config())

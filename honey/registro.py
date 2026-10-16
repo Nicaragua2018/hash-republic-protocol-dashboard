@@ -8,6 +8,7 @@ borran.
 import json
 import secrets
 import threading
+from collections import OrderedDict
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -15,11 +16,16 @@ from limite import MANAGUA
 
 
 class Registro:
-    def __init__(self, carpeta: Path, reloj=None, dias: int = 30):
+    def __init__(self, carpeta: Path, reloj=None, dias: int = 30, recientes: int = 2000):
         self.carpeta = Path(carpeta)
         self.dias = dias
         self._reloj = reloj or (lambda: datetime.now(MANAGUA))
         self._lock = threading.Lock()
+        # Respuestas que todavía se pueden votar (una vez cada una). Vive en
+        # memoria: tras un reinicio, las respuestas anteriores ya no se votan.
+        self._recientes = recientes
+        self._votables: OrderedDict[str, None] = OrderedDict()
+        self._lock_votos = threading.Lock()
 
     def _ahora(self) -> datetime:
         return self._reloj().astimezone(MANAGUA)
@@ -44,11 +50,21 @@ class Registro:
                 "fuentes": [f["titulo"] for f in respuesta.fuentes],
             },
         )
+        with self._lock_votos:
+            self._votables[rid] = None
+            while len(self._votables) > self._recientes:
+                self._votables.popitem(last=False)
         return rid
 
-    def votar(self, rid: str, util: bool) -> None:
+    def votar(self, rid: str, util: bool) -> bool:
+        """Guarda el voto si la respuesta existe y no se votó antes. Devuelve si lo guardó."""
+        with self._lock_votos:
+            if rid not in self._votables:
+                return False
+            del self._votables[rid]
         ahora = self._ahora()
         self._escribir(ahora, {"id": rid, "fecha": ahora.isoformat(timespec="seconds"), "tipo": "voto", "util": util})
+        return True
 
     def purgar(self) -> int:
         """Borra los días anteriores a hoy menos `dias`. Devuelve cuántos archivos borró."""

@@ -10,7 +10,7 @@ import logging
 import os
 import re
 import threading
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -26,6 +26,13 @@ MAX_TURNOS = 6
 MAX_TURNO = 1000
 DIA = 24 * 3600
 ID_VALIDO = re.compile(r"r_[0-9a-f]{16}")
+# Preguntas que se procesan a la vez (cada una puede tardar hasta ~90 s con
+# los reintentos del SDK) y cuánto espera una pregunta por un lugar libre.
+MAX_SIMULTANEAS = 8
+ESPERA_CUPO = 10.0
+# Segundos que el servidor espera a que un cliente termine de enviar su petición.
+TIEMPO_LECTURA = 15.0
+TEXTO_OCUPADO = "Ahora mismo hay muchas preguntas a la vez. Inténtalo de nuevo en un momento."
 TEXTO_LIMITE = (
     "Hoy ya respondí todas las preguntas que puedo. Vuelve mañana o escribe al equipo desde la página de contacto."
 )
@@ -46,6 +53,7 @@ class Config:
     modelo: object  # None = HONEY apagado
     limite: LimiteDiario
     registro: Registro
+    simultaneas: threading.Semaphore = field(default_factory=lambda: threading.BoundedSemaphore(MAX_SIMULTANEAS))
 
     @property
     def activo(self) -> bool:
@@ -80,12 +88,28 @@ def atender_chat(cfg: Config, datos) -> tuple[int, dict]:
     if not cfg.activo:
         return 503, {"id": None, "texto": TEXTO_NO_DISPONIBLE, "fuentes": [], "estado": "no_disponible"}
     historial, pregunta = validar_chat(datos)
+    if not cfg.simultaneas.acquire(timeout=ESPERA_CUPO):
+        log.warning("demasiadas preguntas a la vez")
+        return 200, {"id": None, "texto": TEXTO_OCUPADO, "fuentes": [], "estado": "no_disponible"}
+    try:
+        return _responder(cfg, historial, pregunta)
+    finally:
+        cfg.simultaneas.release()
+
+
+def _responder(cfg: Config, historial: list[dict], pregunta: str) -> tuple[int, dict]:
     if not cfg.limite.tomar():
         log.info("límite diario alcanzado")
         return 200, {"id": None, "texto": TEXTO_LIMITE, "fuentes": [], "estado": "no_disponible"}
     pregunta = filtrar(pregunta)
     historial = [{"rol": t["rol"], "texto": filtrar(t["texto"])} for t in historial]
-    respuesta: Respuesta = cfg.modelo.responder(historial, pregunta)
+    try:
+        respuesta: Respuesta = cfg.modelo.responder(historial, pregunta)
+    except Exception:
+        # Cualquier sorpresa (p. ej. una respuesta del SDK con forma inesperada)
+        # se ve como "no disponible", nunca como una conexión cortada.
+        log.exception("error inesperado al responder")
+        respuesta = Respuesta(TEXTO_NO_DISPONIBLE, "no_disponible")
     rid = None
     # Un error no es una respuesta: no se guarda ni se ofrece para votar.
     if respuesta.estado != "no_disponible":
@@ -114,10 +138,12 @@ def atender_voto(cfg: Config, datos) -> int:
     return 204
 
 
-def make_server(cfg: Config, port: int = 8080) -> ThreadingHTTPServer:
+def make_server(cfg: Config, port: int = 8080, tiempo_lectura: float = TIEMPO_LECTURA) -> ThreadingHTTPServer:
     class Handler(BaseHTTPRequestHandler):
         server_version = "honey"
         sys_version = ""
+        # Corta a los clientes que abren la conexión y no terminan la petición.
+        timeout = tiempo_lectura
 
         def log_message(self, *args):
             # Las líneas de acceso incluyen la IP: no se registran.

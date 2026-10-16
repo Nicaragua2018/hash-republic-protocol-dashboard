@@ -32,9 +32,20 @@ class FiltroTest(unittest.TestCase):
             "los 25 principios",
             "año 2027",
             "1.000.000 personas",
+            "precio 1000000 USD",
+            "Bitcoin tiene 21000000 unidades",
+            "entre 2025 2026 2027 y 2028",
+            "el 2026-10-16 10 personas",
+            "del 2026-10-15 2026-10-16 al 2026-10-17",
         ]:
             with self.subTest(texto=texto):
                 self.assertEqual(filtrar(texto), texto)
+
+    def test_telefonos_junto_a_fechas_siguen_ocultos(self):
+        self.assertEqual(filtrar("el 2026-10-16 llamé al 8888-1234"), "el 2026-10-16 llamé al [teléfono]")
+
+    def test_caracteres_de_uso_privado_no_rompen_el_filtro(self):
+        self.assertEqual(filtrar("hola  2026-10-16"), "hola  2026-10-16")
 
     def test_varios_datos_en_un_texto(self):
         self.assertEqual(filtrar("ana@x.org o +505 8888 1234"), "[correo] o [teléfono]")

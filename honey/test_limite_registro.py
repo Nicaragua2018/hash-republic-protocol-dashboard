@@ -68,6 +68,21 @@ class RegistroTest(unittest.TestCase):
         voto = self.lineas()[1]
         self.assertEqual((voto["id"], voto["tipo"], voto["util"]), (rid, "voto", False))
 
+    def test_solo_se_vota_una_vez_por_respuesta_real(self):
+        rid = self.reg.guardar("hola", Respuesta("Hola.", "ok"))
+        self.assertFalse(self.reg.votar("r_0123456789abcdef", True))  # id que nunca se dio
+        self.assertTrue(self.reg.votar(rid, True))
+        self.assertFalse(self.reg.votar(rid, False))  # segundo voto
+        self.assertEqual([x["tipo"] for x in self.lineas()], ["respuesta", "voto"])
+
+    def test_recuerda_solo_las_respuestas_recientes(self):
+        reg = Registro(self.dir, self.reloj, recientes=2)
+        viejo = reg.guardar("uno", Respuesta("1.", "ok"))
+        reg.guardar("dos", Respuesta("2.", "ok"))
+        nuevo = reg.guardar("tres", Respuesta("3.", "ok"))
+        self.assertFalse(reg.votar(viejo, True))
+        self.assertTrue(reg.votar(nuevo, True))
+
     def test_purgar_borra_lo_de_mas_de_30_dias(self):
         for nombre in ["2026-09-13.jsonl", "2026-09-14.jsonl", "notas.txt", "basura.jsonl"]:
             (self.dir / nombre).write_text("{}\n", encoding="utf-8")
