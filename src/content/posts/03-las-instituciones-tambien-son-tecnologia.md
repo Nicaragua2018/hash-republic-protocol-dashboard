@@ -1,7 +1,7 @@
 ---
 slug: las-instituciones-tambien-son-tecnologia
 title: Las instituciones también son tecnología
-dek: Resumen de nuestro paper conceptual: por qué digitalizar no es transformar, qué es una institución programable y qué conviene proteger antes de rediseñar nada.
+dek: Si el trámite te agota y sientes que el Estado no funciona para ti, no es tu culpa. Muchas instituciones siguen diseñadas para la época del papel, y un diseño se puede mejorar.
 date: 2026-10-11
 author: Equipo OpenCivic
 ia: asistido
@@ -10,57 +10,55 @@ imageAlt: Ilustración dibujada a mano: un formulario de papel, luego el mismo f
 ogImage: /og-instituciones-tecnologia.png
 ---
 
-Los primeros automóviles se diseñaron como carruajes sin caballo: la misma carrocería, los mismos asientos, solo cambiaba el motor. Hicieron falta años para que alguien se preguntara si un vehículo con motor necesitaba parecerse a un carruaje.
+Los primeros automóviles se diseñaron como carruajes sin caballo: la misma carrocería, los mismos asientos, solo cambiaba el motor. Pasaron años antes de que alguien se preguntara si un vehículo con motor necesitaba parecerse a un carruaje.
 
-Buena parte de la modernización del Estado ha seguido ese patrón. Convertir un formulario en PDF es digitalizar. Permitir enviarlo por internet mejora el acceso. Pero si luego un funcionario lo imprime, copia los datos a otro sistema y te pide un documento que otra oficina ya tiene, la arquitectura sigue intacta. Cambió el motor; el carruaje es el mismo.
+Al Estado le pasa algo parecido. Llenas un formulario en internet, pero luego alguien lo imprime, copia tus datos a otro sistema y te pide un documento que otra oficina ya tiene. Cambió el motor; el carruaje es el mismo. Si eso te agota, no es tu culpa: es un problema de diseño. Y los diseños se pueden mejorar.
 
-Este artículo resume la idea central de nuestro paper conceptual, [*La necesaria modernización de las instituciones públicas*](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables): la próxima transformación digital no tiene por qué limitarse a ponerle tecnología nueva a instituciones viejas. Puede servir para inventar mejores instituciones.
+## Una institución es una herramienta
 
-## Una institución es un mecanismo de coordinación
+Una elección sirve para sumar opiniones. Una cooperativa, para compartir propiedad y trabajo. Un parlamento, para que millones de personas tengan representantes. Todas son herramientas para coordinarnos, y todas se diseñaron con lo que había en su época: papel, cartas lentas y archivos en una oficina.
 
-Una elección agrega preferencias. Una cooperativa organiza propiedad y producción compartidas. Un parlamento hace posible la representación a gran escala. Una constitución reparte autoridad y limita el poder. Todas son herramientas que resuelven un problema de coordinación colectiva, y todas se diseñaron bajo las restricciones de su época: papel, comunicación lenta, presencia física, archivos centralizados.
+La idea no es nueva. En 1937, el economista Ronald Coase explicó que las organizaciones existen porque coordinarse tiene costos, y que cuando la tecnología cambia esos costos, cambia también la mejor manera de organizarse. Elinor Ostrom, premio Nobel de Economía, documentó que comunidades de todo el mundo administran bienes comunes por su cuenta, con reglas que se pueden aprender y copiar.
 
-La idea no es nueva. Ronald Coase explicó en 1937 que las organizaciones existen porque coordinarse a través del mercado tiene costos; si la tecnología cambia esos costos, cambia también la mejor forma de organizarse. Elinor Ostrom documentó que comunidades de todo el mundo administran bienes comunes sin depender solo del Estado ni del mercado, siguiendo principios de diseño que se pueden identificar y copiar. Lo que cambió en las últimas décadas es cuánto bajaron algunos de esos costos: comunicarse, participar y verificar ya no cuestan lo que costaban cuando se diseñaron nuestras instituciones.
+Hoy comunicarnos, participar y verificar cuesta muchísimo menos que cuando se diseñaron nuestras instituciones. Esa es la oportunidad.
 
 ## Digitalizar no es transformar
 
-Antes de rediseñar un procedimiento conviene hacerse cuatro preguntas: ¿por qué existe?, ¿qué problema resuelve?, ¿qué pasos siguen siendo necesarios? y ¿cuáles existen solo por limitaciones que ya desaparecieron? De ahí salen tres etapas que no hay que confundir: la administración analógica, la administración digitalizada y la institución rediseñada digitalmente. La mayoría de los gobiernos se quedó en la segunda.
+Antes de cambiar un trámite conviene hacerse cuatro preguntas: ¿por qué existe?, ¿qué problema resuelve?, ¿qué pasos siguen siendo necesarios? y ¿cuáles existen solo porque antes no había otra forma? Pasar el papel a la pantalla es digitalizar. Repensar el trámite desde esas preguntas es transformarlo. La mayoría de los gobiernos se quedó en lo primero.
 
-## Qué es una institución programable
+## Comprobar en vez de solo confiar
 
-Llamamos institución programable a una organización en la que algunas reglas se expresan en infraestructura digital verificable y, cuando tiene sentido, se ejecutan solas. "Programable" no significa gobernada por código. Hay dos tipos de decisiones, y se tratan distinto:
+Hoy tenemos que confiar en que una decisión se tomó según las reglas, en que un fondo llegó a su destino o en que un registro no fue alterado. Muchas de esas cosas ya se pueden **comprobar**. Eso no reemplaza la confianza entre personas: la apoya con evidencia. Y la evidencia es un buen antídoto contra la sensación de que todo se decide a escondidas.
 
-- **Procesos reglados:** una norma aprobada, una condición que se puede verificar, la ejecución, el registro y la auditoría. Por ejemplo, repartir un excedente con una fórmula que los miembros de una cooperativa ya aprobaron.
-- **Decisiones de juicio:** información, análisis, una recomendación, deliberación humana, la decisión y el derecho a impugnarla. Por ejemplo, decidir cuál debería ser esa fórmula.
+## Las máquinas ejecutan; las personas deciden
 
-Un sistema puede verificar que una solicitud trae los documentos exigidos; eso no lo autoriza a resolver una cuestión compleja de justicia. Puede ejecutar un presupuesto; no fijar las prioridades de una sociedad. **Automatizar procedimientos no es automatizar soberanía.**
+La tecnología puede revisar que una solicitud traiga los documentos exigidos o ejecutar un presupuesto ya aprobado. No debe decidir qué es justo ni cuáles son las prioridades de una sociedad. Automatizar trámites no es automatizar la soberanía.
 
-## La ley gobierna al código
-
-En 2016, un fondo de inversión descentralizado en Ethereum llamado The DAO perdió buena parte de sus fondos por una falla en su contrato inteligente. Técnicamente, el atacante hizo lo que el código permitía. La comunidad terminó revirtiendo el resultado con un cambio en la propia red, y esa decisión la partió en dos: de ahí nació Ethereum Classic.
-
-El caso muestra el límite de la consigna "el código es ley". Una sociedad puede cambiar una ley, un tribunal puede anular una decisión y una persona puede apelar. En instituciones democráticas debe regir el principio inverso: la ley gobierna al código. El código ejecuta reglas, pero no es la autoridad superior, y por eso necesita mecanismos de corrección definidos de antemano.
-
-## Verificar en vez de solo confiar
-
-Quizá la aportación más importante de estas tecnologías no sea la automatización, sino la verificabilidad. Hoy confiamos en que una decisión se tomó bajo cierta norma, en que un fondo llegó a su destino o en que un registro no fue alterado. Algunas de esas afirmaciones ya se pueden comprobar directamente. Eso no elimina la confianza entre personas: la complementa con evidencia. Dicho corto, el almacenamiento no es autoridad; la verificabilidad sí.
+En 2016, un fondo de inversión en Ethereum llamado The DAO perdió buena parte de su dinero por una falla en su programa. El atacante hizo lo que el código permitía, y la comunidad terminó partida en dos al intentar corregirlo. La lección: en una democracia, la ley gobierna al código, y no al revés. Un código siempre necesita una forma de corregirse.
 
 ## Lo que el papel protegía
 
-No toda restricción heredada es un defecto. Antes de quitar una cerca conviene saber por qué alguien la puso. La cabina de votación garantiza que nadie vea cómo votas; un teléfono no, y el voto remoto abre la puerta a la coacción y a la compra de votos. La lentitud de ciertos trámites enfría las decisiones y da tiempo a que las minorías se organicen. Y la dispersión de los registros en papel limitaba, sin proponérselo, la capacidad del Estado para vigilar.
+No todo lo viejo es un defecto. La cabina de votación garantiza que nadie vea cómo votas; un teléfono no. Y los archivos dispersos en papel, sin proponérselo, le ponían un límite al poder de vigilar.
 
-Estonia es el ejemplo más citado de lo contrario. Su plataforma X-Road conecta los registros de distintas agencias y aplica el principio de "una sola vez": el Estado no te pide un dato que ya tiene. Es un avance real, y a la vez un recordatorio: la misma infraestructura que permite servir mejor permite vigilar mejor. Por eso una infraestructura así necesita, desde su diseño, registros de acceso que el ciudadano pueda consultar, la mínima cantidad de datos posible y supervisión independiente.
+Estonia conectó los registros de sus oficinas con una plataforma llamada X-Road, y el Estado ya no te pide un dato que ya tiene. Es un gran avance, y también un recordatorio: lo que permite servir mejor también permite vigilar mejor. Por eso un sistema así necesita, desde el principio, que cada persona pueda ver quién consultó sus datos, guardar lo mínimo posible y supervisión independiente.
 
-## Descentralizar tecnología no es descentralizar poder
+## Tres preguntas para cualquier propuesta
 
-Un sistema puede ser técnicamente descentralizado y estar controlado por muy pocos. Por eso, ante cualquier propuesta, preferimos hacer seis preguntas en lugar de una: ¿quién puede cambiar las reglas?, ¿quién controla el dinero y los datos?, ¿quién puede excluir a alguien?, ¿quién responde cuando algo sale mal?, ¿puede una minoría defender sus derechos? y ¿puede una persona irse y llevarse sus datos?
+Ante cualquier tecnología que prometa mejorar las instituciones, preguntemos:
 
-La cuestión decisiva no será qué tecnología ganó, sino quién puede gobernarla. La tecnología debe ampliar la capacidad de las personas para gobernar sus instituciones, no reemplazarlas como fuente de soberanía.
+1. ¿Quién puede cambiar las reglas?
+2. ¿Quién controla los datos y el dinero?
+3. ¿Quién responde cuando algo sale mal?
+
+Si las respuestas son «unos pocos», no importa qué tan moderna sea: la tecnología debe ampliar el poder de la gente para gobernar sus instituciones, no reemplazarlo.
+
+Las instituciones que hoy nos cansan fueron, en su momento, grandes inventos. Podemos hacer los de nuestra época. Si quieres pensar esto con nosotros, puedes [suscribirte al boletín](/blog) o [sumarte](/unirse). Profundizamos estas ideas en [*La necesaria modernización de las instituciones públicas*](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables).
 
 ## Fuentes
 
-- [OpenCivic Solutions (2026). La necesaria modernización de las instituciones públicas, paper conceptual, versión 1.2.](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables)
+- [OpenCivic Solutions (2026). La necesaria modernización de las instituciones públicas.](/blog/de-las-instituciones-analogicas-a-las-instituciones-programables)
 - [Coase, R. (1937). The Nature of the Firm. Economica — Wikipedia.](https://en.wikipedia.org/wiki/The_Nature_of_the_Firm)
 - Ostrom, E. (1990). Governing the Commons: The Evolution of Institutions for Collective Action. Cambridge University Press.
+- [Elinor Ostrom, Premio Nobel de Economía 2009 — NobelPrize.org.](https://www.nobelprize.org/prizes/economic-sciences/2009/ostrom/facts/)
 - [The DAO (2016): el ataque y la bifurcación de Ethereum — Gemini Cryptopedia.](https://www.gemini.com/cryptopedia/the-dao-hack-makerdao)
 - [X-Road, plataforma de intercambio de datos de Estonia — e-Estonia.](https://e-estonia.com/solutions/interoperability-services/x-road/)
