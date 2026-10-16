@@ -3,6 +3,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY *.py ./
+COPY evaluacion.json ./
 COPY base ./base
 RUN mkdir /registros && chown nobody /registros
 USER nobody
