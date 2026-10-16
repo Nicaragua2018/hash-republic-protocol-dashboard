@@ -1,6 +1,6 @@
 # HONEY v1 — diseño técnico del asistente del sitio
 
-**Versión:** 1.1 (aprobado por Carlos el 2026-10-15; 1.1 agrega detalles de implementación) · **Fecha:** 2026-10-15
+**Versión:** 1.2 (1.1 aprobado por Carlos el 2026-10-15; 1.2 del 2026-10-16: el sitio se simplifica y el whitepaper técnico sale de la base) · **Fecha:** 2026-10-16
 **Documento de producto:** [HONEY v1 — Especificación](https://claude.ai/code/artifact/fec1a344-7ded-4443-924b-abdd28fbb16d) (personalidad, reglas, preguntas frecuentes). Este documento dice _cómo_ se construye; aquel dice _qué_ responde.
 
 ## 1. Decisiones de Carlos (14 oct 2026)
@@ -45,7 +45,6 @@ El documento de producto previó pgvector, pero **no hace falta en v1**. Toda la
 
 - 14 preguntas frecuentes;
 - la Razón de ser (339 palabras);
-- extractos del Whitepaper v0.5;
 - textos de las páginas del sitio.
 
 Son menos de 30 000 tokens. Por eso **se envía la base completa en cada pregunta**, marcada para la caché de prompts de Anthropic. Las preguntas siguientes reutilizan esa parte a una fracción del precio.
@@ -132,16 +131,15 @@ version: 2026-10-12
 
 Base inicial:
 
-| Archivo                       | Título                              | Enlace                              |
-| ----------------------------- | ----------------------------------- | ----------------------------------- |
-| `faq-10-licencias.md`         | Licencias de OpenCivic              | `/`                                 |
-| `faq-13-quien-esta-detras.md` | Quién está detrás de OpenCivic      | `/sobre`                            |
-| `razon-de-ser.md`             | Razón de ser de OpenCivic Solutions | `/sobre`                            |
-| `proyectos.md`                | Proyectos de OpenCivic              | `/proyectos`                        |
-| `whitepaper-v0.5.md`          | Whitepaper de Hash Republic v0.5    | `/proyectos/hash-republic-protocol` |
+| Archivo                       | Título                              | Enlace       |
+| ----------------------------- | ----------------------------------- | ------------ |
+| `faq-10-licencias.md`         | Licencias de OpenCivic              | `/`          |
+| `faq-13-quien-esta-detras.md` | Quién está detrás de OpenCivic      | `/sobre`     |
+| `razon-de-ser.md`             | Razón de ser de OpenCivic Solutions | `/sobre`     |
+| `proyectos.md`                | Proyectos de OpenCivic              | `/proyectos` |
 
 - Solo entran preguntas frecuentes en estado **Aprobada** en el documento de producto, una por archivo. Hoy son la 10 (licencia) y la 13 (quién está detrás). Las demás se agregan a medida que Carlos las apruebe.
-- El Whitepaper v0.5 se convierte del `.docx` con un script incluido (`honey/docx_a_texto.py`). Ya no menciona el observatorio ni a HAD Foundation.
+- El 2026-10-16 Carlos simplificó el sitio: Nicaragua Decide es el único proyecto, el panel técnico de Hash Republic Protocol quedó archivado en GitHub y el Whitepaper v0.5 salió de la base. A preguntas técnicas sobre Hash Republic, HONEY responde que no está en sus documentos. El script `honey/docx_a_texto.py` sigue disponible para convertir futuros `.docx`.
 - Cambiar la base es un PR, igual que el blog. Al desplegar, la imagen se reconstruye con los archivos nuevos.
 - Una prueba automática verifica que cada archivo tenga `titulo`, `url` y `version`, y que la base total no pase de 150 000 tokens (estimados por caracteres).
 

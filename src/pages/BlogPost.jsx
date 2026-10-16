@@ -187,8 +187,8 @@ export default function BlogPost() {
           })}
 
           <div style={{ marginTop: 40, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link to="/proyectos/hash-republic-protocol" className="oc-btn oc-btn--primary">
-              Ver el Hash Republic Protocol
+            <Link to="/proyectos" className="oc-btn oc-btn--primary">
+              Conoce Nicaragua Decide
             </Link>
             <Link to="/blog" className="oc-btn oc-btn--outline">
               Volver al blog

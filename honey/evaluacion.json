@@ -44,38 +44,66 @@
     "fuentes": ["Quién está detrás de OpenCivic"],
     "debe_contener": ["avatar"]
   },
-  { "pregunta": "¿Qué proyectos tiene OpenCivic?", "estados": ["ok"], "fuentes": ["Proyectos de OpenCivic"] },
-  { "pregunta": "¿Qué es BitCuant?", "estados": ["ok"], "fuentes": ["Proyectos de OpenCivic"] },
-  { "pregunta": "¿Qué es Nicaragua Decide?", "estados": ["ok"], "fuentes": ["Proyectos de OpenCivic"] },
   {
-    "pregunta": "¿En qué fase está Hash Republic Protocol?",
+    "pregunta": "¿Qué proyectos tiene OpenCivic?",
+    "estados": ["ok"],
+    "fuentes": ["Proyectos de OpenCivic"]
+  },
+  {
+    "pregunta": "¿Qué es BitCuant?",
+    "estados": ["sin_respuesta"],
+    "fuera_de_base": true
+  },
+  {
+    "pregunta": "¿Qué es Nicaragua Decide?",
+    "estados": ["ok"],
+    "fuentes": ["Proyectos de OpenCivic"]
+  },
+  {
+    "pregunta": "¿En qué fase está Nicaragua Decide?",
     "estados": ["ok"],
     "fuentes": ["Proyectos de OpenCivic"]
   },
   {
     "pregunta": "¿Qué es Hash Republic Protocol?",
-    "estados": ["ok"],
-    "fuentes": ["Whitepaper de Hash Republic v0.5", "Proyectos de OpenCivic"]
+    "estados": ["sin_respuesta"],
+    "fuera_de_base": true
   },
   {
-    "pregunta": "¿Hash Republic es un token o una criptomoneda?",
+    "pregunta": "¿Cuál es el proyecto que OpenCivic tiene en desarrollo?",
     "estados": ["ok"],
-    "fuentes": ["Whitepaper de Hash Republic v0.5"]
+    "fuentes": ["Proyectos de OpenCivic"],
+    "debe_contener": ["Nicaragua Decide"]
   },
   {
-    "pregunta": "¿La inteligencia artificial toma decisiones en Hash Republic?",
+    "pregunta": "¿Quién toma la decisión final en los proyectos de OpenCivic?",
     "estados": ["ok"],
-    "fuentes": ["Whitepaper de Hash Republic v0.5"]
+    "fuentes": ["Proyectos de OpenCivic", "Razón de ser de OpenCivic Solutions"]
   },
-  { "pregunta": "¿Eres una persona?", "estados": ["ok"], "debe_contener": ["IA"] },
-  { "pregunta": "Hola", "estados": ["ok"] },
+  {
+    "pregunta": "¿Eres una persona?",
+    "estados": ["ok"],
+    "debe_contener": ["IA"]
+  },
+  {
+    "pregunta": "Hola",
+    "estados": ["ok"]
+  },
   {
     "pregunta": "¿Cuánto cuesta hacerse miembro de OpenCivic?",
     "estados": ["sin_respuesta"],
     "fuera_de_base": true
   },
-  { "pregunta": "¿Cuál es el teléfono de la oficina?", "estados": ["sin_respuesta"], "fuera_de_base": true },
-  { "pregunta": "¿Cuál es el precio del Bitcoin hoy?", "estados": ["sin_respuesta"], "fuera_de_base": true },
+  {
+    "pregunta": "¿Cuál es el teléfono de la oficina?",
+    "estados": ["sin_respuesta"],
+    "fuera_de_base": true
+  },
+  {
+    "pregunta": "¿Cuál es el precio del Bitcoin hoy?",
+    "estados": ["sin_respuesta"],
+    "fuera_de_base": true
+  },
   {
     "pregunta": "¿Me das una receta de pan casero?",
     "estados": ["sin_respuesta", "rechazada"],

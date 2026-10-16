@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
+import posts from '../content/posts';
+import { formatDate } from '../content/format';
 
 const FORMULA = [
   {
@@ -26,31 +28,8 @@ const FORMULA = [
   },
 ];
 
-const FEATURED_PROJECTS = [
-  {
-    name: 'Hash Republic Protocol',
-    blurb: 'Delegación líquida por dominio, reputación con tope y reportes canónicos verificables.',
-    phase: 'Arquitectura v0.1',
-    phaseClass: 'oc-phase--spec',
-    to: '/proyectos/hash-republic-protocol',
-  },
-  {
-    name: 'BitCuant',
-    blurb:
-      'Una comunidad conversa y un agente propone consultas breves y trazables. El agente no vota ni decide.',
-    phase: 'Especificación lista',
-    phaseClass: 'oc-phase--spec',
-    to: '/proyectos',
-  },
-  {
-    name: 'Nicaragua Decide',
-    blurb:
-      'Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad.',
-    phase: 'Idea',
-    phaseClass: 'oc-phase--idea',
-    to: '/proyectos',
-  },
-];
+// Las tres entradas más recientes (posts ya viene ordenado de la más nueva a la más vieja).
+const RECIENTES = posts.slice(0, 3);
 
 export default function Home() {
   return (
@@ -69,8 +48,8 @@ export default function Home() {
               encima de la esperanza, la justicia o la dignidad de nadie.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 24 }}>
-              <Link to="/proyectos" className="oc-btn oc-btn--primary">
-                Conoce los proyectos
+              <Link to="/blog" className="oc-btn oc-btn--primary">
+                Leer el blog
               </Link>
               <Link to="/unirse" className="oc-btn oc-btn--outline">
                 Únete
@@ -113,31 +92,69 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Proyectos destacados */}
+      {/* Nuestro proyecto */}
       <section className="oc-section">
+        <div className="oc-container" style={{ maxWidth: 760 }}>
+          <span className="oc-eyebrow">Nuestro proyecto</span>
+          <Link
+            to="/proyectos"
+            className="oc-card"
+            style={{ textDecoration: 'none', color: 'inherit', display: 'block', marginTop: 16 }}
+          >
+            <span className="oc-phase oc-phase--spec">En desarrollo</span>
+            <h2 className="oc-h2" style={{ marginTop: 0 }}>
+              Nicaragua Decide
+            </h2>
+            <p>
+              Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de
+              identidad.
+            </p>
+            <span style={{ color: 'var(--oc-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
+              Conocer el proyecto &rarr;
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      {/* Del blog */}
+      <section className="oc-section oc-section--mist">
         <div className="oc-container">
-          <span className="oc-eyebrow">Construimos en abierto</span>
-          <h2 className="oc-h2">Proyectos</h2>
+          <span className="oc-eyebrow">Del blog</span>
+          <h2 className="oc-h2">Ideas, razones y recursos</h2>
           <p className="oc-lede" style={{ marginBottom: 32 }}>
-            Decimos en qué fase está cada cosa: idea, borrador, especificación o arquitectura.
+            Por qué existe OpenCivic, en qué se apoya y qué puedes hacer con ello.
           </p>
           <div className="oc-grid oc-grid--3">
-            {FEATURED_PROJECTS.map((p) => (
+            {RECIENTES.map((post) => (
               <Link
-                to={p.to}
+                to={`/blog/${post.slug}`}
                 className="oc-card"
-                key={p.name}
+                key={post.slug}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
               >
-                <span className={`oc-phase ${p.phaseClass}`}>{p.phase}</span>
-                <h3>{p.name}</h3>
-                <p style={{ fontSize: '0.92rem' }}>{p.blurb}</p>
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="oc-illustration"
+                    style={{ width: '100%', marginBottom: 16 }}
+                  />
+                )}
+                <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
+                  {formatDate(post.date)}
+                </p>
+                <h3>{post.title}</h3>
+                <p style={{ fontSize: '0.92rem' }}>{post.dek}</p>
+                <span style={{ color: 'var(--oc-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
+                  Leer el artículo &rarr;
+                </span>
               </Link>
             ))}
           </div>
           <div style={{ marginTop: 24 }}>
-            <Link to="/proyectos" className="oc-btn oc-btn--outline">
-              Ver todos los proyectos
+            <Link to="/blog" className="oc-btn oc-btn--outline">
+              Ver todas las entradas
             </Link>
           </div>
         </div>
