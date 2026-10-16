@@ -12,6 +12,8 @@ Diseño: `docs/superpowers/specs/2026-10-14-honey-asistente-design.md`.
 
 Después de cambiar `.env`: `docker compose up -d honey`.
 
+La lista completa de variables del servidor está en `.env.example`, en la raíz del repositorio.
+
 ## Cambiar la base de conocimiento
 
 Un archivo `.md` por fuente en `base/`, con cabecera `titulo`, `url` (ruta del sitio) y `version`. Solo preguntas frecuentes **Aprobadas**. El cambio entra por PR; al desplegar se reconstruye la imagen.
