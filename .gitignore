@@ -27,3 +27,6 @@ dist-ssr
 # Token del Listmonk local de pruebas (boletin/local)
 boletin/local/.token.env
 __pycache__/
+
+# Entorno virtual local de HONEY
+honey/.venv/
