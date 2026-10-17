@@ -179,7 +179,9 @@ def make_server(cfg: Config, port: int = 8080, tiempo_lectura: float = TIEMPO_LE
             if self.path == "/vivo":
                 self._json(200, {"vivo": True})
             elif self.path == "/salud":
-                self._json(200 if cfg.activo else 503, {"activo": cfg.activo})
+                # Siempre 200: la burbuja decide por "activo". Un 503 aquí dejaría
+                # un error en la consola del navegador en cada página del sitio.
+                self._json(200, {"activo": cfg.activo})
             else:
                 self._json(404, {"error": "no existe"})
 
