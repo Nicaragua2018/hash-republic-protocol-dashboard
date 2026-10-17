@@ -1,16 +1,8 @@
----
-slug: de-las-instituciones-analogicas-a-las-instituciones-programables
-title: De las instituciones analógicas a las instituciones programables
-dek: "Paper conceptual de política pública (versión 1.2): tecnología, cooperación, participación democrática y patrimonio común para una nueva generación de instituciones."
-date: 2026-10-11
-author: Carlos Robleto
-ia: asistido
-image: /ilustracion-capas-institucionales.svg
-imageAlt: Ilustración dibujada a mano: ocho capas apiladas, con un hexágono amarillo arriba y un pequeño chip abajo, y una abeja que vuela junto a ellas
-ogImage: /og-capas-institucionales.png
----
+# La necesaria modernización de las instituciones públicas
 
-*Paper conceptual de política pública. Versión 1.2, 11 de octubre de 2026.*
+Paper conceptual de política pública de OpenCivic Solutions, por Carlos Robleto (texto asistido por IA, con revisión y autorización humana). Publicado en el blog el 11 de octubre de 2026 con el título «De las instituciones analógicas a las instituciones programables»; desde el 16 de octubre de 2026 el blog presenta [una versión breve](https://opencivicsolutions.org/blog/de-las-instituciones-analogicas-a-las-instituciones-programables) y este es el texto completo.
+
+_Paper conceptual de política pública. Versión 1.2, 11 de octubre de 2026._
 
 ## Razón de ser de OpenCivic Solutions
 
@@ -47,9 +39,9 @@ Una de las primeras grandes revoluciones de este tipo no fue mecánica: fue la e
 La idea no es nueva, y conviene situarla:
 
 - **Ronald Coase** mostró que las organizaciones existen porque coordinar a través del mercado tiene costos de transacción. Si la tecnología cambia esos costos, cambia también la forma óptima de organizarse.
-- **Elinor Ostrom**, en *Governing the Commons* (1990), documentó que comunidades de todo el mundo administran bienes comunes sin Estado ni mercado, siguiendo principios de diseño identificables: límites claros, reglas adaptadas al contexto, participación en la elaboración de reglas, monitoreo, sanciones graduales, resolución de conflictos, reconocimiento del derecho a organizarse y organización en niveles anidados (gobernanza policéntrica).
+- **Elinor Ostrom**, en _Governing the Commons_ (1990), documentó que comunidades de todo el mundo administran bienes comunes sin Estado ni mercado, siguiendo principios de diseño identificables: límites claros, reglas adaptadas al contexto, participación en la elaboración de reglas, monitoreo, sanciones graduales, resolución de conflictos, reconocimiento del derecho a organizarse y organización en niveles anidados (gobernanza policéntrica).
 - **Los Pioneros de Rochdale** (1844) convirtieron la cooperativa en una tecnología institucional replicable, con principios que todavía rigen el movimiento cooperativo.
-- **Audrey Tang y Glen Weyl**, en *Plurality* (2024), sostienen desde la experiencia de Taiwán que la tecnología digital debe servir a la colaboración a través de la diferencia.
+- **Audrey Tang y Glen Weyl**, en _Plurality_ (2024), sostienen desde la experiencia de Taiwán que la tecnología digital debe servir a la colaboración a través de la diferencia.
 
 Este trabajo parte de esa tradición y añade dos énfasis: la cooperativa como unidad de experimentación y la mirada de quien ha vivido instituciones capturadas por el poder, donde la tecnología sirvió para vigilar antes que para cooperar.
 
@@ -57,13 +49,13 @@ Este trabajo parte de esa tradición y añade dos énfasis: la cooperativa como 
 
 Muchos mecanismos actuales respondieron racionalmente a restricciones materiales concretas:
 
-| Restricción histórica | Solución institucional | Lo que cambió |
-|---|---|---|
-| Comunicarse a distancia era lento y caro | Representación territorial | Comunicación global instantánea |
-| La información vivía en papel | Archivos centrales e intermediarios | Registros digitales interoperables |
-| Participar exigía presencia física | Consultas espaciadas, elecciones cada varios años | Deliberación en línea continua |
-| Verificar exigía cotejar registros a mano | Auditorías posteriores | Registros verificables mientras se actúa |
-| Transferir valor tomaba días | Tesorerías centralizadas | Pagos digitales en segundos |
+| Restricción histórica                     | Solución institucional                            | Lo que cambió                            |
+| ----------------------------------------- | ------------------------------------------------- | ---------------------------------------- |
+| Comunicarse a distancia era lento y caro  | Representación territorial                        | Comunicación global instantánea          |
+| La información vivía en papel             | Archivos centrales e intermediarios               | Registros digitales interoperables       |
+| Participar exigía presencia física        | Consultas espaciadas, elecciones cada varios años | Deliberación en línea continua           |
+| Verificar exigía cotejar registros a mano | Auditorías posteriores                            | Registros verificables mientras se actúa |
+| Transferir valor tomaba días              | Tesorerías centralizadas                          | Pagos digitales en segundos              |
 
 Estas instituciones no fueron irracionales. Pero algunas estructuras que antes eran inevitables pueden haberse convertido en costos susceptibles de rediseño.
 
@@ -83,18 +75,18 @@ Ninguna constituye el modelo institucional. Todas son componentes, y tecnología
 
 ### Diálogo con la doctrina social: Magnifica humanitas
 
-En 1891, León XIII respondió a la revolución industrial con *Rerum novarum*, que dio origen a la doctrina social de la Iglesia y alentó las asociaciones de trabajadores, como los sindicatos y las sociedades de socorro mutuo. Ciento treinta y cinco años después, León XIV publicó su primera encíclica, *Magnifica humanitas* (firmada el 15 de mayo de 2026), "sobre la custodia de la persona humana en el tiempo de la inteligencia artificial". El paralelo confirma la tesis de este paper: cada revolución técnica obliga a repensar las instituciones, no solo las herramientas.
+En 1891, León XIII respondió a la revolución industrial con _Rerum novarum_, que dio origen a la doctrina social de la Iglesia y alentó las asociaciones de trabajadores, como los sindicatos y las sociedades de socorro mutuo. Ciento treinta y cinco años después, León XIV publicó su primera encíclica, _Magnifica humanitas_ (firmada el 15 de mayo de 2026), "sobre la custodia de la persona humana en el tiempo de la inteligencia artificial". El paralelo confirma la tesis de este paper: cada revolución técnica obliga a repensar las instituciones, no solo las herramientas.
 
 La encíclica parte de una afirmación que este trabajo comparte: la tecnología "no es neutral, porque toma el rostro de quien la concibe, la financia, la regula, la utiliza" (§9). Y plantea la pregunta política central: "quién detenta hoy ese poder y hacia qué fines lo orienta" (§5), dado que "los principales motores del desarrollo son actores privados, a menudo transnacionales" (§5).
 
-| Tema | *Magnifica humanitas* | Este paper |
-|---|---|---|
-| Neutralidad técnica | La tecnología no es neutral (§9) | Descentralizar tecnología no es descentralizar poder |
-| Propiedad | El destino universal de los bienes incluye "patentes, algoritmos, plataformas digitales, infraestructuras tecnológicas, datos" (§67) | Patrimonio tecnológico cooperativo |
-| Subsidiariedad | Lo que pueden hacer las personas, las familias y los organismos intermedios no debe absorberlo una instancia superior (§31) | Cooperativas y gobernanza policéntrica como unidades de diseño |
-| Democracia | Se valora "en la medida en que garantiza la participación efectiva de los ciudadanos" (§39) | Democracia de mayor resolución; participación con calidad, no solo cantidad |
-| Límite de la IA | La IA no puede asumir "una función de responsabilidad y supremacía sobre la inteligencia humana" (síntesis oficial, cap. 3) | Automatizar procedimientos no es automatizar soberanía |
-| Gobernanza | "Instrumentos normativos adecuados" (§5), "evaluaciones del impacto humano y social" (§14) y marcos de responsabilidad, transparencia y gobernanza de la IA (cap. 3) | La ley gobierna al código; gobierno verificable; principio anti-captura |
+| Tema                | _Magnifica humanitas_                                                                                                                                                | Este paper                                                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Neutralidad técnica | La tecnología no es neutral (§9)                                                                                                                                     | Descentralizar tecnología no es descentralizar poder                        |
+| Propiedad           | El destino universal de los bienes incluye "patentes, algoritmos, plataformas digitales, infraestructuras tecnológicas, datos" (§67)                                 | Patrimonio tecnológico cooperativo                                          |
+| Subsidiariedad      | Lo que pueden hacer las personas, las familias y los organismos intermedios no debe absorberlo una instancia superior (§31)                                          | Cooperativas y gobernanza policéntrica como unidades de diseño              |
+| Democracia          | Se valora "en la medida en que garantiza la participación efectiva de los ciudadanos" (§39)                                                                          | Democracia de mayor resolución; participación con calidad, no solo cantidad |
+| Límite de la IA     | La IA no puede asumir "una función de responsabilidad y supremacía sobre la inteligencia humana" (síntesis oficial, cap. 3)                                          | Automatizar procedimientos no es automatizar soberanía                      |
+| Gobernanza          | "Instrumentos normativos adecuados" (§5), "evaluaciones del impacto humano y social" (§14) y marcos de responsabilidad, transparencia y gobernanza de la IA (cap. 3) | La ley gobierna al código; gobierno verificable; principio anti-captura     |
 
 Hay también una diferencia de énfasis. La encíclica confía la respuesta sobre todo al Estado, que debe "armonizar con justicia" los intereses (§63), y a "instituciones internacionales más eficaces" (§64). Este paper añade una tercera vía, coherente con el principio de subsidiariedad pero apenas desarrollada en el texto: que las propias comunidades, mediante cooperativas e infraestructura común, posean y gobiernen parte de la tecnología que usan. Donde la encíclica formula el principio, este trabajo propone mecanismos.
 
@@ -121,21 +113,21 @@ Toda organización enfrenta costos de transacción:
 
 La tecnología también introduce costos nuevos: ciberseguridad, dependencia de proveedores, pérdida de privacidad, errores algorítmicos, exclusión digital, concentración de mercado y complejidad técnica que pocos pueden auditar.
 
-Por eso la pregunta económica no es *¿cuánto podemos automatizar?*, sino *¿qué arquitectura produce el mejor equilibrio entre eficiencia, derechos, resiliencia y legitimidad?*
+Por eso la pregunta económica no es _¿cuánto podemos automatizar?_, sino _¿qué arquitectura produce el mejor equilibrio entre eficiencia, derechos, resiliencia y legitimidad?_
 
 ### 8. Matriz comparativa (borrador para la versión 2.0)
 
 La matriz siguiente propone dimensiones para comparar tres tipos de institución. Los valores son hipótesis a verificar, no resultados.
 
-| Dimensión | Institución tradicional | Institución digitalizada | Institución programable |
-|---|---|---|---|
-| Costo por transacción | Alto | Medio | Bajo en procesos reglados |
-| Frecuencia de participación | Espaciada (elecciones, asambleas) | Algo mayor, mismo diseño | Continua y temática |
-| Calidad deliberativa | Variable, presencial | Con frecuencia menor (votos rápidos) | Depende del diseño: puede subir o caer |
-| Verificabilidad | Auditoría posterior | Publicación de datos | Trazabilidad mientras se actúa |
-| Concentración de poder | En administradores e intermediarios | Se suma la del proveedor | Riesgo de captura económica, técnica o algorítmica |
-| Resiliencia | Lenta pero robusta | Dependiente de sistemas centrales | Alta si es migrable; frágil si depende de un proveedor |
-| Legitimidad | Procedimental, establecida | Igual que la tradicional | Aún por construir; requiere reversibilidad y derecho de apelación |
+| Dimensión                   | Institución tradicional             | Institución digitalizada             | Institución programable                                           |
+| --------------------------- | ----------------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| Costo por transacción       | Alto                                | Medio                                | Bajo en procesos reglados                                         |
+| Frecuencia de participación | Espaciada (elecciones, asambleas)   | Algo mayor, mismo diseño             | Continua y temática                                               |
+| Calidad deliberativa        | Variable, presencial                | Con frecuencia menor (votos rápidos) | Depende del diseño: puede subir o caer                            |
+| Verificabilidad             | Auditoría posterior                 | Publicación de datos                 | Trazabilidad mientras se actúa                                    |
+| Concentración de poder      | En administradores e intermediarios | Se suma la del proveedor             | Riesgo de captura económica, técnica o algorítmica                |
+| Resiliencia                 | Lenta pero robusta                  | Dependiente de sistemas centrales    | Alta si es migrable; frágil si depende de un proveedor            |
+| Legitimidad                 | Procedimental, establecida          | Igual que la tradicional             | Aún por construir; requiere reversibilidad y derecho de apelación |
 
 La versión 2.0 deberá convertir cada fila en indicadores observables (por ejemplo, costo por trámite, participantes únicos por año, tiempo hasta detectar una irregularidad, porcentaje del poder de decisión en el 1% superior) y aplicarlos a casos reales.
 
@@ -166,7 +158,7 @@ Las personas deciden las reglas; la tecnología puede ejecutar las reglas que se
 
 En 2016, un fondo de inversión descentralizado en Ethereum llamado The DAO fue vaciado de una parte importante de sus fondos mediante una falla de su contrato inteligente. Técnicamente, el atacante hizo lo que el código permitía. La comunidad terminó revirtiendo el resultado con un cambio a la propia cadena, lo que provocó su división en dos.
 
-El caso muestra los límites de la consigna *code is law*. Una sociedad puede cambiar una ley; un tribunal puede anular una decisión; una cooperativa puede reformar su reglamento; una persona puede apelar. En instituciones democráticas debe regir el principio inverso: **la ley gobierna al código.**
+El caso muestra los límites de la consigna _code is law_. Una sociedad puede cambiar una ley; un tribunal puede anular una decisión; una cooperativa puede reformar su reglamento; una persona puede apelar. En instituciones democráticas debe regir el principio inverso: **la ley gobierna al código.**
 
 El código ejecuta reglas, pero no es autoridad constitucional superior. Eso exige reversibilidad, actualización y mecanismos de intervención humana definidos de antemano.
 
@@ -184,17 +176,17 @@ El voto secreto, la representación proporcional, los partidos, los referendos, 
 
 La democracia representativa resolvió una limitación práctica: millones de personas no podían deliberar juntas de forma permanente. Las tecnologías digitales modifican en parte esa limitación. Eso no vuelve innecesaria la representación, pero permite combinarla con consultas, presupuestos participativos, iniciativas ciudadanas, jurados sorteados, delegación temática y seguimiento de decisiones. El objetivo es una democracia de mayor resolución, donde participar no se reduzca a elegir representantes cada varios años.
 
-*Magnifica humanitas* ofrece un criterio útil para evaluar cualquier innovación de este tipo: la democracia se valora "en la medida en que garantiza la participación efectiva de los ciudadanos" (§39). Efectiva, no nominal: la pregunta no es cuántas veces se vota, sino cuánto influye realmente la ciudadanía en lo que se decide.
+_Magnifica humanitas_ ofrece un criterio útil para evaluar cualquier innovación de este tipo: la democracia se valora "en la medida en que garantiza la participación efectiva de los ciudadanos" (§39). Efectiva, no nominal: la pregunta no es cuántas veces se vota, sino cuánto influye realmente la ciudadanía en lo que se decide.
 
 ### 15. Lo que ya funciona
 
-| Experiencia | Qué hace | Lección institucional |
-|---|---|---|
-| Presupuesto participativo de Porto Alegre (desde 1989) | Los vecinos deciden parte del presupuesto municipal en asambleas | Reservar una fracción de recursos a decisión directa es viable a escala de ciudad |
-| vTaiwan (desde 2014) | Combina Pol.is, que agrupa opiniones y busca consensos entre grupos, con sesiones presenciales | La deliberación digital puede producir insumos legislativos, como en la regulación de plataformas de transporte |
-| Join (Taiwán) | Portal oficial de peticiones; con 5.000 firmas el ministerio competente está obligado a responder | Un umbral con respuesta obligatoria convierte la participación en deber institucional |
-| Alignment Assemblies (Taiwán, 2023–2024) | Deliberaciones sobre IA con participantes elegidos por muestreo aleatorio estratificado | El sorteo representativo protege contra la sobrerrepresentación de los más activos |
-| Decidim (Barcelona, desde 2016) | Plataforma abierta de propuestas, enmiendas, votos y seguimiento de ejecución; unas 400 organizaciones la usan | El componente de *accountability* une la decisión con su cumplimiento |
+| Experiencia                                            | Qué hace                                                                                                       | Lección institucional                                                                                           |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Presupuesto participativo de Porto Alegre (desde 1989) | Los vecinos deciden parte del presupuesto municipal en asambleas                                               | Reservar una fracción de recursos a decisión directa es viable a escala de ciudad                               |
+| vTaiwan (desde 2014)                                   | Combina Pol.is, que agrupa opiniones y busca consensos entre grupos, con sesiones presenciales                 | La deliberación digital puede producir insumos legislativos, como en la regulación de plataformas de transporte |
+| Join (Taiwán)                                          | Portal oficial de peticiones; con 5.000 firmas el ministerio competente está obligado a responder              | Un umbral con respuesta obligatoria convierte la participación en deber institucional                           |
+| Alignment Assemblies (Taiwán, 2023–2024)               | Deliberaciones sobre IA con participantes elegidos por muestreo aleatorio estratificado                        | El sorteo representativo protege contra la sobrerrepresentación de los más activos                              |
+| Decidim (Barcelona, desde 2016)                        | Plataforma abierta de propuestas, enmiendas, votos y seguimiento de ejecución; unas 400 organizaciones la usan | El componente de _accountability_ une la decisión con su cumplimiento                                           |
 
 ### 16. Participar no es solo votar más
 
@@ -212,11 +204,11 @@ Su mecanismo es el mismo que usa Pol.is. Cualquier colaborador inscrito puede pr
 
 Los datos recientes muestran tanto su potencial como sus límites:
 
-| Hallazgo | Fuente |
-|---|---|
-| Solo el 8,9% de las notas escritas por personas llegó a publicarse (septiembre de 2025 a marzo de 2026) | R Street Institute |
+| Hallazgo                                                                                                                                      | Fuente             |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| Solo el 8,9% de las notas escritas por personas llegó a publicarse (septiembre de 2025 a marzo de 2026)                                       | R Street Institute |
 | Las notas escritas por IA alcanzaron el 18% y, con la métrica del estudio, acertaron en el 88,8% de los casos, frente al 68,5% de las humanas | R Street Institute |
-| En las tres primeras semanas de mayo de 2026, ocho cuentas de IA escribieron el 50,3% de las notas visibles | Indicator |
+| En las tres primeras semanas de mayo de 2026, ocho cuentas de IA escribieron el 50,3% de las notas visibles                                   | Indicator          |
 
 R Street es un centro de pensamiento con posiciones de política pública propias; Indicator es un medio especializado en verificación. Que ambos coincidan en los datos y discrepen en la valoración hace del caso un buen punto de partida para cualquier lector.
 
@@ -250,7 +242,7 @@ En lugar de construir un sistema cerrado por institución, esos componentes pued
 
 ### 19. Pedir una sola vez
 
-Estonia ofrece el ejemplo más citado. Su capa de intercambio de datos, X-Road, conecta los registros de distintas agencias, y el principio de "una sola vez" (*once-only*) establece que el Estado no debe pedir al ciudadano un dato que ya tiene. La pregunta "¿por qué debo entregar otra vez un documento que otra oficina ya posee?" deja de ser retórica y se convierte en una regla de diseño.
+Estonia ofrece el ejemplo más citado. Su capa de intercambio de datos, X-Road, conecta los registros de distintas agencias, y el principio de "una sola vez" (_once-only_) establece que el Estado no debe pedir al ciudadano un dato que ya tiene. La pregunta "¿por qué debo entregar otra vez un documento que otra oficina ya posee?" deja de ser retórica y se convierte en una regla de diseño.
 
 El caso también enseña el límite: interconectar registros aumenta la capacidad del Estado para servir y, al mismo tiempo, para vigilar. La misma infraestructura en manos de un régimen autoritario es un instrumento de control. Por eso la infraestructura pública digital necesita, desde su diseño, registros de acceso consultables por el ciudadano, minimización de datos y supervisión independiente.
 
@@ -270,7 +262,7 @@ Las cooperativas ya combinan actividad económica y gobernanza colectiva: sus mi
 
 Una cooperativa posee tierra, edificios, maquinaria y capital. Pero depende cada vez más de software, datos, modelos, infraestructura de cómputo, plataformas y sistemas de pago que no controla.
 
-El principio de subsidiariedad de la doctrina social, que *Magnifica humanitas* reafirma (§31), da fundamento a este enfoque: lo que pueden realizar las personas, las familias y los organismos intermedios no debe ser absorbido por instancias superiores. Las cooperativas son organismos intermedios por excelencia, y la gobernanza policéntrica descrita por Ostrom es su traducción institucional.
+El principio de subsidiariedad de la doctrina social, que _Magnifica humanitas_ reafirma (§31), da fundamento a este enfoque: lo que pueden realizar las personas, las familias y los organismos intermedios no debe ser absorbido por instancias superiores. Las cooperativas son organismos intermedios por excelencia, y la gobernanza policéntrica descrita por Ostrom es su traducción institucional.
 
 **¿Por qué la propiedad cooperativa debería detenerse en los activos físicos?**
 
@@ -280,7 +272,7 @@ Proponemos el concepto de **patrimonio tecnológico cooperativo**: los activos d
 
 No significa que los datos personales de los miembros pasen a ser de la cooperativa; esos datos conservan derechos y protecciones propios. El concepto se refiere al patrimonio institucional construido en común. Su consecuencia económica es central: una comunidad puede acumular capital tecnológico sin privatizarlo.
 
-La propuesta encuentra respaldo explícito en *Magnifica humanitas*, que recuerda que la tradición cristiana "nunca reconoció como absoluto o intocable el derecho a la propiedad privada" (§66) y extiende el destino universal de los bienes a "las nuevas formas de propiedad: patentes, algoritmos, plataformas digitales, infraestructuras tecnológicas, datos" (§67), advirtiendo del desequilibrio que se produce "cuando estos bienes quedan concentrados en las manos de unos pocos" (§67). El patrimonio tecnológico cooperativo es una forma concreta de responder a esa advertencia.
+La propuesta encuentra respaldo explícito en _Magnifica humanitas_, que recuerda que la tradición cristiana "nunca reconoció como absoluto o intocable el derecho a la propiedad privada" (§66) y extiende el destino universal de los bienes a "las nuevas formas de propiedad: patentes, algoritmos, plataformas digitales, infraestructuras tecnológicas, datos" (§67), advirtiendo del desequilibrio que se produce "cuando estos bienes quedan concentrados en las manos de unos pocos" (§67). El patrimonio tecnológico cooperativo es una forma concreta de responder a esa advertencia.
 
 Algunos usos posibles: una cooperativa agrícola que registra aportaciones y producción; una de vivienda con cuentas consultables en todo momento; una energética que sigue la producción distribuida; una profesional que administra proyectos y excedentes con reglas verificables; una tecnológica dueña de la infraestructura de IA que usan sus propios miembros. El objetivo no son "cooperativas cripto", sino cooperativas digitalmente soberanas.
 
@@ -301,13 +293,13 @@ La lección es que el voto ponderado por tokens reproduce la plutocracia con otr
 
 El futuro más interesante no consiste en elegir entre cooperativa y DAO, sino en combinarlas:
 
-| Aporta la cooperativa | Aporta la infraestructura digital |
-|---|---|
-| Personalidad jurídica y responsabilidad legal | Propuestas y deliberación continuas |
-| Derechos de los miembros y debido proceso | Votación verificable |
-| Una persona, un voto | Tesorería transparente |
-| Patrimonio y reglas institucionales | Ejecución automática de decisiones autorizadas |
-| Mecanismos de apelación y reforma | Registros que no dependen de un custodio |
+| Aporta la cooperativa                         | Aporta la infraestructura digital              |
+| --------------------------------------------- | ---------------------------------------------- |
+| Personalidad jurídica y responsabilidad legal | Propuestas y deliberación continuas            |
+| Derechos de los miembros y debido proceso     | Votación verificable                           |
+| Una persona, un voto                          | Tesorería transparente                         |
+| Patrimonio y reglas institucionales           | Ejecución automática de decisiones autorizadas |
+| Mecanismos de apelación y reforma             | Registros que no dependen de un custodio       |
 
 Una no necesita destruir a la otra. La tecnología puede ampliar la institución.
 
@@ -328,9 +320,9 @@ Un rediseño serio debe identificar qué función cumplía cada restricción y p
 
 Bittensor, una red descentralizada de inteligencia artificial con 128 subredes, ilustra la diferencia. En abril de 2026, Covenant, operador de tres de sus quince subredes principales, abandonó la red alegando que uno de sus cofundadores concentraba demasiado control. El token de la red cayó 24% en horas. Las actualizaciones las aprueba todavía un grupo de tres personas, aunque la hoja de ruta promete gobernanza en cadena para fines de 2026.
 
-*Magnifica humanitas* lo formula con precisión: la tecnología "toma el rostro de quien la concibe, la financia, la regula, la utiliza" (§9). Por eso la arquitectura técnica de un sistema dice poco sobre su carácter político; lo decisivo es quién la financia y quién puede cambiarla.
+_Magnifica humanitas_ lo formula con precisión: la tecnología "toma el rostro de quien la concibe, la financia, la regula, la utiliza" (§9). Por eso la arquitectura técnica de un sistema dice poco sobre su carácter político; lo decisivo es quién la financia y quién puede cambiarla.
 
-Una blockchain puede ser técnicamente descentralizada y económicamente controlada por pocos. Una plataforma participativa puede aumentar las votaciones y reducir la privacidad. Una IA puede facilitar el acceso al conocimiento o concentrarlo en pocas empresas. Por eso la pregunta no es *¿está descentralizado el sistema?*, sino:
+Una blockchain puede ser técnicamente descentralizada y económicamente controlada por pocos. Una plataforma participativa puede aumentar las votaciones y reducir la privacidad. Una IA puede facilitar el acceso al conocimiento o concentrarlo en pocas empresas. Por eso la pregunta no es _¿está descentralizado el sistema?_, sino:
 
 - ¿Quién puede cambiar las reglas?
 - ¿Quién controla el dinero y los datos?
@@ -341,14 +333,14 @@ Una blockchain puede ser técnicamente descentralizada y económicamente control
 
 ### 27. Principio anti-captura
 
-| Tipo de captura | Cómo ocurre | Contramedida |
-|---|---|---|
-| Económica | Quien tiene más capital controla la institución | Una persona, un voto; separar derechos económicos y políticos |
-| Tecnológica | Un proveedor controla infraestructura indispensable | Estándares abiertos, portabilidad, varios proveedores |
-| Administrativa | Quienes operan el sistema acumulan poder difícil de supervisar | Registros de acceso públicos, rotación, auditoría independiente |
-| Algorítmica | Sistemas opacos determinan resultados | Código auditable, explicación de decisiones, derecho de apelación |
-| Por delegación | Pocos delegados acumulan la mayoría de la representación | Topes de peso, vencimiento, métricas de concentración visibles |
-| Mayoritaria | Una mayoría elimina derechos de minorías | Límites constitucionales y resultados minoritarios preservados |
+| Tipo de captura | Cómo ocurre                                                    | Contramedida                                                      |
+| --------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Económica       | Quien tiene más capital controla la institución                | Una persona, un voto; separar derechos económicos y políticos     |
+| Tecnológica     | Un proveedor controla infraestructura indispensable            | Estándares abiertos, portabilidad, varios proveedores             |
+| Administrativa  | Quienes operan el sistema acumulan poder difícil de supervisar | Registros de acceso públicos, rotación, auditoría independiente   |
+| Algorítmica     | Sistemas opacos determinan resultados                          | Código auditable, explicación de decisiones, derecho de apelación |
+| Por delegación  | Pocos delegados acumulan la mayoría de la representación       | Topes de peso, vencimiento, métricas de concentración visibles    |
+| Mayoritaria     | Una mayoría elimina derechos de minorías                       | Límites constitucionales y resultados minoritarios preservados    |
 
 ### 28. Soberanía tecnológica
 
@@ -372,7 +364,7 @@ La transformación debe empezar con experimentos limitados, medibles y reversibl
 
 Indicadores: tiempo, costo por transacción, errores, accesibilidad, satisfacción, carga administrativa, apelaciones, incidentes de seguridad y confianza.
 
-Cada piloto debería incluir, antes de su despliegue, una evaluación del impacto humano y social, como propone *Magnifica humanitas* (§14): quién gana, quién pierde, qué trabajos cambian y qué derechos quedan expuestos.
+Cada piloto debería incluir, antes de su despliegue, una evaluación del impacto humano y social, como propone _Magnifica humanitas_ (§14): quién gana, quién pierde, qué trabajos cambian y qué derechos quedan expuestos.
 
 ### 31. Agenda experimental para cooperativas
 
@@ -413,7 +405,7 @@ Son cuestiones políticas antes que técnicas.
 
 El modelo ordena la autoridad de arriba hacia abajo. Las capas técnicas tienen más capacidad de acción, pero menos autoridad: cuanto mayor es el poder de una tecnología, más importante es determinar quién la gobierna.
 
-![Diagrama de la arquitectura constitucional en ocho capas, de mayor a menor autoridad: derechos fundamentales, límite que ninguna capa inferior cruza; constitución y ley, quién decide, cómo y con qué límites; instituciones, como parlamentos, municipios y cooperativas; reglamentos y decisiones, lo adoptado legítimamente; procesos digitales, rediseñados y no solo copiados; ejecución y registros, reglas aplicadas y verificables; automatización, solo lo apropiadamente automatizable; e inteligencia artificial, capa cognitiva que asiste y no decide. La autoridad baja de arriba hacia abajo y el poder técnico crece de arriba hacia abajo.](/paper-arquitectura-constitucional.png)
+![Diagrama de la arquitectura constitucional en ocho capas, de mayor a menor autoridad: derechos fundamentales, límite que ninguna capa inferior cruza; constitución y ley, quién decide, cómo y con qué límites; instituciones, como parlamentos, municipios y cooperativas; reglamentos y decisiones, lo adoptado legítimamente; procesos digitales, rediseñados y no solo copiados; ejecución y registros, reglas aplicadas y verificables; automatización, solo lo apropiadamente automatizable; e inteligencia artificial, capa cognitiva que asiste y no decide. La autoridad baja de arriba hacia abajo y el poder técnico crece de arriba hacia abajo.](https://opencivicsolutions.org/paper-arquitectura-constitucional.png)
 
 La IA ocupa el último lugar no porque sea la menos importante, sino porque es la que más necesita estar subordinada.
 
@@ -423,7 +415,7 @@ Dentro de esta arquitectura, la IA puede traducir, resumir, clasificar, detectar
 
 Pero la IA no decide cuáles son nuestros valores. Sus síntesis deben ser trazables a las fuentes, revisables por personas y divulgar qué modelo las produjo.
 
-En esto el paper coincide con *Magnifica humanitas*: la IA imita funciones humanas y puede superarlas en velocidad y cálculo, pero carece de experiencia, conciencia y capacidad de asumir responsabilidad, por lo que no puede ocupar "una función de responsabilidad y supremacía sobre la inteligencia humana". Cuando la eficiencia es el criterio dominante, advierte la síntesis oficial de la encíclica, el trabajo "corre el riesgo de perder su valor humano y relacional". La arquitectura propuesta responde con una regla de diseño: la IA asiste a quien decide, y quien decide sigue siendo una persona o una comunidad que responde por la decisión.
+En esto el paper coincide con _Magnifica humanitas_: la IA imita funciones humanas y puede superarlas en velocidad y cálculo, pero carece de experiencia, conciencia y capacidad de asumir responsabilidad, por lo que no puede ocupar "una función de responsabilidad y supremacía sobre la inteligencia humana". Cuando la eficiencia es el criterio dominante, advierte la síntesis oficial de la encíclica, el trabajo "corre el riesgo de perder su valor humano y relacional". La arquitectura propuesta responde con una regla de diseño: la IA asiste a quien decide, y quien decide sigue siendo una persona o una comunidad que responde por la decisión.
 
 ### 37. Conclusión
 
@@ -439,7 +431,7 @@ Hay algo más. Ninguna tecnología, ninguna institución y ningún conocimiento 
 
 La historia, a su vez, es experiencia acumulada: el registro de lo que funcionó y de lo que fracasó, de las instituciones que liberaron y de las que oprimieron. Es el conjunto de datos más extenso del que dispone la humanidad para observar, aprender y corregirse. Los modelos de IA actuales lo confirman de forma literal: están entrenados con el lenguaje, la ciencia y la cultura producidos por miles de millones de personas a lo largo de generaciones.
 
-Si el conocimiento y la tecnología son fruto de la cooperación acumulada, su apropiación exclusiva por unos pocos no es solo injusta: es históricamente falsa. *Magnifica humanitas* apunta en la misma dirección cuando extiende el destino universal de los bienes a los "bienes inmateriales y culturales" (§65) y a los algoritmos, las plataformas y los datos (§67).
+Si el conocimiento y la tecnología son fruto de la cooperación acumulada, su apropiación exclusiva por unos pocos no es solo injusta: es históricamente falsa. _Magnifica humanitas_ apunta en la misma dirección cuando extiende el destino universal de los bienes a los "bienes inmateriales y culturales" (§65) y a los algoritmos, las plataformas y los datos (§67).
 
 De ahí el principio fundacional de OpenCivic Solutions: **el conocimiento y la tecnología nacen de la cooperación y de la herencia de las generaciones pasadas; la historia es la experiencia acumulada de la que aprendemos. Por eso son patrimonio de la humanidad.**
 
@@ -456,10 +448,10 @@ Reconocerlo no significa negar el mérito del trabajo individual ni la legitimid
 
 **Magisterio**
 
-- [León XIV (2026). Carta encíclica *Magnifica humanitas* (15 de mayo de 2026).](https://www.vatican.va/content/leo-xiv/es/encyclicals/documents/20260515-magnifica-humanitas.html)
+- [León XIV (2026). Carta encíclica _Magnifica humanitas_ (15 de mayo de 2026).](https://www.vatican.va/content/leo-xiv/es/encyclicals/documents/20260515-magnifica-humanitas.html)
 - Síntesis oficial del Dicasterio para el Servicio del Desarrollo Humano Integral.
 - [Wikipedia — Magnifica Humanitas.](https://en.wikipedia.org/wiki/Magnifica_Humanitas)
-- [León XIII (1891). *Rerum novarum*.](https://www.vatican.va/content/leo-xiii/es/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html)
+- [León XIII (1891). _Rerum novarum_.](https://www.vatican.va/content/leo-xiii/es/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html)
 
 **Fuentes consultadas**
 

@@ -1,7 +1,7 @@
 ---
 slug: por-que-existe-opencivic
 title: Por qué existe OpenCivic
-dek: La razón de ser de OpenCivic Solutions, contada en primera persona: qué buscamos, qué límites no vamos a cruzar y por qué todo lo que hacemos es abierto.
+dek: Mucha gente siente que la democracia ya no la escucha. Tiene razón en estar cansada, pero no en resignarse: las instituciones son inventos humanos, y lo que se inventó se puede mejorar.
 date: 2026-10-11
 author: Carlos Robleto
 ia: asistido
@@ -10,44 +10,42 @@ imageAlt: Ilustración dibujada a mano: un panal se construye de abajo hacia arr
 ogImage: /og-por-que-existe.png
 ---
 
-Hay una frase que resume por qué existe OpenCivic, y la vas a leer muchas veces en este blog: **las instituciones también son tecnología**.
+Si sientes que votar cambia poco, que las decisiones se toman lejos y que nadie te escucha, no estás solo. En 2025, Pew Research Center preguntó en 23 países si la gente estaba satisfecha con cómo funciona su democracia, y la mediana de insatisfechos fue de 58%. En los países de altos ingresos que sigue desde 2017, la insatisfacción subió de 49% a 64%.
 
-Hemos reinventado una y otra vez las tecnologías con las que producimos, viajamos y nos comunicamos. Pasamos del arado al tractor, de la carta al correo electrónico, de la imprenta a internet. Pero cuando se trata de las herramientas con las que cooperamos, participamos y nos gobernamos —las elecciones, los parlamentos, las cooperativas, los presupuestos— actuamos como si el inventario se hubiera cerrado hace un siglo. No hay ninguna razón para suponerlo. OpenCivic existe para seguir inventando en ese terreno.
+Ese cansancio es real y tiene motivos. Pero de él se sacan dos conclusiones muy distintas. Una es la resignación: «las cosas son así». La otra es la que nos mueve a nosotros: **las instituciones también son tecnología**, y la tecnología se mejora.
 
-## Una cerca alrededor de lo que no se negocia
+## Lo que se inventó se puede mejorar
 
-Inventar instituciones es peligroso. La historia está llena de sistemas que prometieron orden o eficiencia y terminaron aplastando a alguien en el camino. Por eso nuestra razón de ser no es solo un objetivo, sino un objetivo con límites: buscamos la **paz social** y el **bien común**, sin pasar nunca por encima de la **esperanza**, la **justicia** ni la **dignidad humana** de ningún individuo ni de ninguna minoría.
+Pasamos del arado al tractor, de la carta al correo electrónico, de la imprenta a internet. Pero las herramientas con las que cooperamos, participamos y nos gobernamos —las elecciones, los parlamentos, los presupuestos— cambiaron muy poco en un siglo. No es porque sean perfectas. Es porque dejamos de verlas como inventos.
 
-La segunda mitad de esa frase es la que más pesa, y no es una abstracción. El Grupo de Expertos en Derechos Humanos sobre Nicaragua, creado por el Consejo de Derechos Humanos de la ONU, concluyó que las violaciones cometidas en el país desde abril de 2018 forman parte de un ataque generalizado y sistemático contra la población civil que puede constituir crímenes de lesa humanidad. En su informe de 2026 describe una estructura de inteligencia que reúne al Ejército, la Policía, las autoridades migratorias, el regulador de telecomunicaciones y las misiones diplomáticas para vigilar y acosar a personas exiliadas, y registra 452 personas privadas arbitrariamente de su nacionalidad. Es un caso público y documentado de instituciones capturadas por el poder, donde la tecnología sirvió para vigilar antes que para cooperar. Ningún objetivo colectivo, ninguna eficiencia técnica y ninguna mayoría justifican cruzar esos límites. Es nuestra regla de interpretación: todo documento, producto y decisión de OpenCivic se lee a la luz de ella, y si algo la contradice, gana la regla.
+Y lo son. En 1844, un grupo de tejedores y artesanos de Rochdale, en Inglaterra, no inventó la cooperación: la convirtió en un modelo que cualquiera podía copiar, y por eso sus principios siguen vivos casi dos siglos después. Las instituciones las hacen personas comunes. OpenCivic existe para seguir haciéndolo, con las herramientas de hoy.
 
-## Nada de esto es nuestro
+## Con límites que no se negocian
 
-Ninguna tecnología y ninguna institución fue obra de una sola persona. El alfabeto, los números, la imprenta, la cooperativa, internet: todo descansa sobre siglos de cooperación y sobre la herencia de quienes vinieron antes. En la Edad Media ya se decía que trabajamos "a hombros de gigantes". Los Pioneros de Rochdale, en 1844, no inventaron la cooperación; la convirtieron en un modelo que cualquiera podía copiar, y por eso sus principios siguen vivos. Hasta los modelos de inteligencia artificial de hoy están entrenados con el lenguaje y la cultura que produjeron miles de millones de personas a lo largo de generaciones.
+Inventar instituciones también puede salir mal. La historia está llena de sistemas que prometieron orden y terminaron aplastando a alguien. Por eso nuestro objetivo tiene una cerca: buscamos la **paz social** y el **bien común**, sin pasar nunca por encima de la **esperanza**, la **justicia** ni la **dignidad humana** de ninguna persona ni de ninguna minoría.
 
-Si el conocimiento nace así, apropiárselo en exclusiva no solo es injusto: es históricamente falso. Por eso el conocimiento y la tecnología son, para nosotros, **patrimonio de la humanidad**, y por eso todo lo que hacemos es abierto: el código, el contenido y los datos, con licencias que obligan a que las mejoras también sigan siendo de todos.
+No es una abstracción. El Grupo de Expertos en Derechos Humanos sobre Nicaragua, creado por la ONU, concluyó que las violaciones cometidas en el país desde 2018 pueden constituir crímenes de lesa humanidad, y en 2026 documentó una red que usa al Estado para vigilar y acosar a personas exiliadas. Es lo que pasa cuando las instituciones quedan capturadas: la tecnología sirve para vigilar, no para cooperar. Ninguna mayoría y ninguna eficiencia justifican eso.
 
-## Cuatro piezas, cada una con su límite
+## Abierto, porque el conocimiento es de todos
 
-Para no quedarnos en declaraciones, la razón de ser se traduce en una fórmula de cuatro piezas: **democracia** para la soberanía, **competencia verificable** para el juicio técnico, **criptografía** para la prueba y **constitución** para los límites. Ninguna manda sola. La democracia decide, pero el resultado sin ponderar siempre queda a la vista. La experiencia técnica pesa, pero como máximo 1,3 veces y solo si se puede verificar. La criptografía prueba que un registro no cambió, pero no decide qué es justo. Y la constitución marca lo que ninguna mayoría puede cruzar.
+El alfabeto, los números, internet: nada de eso fue obra de una sola persona. Hasta la inteligencia artificial aprendió del lenguaje que produjeron miles de millones de personas. Por eso todo lo que hacemos es abierto —el código, los textos y los datos—, con licencias que obligan a que las mejoras también sigan siendo de todos.
 
-## Información verificable para todos
+## Información que puedes comprobar
 
-La desinformación no se combate dándole más peso a quien dice estar mejor informado. Se combate poniendo fuentes confiables al alcance de todos. La IA puede ayudar a encontrarlas, resumirlas y seguir cada afirmación hasta su origen; la criptografía puede probar que una fuente no fue alterada. Pero ninguna de las dos prueba por sí sola que algo sea verdad. La verificación combina procedencia, trazabilidad y contraste de fuentes, y el juicio final es humano. Por eso este blog tiene una regla simple: si una afirmación no se puede verificar, no se publica.
+Buena parte del cansancio viene de no saber a quién creerle. No queremos pedirte confianza: queremos darte fuentes. Por eso este blog tiene una regla simple: si una afirmación no se puede verificar, no se publica, y cada artículo trae sus fuentes al final.
 
-## Con la misma vara
+## Por dónde empezamos
 
-OpenCivic no es un partido ni la voz de un país. Es de alcance global; Nicaragua Decide, nuestro laboratorio de consultas para el exilio y la diáspora, es uno de sus proyectos, no su bandera. Criticamos con la misma vara al Estado, al capital, a la mayoría y a la utopía tecnológica, y no hacemos propaganda partidaria. Queremos que estos documentos puedan servir de fuente a personas que piensan distinto entre sí, y eso solo es posible si no tomamos partido por ninguna de ellas.
+Nuestro primer proyecto es **Nicaragua Decide**, un laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad: personas a las que se les quitó la voz, recuperando una forma segura de decidir juntas. No somos un partido ni la voz de un país, y medimos con la misma vara al Estado, al mercado, a la mayoría y a la tecnología.
 
-## Lo que viene
-
-Construimos en público y decimos en qué fase está cada cosa: idea, borrador, especificación o arquitectura. Cada semana publicaremos aquí una pieza con fuentes. Si algo de esto te resuena, puedes [suscribirte al boletín](/blog) o [sumarte](/unirse) con lo que sepas hacer, incluso con seudónimo. Las instituciones del futuro no las va a diseñar una sola persona. Por suerte, nunca fue así.
+Si sientes que la democracia está fatigada, no te pedimos que vuelvas a creer a ciegas. Te invitamos a ayudar a repararla. Puedes [suscribirte al boletín](/blog) o [sumarte](/unirse) con lo que sepas hacer, incluso con seudónimo. Las instituciones del futuro no las va a diseñar una sola persona. Por suerte, nunca fue así.
 
 ## Fuentes
 
+- [Pew Research Center (2025). Dissatisfaction with democracy remains widespread in many nations.](https://www.pewresearch.org/short-reads/2025/06/30/dissatisfaction-with-democracy-remains-widespread-in-many-nations/)
 - [Razón de ser, fórmula y principios de OpenCivic Solutions.](/sobre)
 - [Noticias ONU (2026). Nicaragua: Rights experts uncover State corruption fuelling repression, spying on exiles.](https://news.un.org/en/story/2026/03/1167108)
 - [ACNUDH (2026). Nicaragua: UN Experts uncover corrupt financing of repression and spy network targeting exiles.](https://www.ohchr.org/en/press-releases/2026/03/nicaragua-un-experts-uncover-corrupt-financing-repression-and-spy-network)
 - [FIDH (2023). Nicaragua: el informe del GHREN reconoce crímenes de lesa humanidad.](https://www.fidh.org/es/region/americas/nicaragua/nicaragua-el-informe-del-ghren-reconoce-crimenes-de-lesa-humanidad)
 - [Rochdale Society of Equitable Pioneers (1844) — Wikipedia.](https://en.wikipedia.org/wiki/Rochdale_Society_of_Equitable_Pioneers)
-- [Standing on the shoulders of giants — Wikipedia.](https://en.wikipedia.org/wiki/Standing_on_the_shoulders_of_giants)
 - [Licencias de OpenCivic: AGPL-3.0, CC BY-SA 4.0 y ODbL 1.0.](/contacto)

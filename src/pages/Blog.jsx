@@ -5,6 +5,7 @@ import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
 import { formatDate } from '../content/format';
 import SuscripcionForm from '../components/SuscripcionForm';
+import PROXIMOS from '../content/proximos';
 
 export default function Blog() {
   return (
@@ -56,7 +57,35 @@ export default function Blog() {
         </div>
       </section>
 
-      <section className="oc-section oc-section--mist">
+      <section className="oc-section" aria-labelledby="proximos-titulo">
+        <div className="oc-container" style={{ maxWidth: 820 }}>
+          <span className="oc-eyebrow">Próximamente</span>
+          <h2 className="oc-h2" id="proximos-titulo">
+            Un artículo nuevo cada lunes
+          </h2>
+          <p className="oc-lede">
+            Historias reales de personas y comunidades que se cansaron de esperar y empezaron a cambiar las
+            reglas. Esto es lo que viene:
+          </p>
+          <ol className="oc-proximos">
+            {PROXIMOS.map((p) => (
+              <li className="oc-card" key={p.fecha}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
+                  Lunes {formatDate(p.fecha)}
+                  {p.autor && ` · ${p.autor}`}
+                </p>
+                <h3>{p.titulo}</h3>
+                <p style={{ fontSize: '0.95rem', marginBottom: 0 }}>{p.sinopsis}</p>
+              </li>
+            ))}
+          </ol>
+          <a href="#suscripcion" className="oc-btn oc-btn--primary">
+            Suscríbete gratis y recíbelos en tu correo
+          </a>
+        </div>
+      </section>
+
+      <section className="oc-section oc-section--mist" id="suscripcion">
         <div className="oc-container" style={{ maxWidth: 560 }}>
           <SuscripcionForm />
           <img

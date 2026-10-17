@@ -330,3 +330,12 @@ details.oc-details li {
     radial-gradient(circle at 10% 80%, rgba(var(--oc-blue-rgb), 0.08), transparent 50%);
   pointer-events: none;
 }
+
+/* Calendario de próximos artículos (Blog). */
+.oc-proximos {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 32px;
+  display: grid;
+  gap: 16px;
+}
