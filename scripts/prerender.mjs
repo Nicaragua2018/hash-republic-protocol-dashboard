@@ -18,8 +18,13 @@ import {
   DEFAULT_IMAGE,
   getPageMeta,
   getPostMeta,
+  pageJsonLd,
+  postJsonLd,
+  jsonLdScript,
 } from '../src/content/seo.js';
 import { parsePost, sortPosts } from '../src/content/parsePost.js';
+import PROXIMOS from '../src/content/proximos.js';
+import principles from '../src/content/principles.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -27,11 +32,40 @@ const distDir = join(__dirname, '..', 'dist');
 // src/content/posts.js usa import.meta.glob, que solo existe dentro de
 // Vite; aquí se leen los mismos .md directamente del disco.
 const postsDir = join(__dirname, '..', 'src', 'content', 'posts');
-const posts = sortPosts(
+const rawByFile = new Map(
   readdirSync(postsDir)
     .filter((f) => f.endsWith('.md'))
-    .map((f) => parsePost(readFileSync(join(postsDir, f), 'utf8'), f))
+    .map((f) => [f, readFileSync(join(postsDir, f), 'utf8')])
 );
+const posts = sortPosts([...rawByFile].map(([f, raw]) => parsePost(raw, f)));
+
+// Texto del artículo sin la cabecera, para llms-full.txt.
+const postMarkdown = (post) =>
+  rawByFile
+    .get(post.file)
+    .replace(/^\uFEFF/, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/^---\n[\s\S]*?\n---\n?/, '')
+    .trim();
+
+// Enlaces de la sección "## Fuentes" de un artículo ya interpretado.
+function sourceUrls(post) {
+  const urls = [];
+  const walk = (tokens) => {
+    for (const tok of tokens || []) {
+      if (tok.t === 'link') urls.push(tok.url);
+      if (tok.children) walk(tok.children);
+    }
+  };
+  for (const block of post.body) {
+    if (block.type !== 'sources') continue;
+    for (const part of block.parts) {
+      if (part.note) walk(part.note);
+      for (const item of part.items || []) walk(item);
+    }
+  }
+  return [...new Set(urls)];
+}
 
 // Un artículo no puede usar la URL de una página del sitio (por ejemplo
 // /blog/suscripcion): el prerender la pisaría sin avisar.
@@ -48,13 +82,25 @@ const escapeHtml = (s) =>
 
 const escapeXml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function buildSeoBlock({ title, description, image, url, noindex }) {
+function buildSeoBlock({
+  title,
+  description,
+  image,
+  url,
+  noindex,
+  jsonLd,
+  ogType = 'website',
+  publishedTime,
+}) {
   const absImage = image.startsWith('http') ? image : SITE_URL + image;
   return `<title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}" />
     <link rel="canonical" href="${url}" />
+    <link rel="alternate" type="text/plain" title="Resumen para asistentes de IA" href="${SITE_URL}/llms.txt" />
     ${noindex ? '<meta name="robots" content="noindex" />' : ''}
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="${ogType}" />
+    <meta property="og:locale" content="es_ES" />
+    ${publishedTime ? `<meta property="article:published_time" content="${publishedTime}" />` : ''}
     <meta property="og:site_name" content="${SITE_NAME}" />
     <meta property="og:url" content="${url}" />
     <meta property="og:title" content="${escapeHtml(title)}" />
@@ -63,7 +109,8 @@ function buildSeoBlock({ title, description, image, url, noindex }) {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
-    <meta name="twitter:image" content="${absImage}" />`;
+    <meta name="twitter:image" content="${absImage}" />
+    ${jsonLd ? jsonLdScript(jsonLd) : ''}`;
 }
 
 const SEO_BLOCK_RE = /<!--[^>]*SEO_START[^>]*-->[\s\S]*?<!--[^>]*SEO_END[^>]*-->/;
@@ -95,13 +142,39 @@ let count = 0;
 
 // Páginas estáticas conocidas
 for (const routePath of Object.keys(PAGES)) {
-  writeRoute(routePath, getPageMeta(routePath));
+  const meta = getPageMeta(routePath);
+  writeRoute(routePath, { ...meta, jsonLd: meta.noindex ? null : pageJsonLd(routePath) });
   count++;
 }
 
 // Un archivo por artículo del blog
 for (const post of posts) {
-  writeRoute(`/blog/${post.slug}`, getPostMeta(post));
+  writeRoute(`/blog/${post.slug}`, {
+    ...getPostMeta(post),
+    jsonLd: postJsonLd(post, sourceUrls(post)),
+    ogType: 'article',
+    publishedTime: post.date,
+  });
+  count++;
+}
+
+// Artículos que vuelven más adelante (src/content/proximos.js con slug):
+// su dirección responde con la página "vuelve el …" en vez de un 404, para
+// que los enlaces que ya apuntan a ellos no se rompan. No se indexan
+// hasta que se publiquen de verdad.
+const publishedSlugs = new Set(posts.map((p) => p.slug));
+for (const p of PROXIMOS) {
+  if (!p.slug || publishedSlugs.has(p.slug)) continue;
+  if (PAGES[`/blog/${p.slug}`]) {
+    throw new Error(`prerender: el slug próximo "${p.slug}" está reservado por una página del sitio`);
+  }
+  writeRoute(`/blog/${p.slug}`, {
+    title: `${p.titulo} (próximamente) — Blog de ${SITE_NAME}`,
+    description: p.sinopsis,
+    image: DEFAULT_IMAGE,
+    url: `${SITE_URL}/blog/${p.slug}`,
+    noindex: true,
+  });
   count++;
 }
 
@@ -157,4 +230,61 @@ writeFileSync(
   )}</description>\n  <language>es</language>\n${rssItems}\n</channel></rss>\n`
 );
 
-console.log(`prerender: ${count} rutas, 404.html, sitemap.xml, rss.xml y robots.txt generados en dist/`);
+// llms.txt — índice del sitio para asistentes de IA (formato llmstxt.org):
+// qué es OpenCivic y qué hay en cada página, en Markdown simple.
+const indexablePages = Object.keys(PAGES).filter((p) => !PAGES[p].noindex);
+const llmsTxt = `# ${SITE_NAME}
+
+> ${DEFAULT_DESCRIPTION}
+
+OpenCivic Solutions es una organización de tecnología cívica de código abierto. Su único proyecto en desarrollo es Nicaragua Decide, un laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad. Combina cuatro piezas: democracia (el resultado sin ponderar siempre queda a la vista), competencia verificable (un peso adicional de 1,3× como máximo), criptografía (informes con huella digital y sello de tiempo) y constitución (25 principios que ninguna mayoría puede cruzar). Los textos del sitio están en español; se redactan con asistencia de IA y se publican solo con revisión y autorización humana.
+
+## Páginas
+
+${indexablePages.map((p) => `- [${PAGES[p].title}](${SITE_URL}${p}): ${PAGES[p].description}`).join('\n')}
+
+## Blog
+
+${posts.map((p) => `- [${p.title}](${SITE_URL}/blog/${p.slug}) (${p.date}): ${p.dek}`).join('\n')}
+
+## Opcional
+
+- [Texto completo de los artículos y principios](${SITE_URL}/llms-full.txt)
+- [Código fuente y documentación técnica en GitHub](https://github.com/Nicaragua2018/hash-republic-protocol-dashboard)
+- [Feed RSS del blog](${SITE_URL}/rss.xml)
+`;
+writeFileSync(join(distDir, 'llms.txt'), llmsTxt);
+
+// llms-full.txt — el contenido completo en texto, porque las páginas se
+// montan con JavaScript y muchos rastreadores de IA no lo ejecutan.
+const llmsFull = `# ${SITE_NAME} — contenido completo
+
+> ${DEFAULT_DESCRIPTION}
+
+Fuente: ${SITE_URL}/ · Idioma: español
+
+## Los 25 principios de OpenCivic Solutions
+
+Fuente: ${SITE_URL}/sobre
+
+${principles.map((pr, i) => `${i + 1}. **${pr.text}** ${pr.explain}`).join('\n\n')}
+
+${posts
+  .map(
+    (p) => `---
+
+# ${p.title}
+
+Fuente: ${SITE_URL}/blog/${p.slug} · Autoría: ${p.author} · Publicado: ${p.date}
+
+> ${p.dek}
+
+${postMarkdown(p)}`
+  )
+  .join('\n\n')}
+`;
+writeFileSync(join(distDir, 'llms-full.txt'), llmsFull);
+
+console.log(
+  `prerender: ${count} rutas, 404.html, sitemap.xml, rss.xml, robots.txt, llms.txt y llms-full.txt generados en dist/`
+);

@@ -9,6 +9,19 @@ services:
       - traefik.http.routers.hrp-dashboard.entrypoints=websecure
       - traefik.http.routers.hrp-dashboard.tls.certresolver=letsencrypt
       - traefik.http.services.hrp-dashboard.loadbalancer.server.port=80
+      # www → dominio sin www (301), para que buscadores y asistentes de IA
+      # vean una sola copia de cada página. Prioridad por encima de todas las
+      # rutas del sitio (boletín y HONEY usan 110–120), así que nada se sirve
+      # desde www. La dirección canónica ya es la sin www (src/content/seo.js).
+      - traefik.http.routers.opencivic-www.rule=Host(`www.${SITE_HOST:-opencivicsolutions.org}`)
+      - traefik.http.routers.opencivic-www.priority=1000
+      - traefik.http.routers.opencivic-www.entrypoints=websecure
+      - traefik.http.routers.opencivic-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.opencivic-www.service=hrp-dashboard
+      - traefik.http.routers.opencivic-www.middlewares=opencivic-www-a-raiz
+      - traefik.http.middlewares.opencivic-www-a-raiz.redirectregex.regex=^https?://www\.(.+)
+      - traefik.http.middlewares.opencivic-www-a-raiz.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.opencivic-www-a-raiz.redirectregex.permanent=true
 
   # Comentarios del blog (Remark42, autoalojado). Se sirve en
   # opencivicsolutions.org/comentarios para no depender de otro subdominio.
