@@ -2,7 +2,7 @@
 slug: soberania-tecnologica-y-de-ia
 title: Soberanía tecnológica
 dek: Frente a las grandes plataformas y la inteligencia artificial es fácil sentirse pequeño. Pero lo que la humanidad aprendió en común no debería quedar en manos de unos pocos, y tenemos derecho a decir cómo se usa.
-date: 2026-10-11
+date: 2026-12-14
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-soberania-conocimiento.svg

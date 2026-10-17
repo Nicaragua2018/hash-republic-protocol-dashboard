@@ -9,3 +9,6 @@ src/content/posts
 
 # Base de conocimiento de HONEY: texto editorial, como los artículos.
 honey/base
+
+# Artículos programados del blog: texto editorial, como los publicados.
+blog-pendientes

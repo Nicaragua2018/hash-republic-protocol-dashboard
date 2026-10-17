@@ -9,6 +9,7 @@ import PinnedComments from '../components/PinnedComments';
 import Comments from '../components/Comments';
 import SuscripcionForm from '../components/SuscripcionForm';
 import NotFound from './NotFound';
+import { proximoPorSlug } from '../content/proximos';
 
 function Inline({ tokens }) {
   return tokens.map((tok, i) => {
@@ -48,11 +49,39 @@ function Inline({ tokens }) {
   });
 }
 
+// Artículos que salieron del blog mientras se renuevan: su dirección avisa
+// cuándo vuelven en lugar de mostrar una página rota.
+function ArticuloQueVuelve({ p }) {
+  return (
+    <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
+      <Seo title={`${p.titulo} — vuelve el ${formatDate(p.fecha)}`} description={p.sinopsis} />
+      <div className="oc-hero-bees" aria-hidden="true" />
+      <div className="oc-container" style={{ position: 'relative', maxWidth: 760 }}>
+        <span className="oc-eyebrow">Vuelve pronto</span>
+        <h1 className="oc-h1">{p.titulo}</h1>
+        <p className="oc-lede">{p.sinopsis}</p>
+        <p>Estamos renovando este artículo. Vuelve el lunes {formatDate(p.fecha)}.</p>
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 24 }}>
+          <Link to="/blog#suscripcion" className="oc-btn oc-btn--primary">
+            Avísame cuando salga
+          </Link>
+          <Link to="/blog" className="oc-btn oc-btn--outline">
+            Ver el blog
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const post = getPostBySlug(slug);
 
-  if (!post) return <NotFound />;
+  if (!post) {
+    const vuelve = proximoPorSlug(slug);
+    return vuelve ? <ArticuloQueVuelve p={vuelve} /> : <NotFound />;
+  }
 
   const meta = getPostMeta(post);
 
