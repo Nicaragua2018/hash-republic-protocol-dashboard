@@ -65,7 +65,7 @@ Cada documento va como bloque `document` con `citations: {enabled: true}`. La AP
 - **Rutas:**
   - `POST /honey/chat` responde preguntas.
   - `POST /honey/util` registra los votos «Útil» y «No útil».
-  - `GET /honey/salud` devuelve 200 con `{"activo": true}` cuando HONEY está encendido, y 503 con `{"activo": false}` cuando está apagado.
+  - `GET /honey/salud` devuelve 200 con `{"activo": true}` cuando HONEY está encendido, y 200 con `{"activo": false}` cuando está apagado (con 503, cada página del sitio dejaba un error en la consola del navegador; cambio del 17 oct 2026).
   - `GET /honey/vivo` devuelve siempre 200. Lo usa el chequeo de salud de Docker, para que el contenedor apagado no aparezca como «con problemas» en hPanel.
 - **Encendido:** HONEY responde solo si `HONEY_ACTIVO=1` y existe `ANTHROPIC_API_KEY` en el `.env`. Si falta cualquiera de las dos, el contenedor corre apagado.
 - **Enrutamiento:** Traefik, con prioridad sobre el sitio, como `/boletin/suscribir`. Si el contenedor no está, nginx responde 404 en `/honey/` y la burbuja no aparece.

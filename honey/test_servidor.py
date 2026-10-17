@@ -183,8 +183,10 @@ class HttpTest(Base):
         self.assertEqual(self.pedir(f"{apagado}/vivo")[0], 200)
         codigo, cuerpo, _ = self.pedir(f"{encendido}/salud")
         self.assertEqual((codigo, json.loads(cuerpo)), (200, {"activo": True}))
+        # Apagado responde 200 igual: un 503 llenaría de errores la consola del
+        # navegador en cada página. La burbuja mira "activo", no el código.
         codigo, cuerpo, _ = self.pedir(f"{apagado}/salud")
-        self.assertEqual((codigo, json.loads(cuerpo)), (503, {"activo": False}))
+        self.assertEqual((codigo, json.loads(cuerpo)), (200, {"activo": False}))
 
     def test_chat(self):
         base = self.arrancar(self.config())

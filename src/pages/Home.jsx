@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
 import { getPostBySlug } from '../content/posts';
+import DESTACADOS from '../content/destacados';
 import { formatDate } from '../content/format';
 
 const FORMULA = [
@@ -28,14 +29,7 @@ const FORMULA = [
   },
 ];
 
-// Las tres entradas que Carlos eligió para Inicio, en este orden.
-const DESTACADAS = [
-  'por-que-existe-opencivic',
-  'la-evolucion-del-lenguaje-como-tecnologia',
-  'las-instituciones-tambien-son-tecnologia',
-]
-  .map(getPostBySlug)
-  .filter(Boolean);
+const DESTACADAS = DESTACADOS.map(getPostBySlug).filter(Boolean);
 
 export default function Home() {
   return (
