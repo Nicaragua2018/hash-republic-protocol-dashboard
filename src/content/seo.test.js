@@ -36,3 +36,11 @@ test('el JSON-LD no puede cerrar su propia etiqueta <script>', () => {
   const html = jsonLdScript({ name: '</script><b>' });
   assert.equal(html.match(/<\/script>/g).length, 1);
 });
+
+test('las preguntas frecuentes se declaran como FAQPage', async () => {
+  const { faqJsonLd, pageJsonLd } = await import('./seo.js');
+  const faq = faqJsonLd(`${SITE_URL}/proyectos`, [{ pregunta: '¿Qué?', respuesta: 'Esto.' }]);
+  assert.equal(faq.mainEntity[0].acceptedAnswer.text, 'Esto.');
+  const types = pageJsonLd('/proyectos', [faq])['@graph'].map((n) => n['@type']);
+  assert.deepEqual(types, ['Organization', 'WebSite', 'FAQPage', 'WebPage']);
+});

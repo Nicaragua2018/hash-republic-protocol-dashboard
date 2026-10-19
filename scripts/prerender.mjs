@@ -21,10 +21,12 @@ import {
   pageJsonLd,
   postJsonLd,
   jsonLdScript,
+  faqJsonLd,
 } from '../src/content/seo.js';
 import { parsePost, sortPosts } from '../src/content/parsePost.js';
 import PROXIMOS from '../src/content/proximos.js';
 import principles from '../src/content/principles.js';
+import * as nicaraguaDecide from '../src/content/nicaraguaDecide.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -143,7 +145,8 @@ let count = 0;
 // Páginas estáticas conocidas
 for (const routePath of Object.keys(PAGES)) {
   const meta = getPageMeta(routePath);
-  writeRoute(routePath, { ...meta, jsonLd: meta.noindex ? null : pageJsonLd(routePath) });
+  const extra = routePath === '/proyectos' ? [faqJsonLd(meta.url, nicaraguaDecide.FAQ)] : [];
+  writeRoute(routePath, { ...meta, jsonLd: meta.noindex ? null : pageJsonLd(routePath, extra) });
   count++;
 }
 
@@ -262,6 +265,32 @@ const llmsFull = `# ${SITE_NAME} — contenido completo
 > ${DEFAULT_DESCRIPTION}
 
 Fuente: ${SITE_URL}/ · Idioma: español
+
+## Nicaragua Decide
+
+Fuente: ${SITE_URL}/proyectos
+
+${nicaraguaDecide.RESUMEN}
+
+### Qué se puede hacer
+
+${nicaraguaDecide.FUNCIONES.map((f) => `- **${f.titulo}.** ${f.texto}`).join('\n')}
+
+### Cómo protege la identidad
+
+${nicaraguaDecide.PROTECCION.map((t) => `- ${t}`).join('\n')}
+
+### Cómo se comprueban los resultados
+
+${nicaraguaDecide.VERIFICACION.map((t) => `- ${t}`).join('\n')}
+
+### Estado
+
+${nicaraguaDecide.ESTADO}
+
+### Preguntas frecuentes
+
+${nicaraguaDecide.FAQ.map((q) => `**${q.pregunta}** ${q.respuesta}`).join('\n\n')}
 
 ## Los 25 principios de OpenCivic Solutions
 

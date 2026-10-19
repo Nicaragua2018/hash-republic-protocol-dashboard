@@ -34,7 +34,7 @@ export const PAGES = {
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
     description:
-      'Nicaragua Decide, el proyecto en desarrollo de OpenCivic Solutions: consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad.',
+      'Nicaragua Decide: plataforma abierta para que el exilio y la diáspora nicaragüense deliberen, voten y sorteen representantes con resultados verificables y protección de identidad.',
   },
   '/unirse': {
     title: 'Unirse — Cómo contribuir a OpenCivic Solutions',
@@ -113,9 +113,9 @@ function authorJsonLd(author) {
 }
 
 // Grafo para una página fija del sitio.
-export function pageJsonLd(pathname) {
+export function pageJsonLd(pathname, extraNodes = []) {
   const meta = getPageMeta(pathname);
-  const graph = [organizationJsonLd(), websiteJsonLd()];
+  const graph = [organizationJsonLd(), websiteJsonLd(), ...extraNodes];
   if (meta) {
     graph.push({
       '@type': pathname === '/sobre' ? 'AboutPage' : pathname === '/contacto' ? 'ContactPage' : 'WebPage',
@@ -159,4 +159,19 @@ export function postJsonLd(post, sources = []) {
 // la etiqueta antes de tiempo.
 export function jsonLdScript(data) {
   return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
+}
+
+// Preguntas frecuentes como FAQPage (las lee la página /proyectos).
+export function faqJsonLd(url, faq) {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${url}#preguntas`,
+    url,
+    inLanguage: SITE_LANGUAGE,
+    mainEntity: faq.map((q) => ({
+      '@type': 'Question',
+      name: q.pregunta,
+      acceptedAnswer: { '@type': 'Answer', text: q.respuesta },
+    })),
+  };
 }
