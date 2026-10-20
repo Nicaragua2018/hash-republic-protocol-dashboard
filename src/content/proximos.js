@@ -6,13 +6,6 @@
 
 const PROXIMOS = [
   {
-    fecha: '2026-10-19',
-    titulo: 'Cabeza de oro, pies de barro',
-    autor: 'Carlos Robleto',
-    sinopsis:
-      'Un gigante creado para protegernos puede terminar devorándonos. Hobbes lo llamó Leviatán; el profeta Daniel vio una estatua de oro que se vino abajo por sus pies de barro. Un ensayo sobre cómo construir una república que no dependa de la bondad de quien manda.',
-  },
-  {
     fecha: '2026-10-26',
     titulo: 'Democracias fatigadas',
     sinopsis:
