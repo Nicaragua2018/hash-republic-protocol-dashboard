@@ -2,7 +2,7 @@
 slug: de-las-instituciones-analogicas-a-las-instituciones-programables
 title: La necesaria modernización de las instituciones públicas
 dek: La democracia no está agotada; está desactualizada. Nuestras instituciones se diseñaron para la época del papel, y hoy podemos construir unas que escuchen más, rindan cuentas mejor y protejan a todos.
-date: 2026-11-16
+date: 2026-11-23
 author: Carlos Robleto
 ia: asistido
 image: /ilustracion-capas-institucionales.svg
