@@ -101,7 +101,7 @@ function buildSeoBlock({
     <link rel="alternate" type="text/plain" title="Resumen para asistentes de IA" href="${SITE_URL}/llms.txt" />
     ${noindex ? '<meta name="robots" content="noindex" />' : ''}
     <meta property="og:type" content="${ogType}" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content="es_419" />
     ${publishedTime ? `<meta property="article:published_time" content="${publishedTime}" />` : ''}
     <meta property="og:site_name" content="${SITE_NAME}" />
     <meta property="og:url" content="${url}" />
@@ -287,6 +287,8 @@ ${nicaraguaDecide.VERIFICACION.map((t) => `- ${t}`).join('\n')}
 ### Estado
 
 ${nicaraguaDecide.ESTADO}
+
+Código abierto: ${nicaraguaDecide.REPO_URL}
 
 ### Preguntas frecuentes
 

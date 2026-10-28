@@ -7,7 +7,7 @@ OpenCivic tiene hoy un solo proyecto en desarrollo: Nicaragua Decide.
 
 Nicaragua Decide (fase: en desarrollo) es una plataforma abierta para que la comunidad nicaragüense en el exilio y la diáspora delibere, vote y elija representantes por sorteo, con resultados que se pueden comprobar y sin exponer la identidad de quien participa.
 
-Qué se puede hacer: deliberar en el grupo del departamento de origen (los 17 de Nicaragua) con propuestas, comentarios y señales de apoyo, neutral u objeción; votar ordenando las opciones, con el método de Schulze; elegir personas por sorteo para asambleas o comisiones; y dejar cada acción importante en un registro de auditoría que no se puede modificar ni borrar.
+Qué se puede hacer: deliberar en el grupo del territorio de origen (hay 17: los 15 departamentos y las 2 regiones autónomas de Nicaragua) con propuestas, comentarios y señales de apoyo, neutral u objeción; votar ordenando las opciones, con el método de Schulze; elegir personas por sorteo para asambleas o comisiones; y dejar cada acción importante en un registro de auditoría que no se puede modificar ni borrar.
 
 Cómo protege la identidad: se entra solo por invitación; el correo y el nombre real se guardan aparte del perfil público, y propuestas, votos y auditoría usan solo el perfil público; las direcciones IP se guardan como una huella cifrada; los registros del sistema nunca incluyen datos personales.
 

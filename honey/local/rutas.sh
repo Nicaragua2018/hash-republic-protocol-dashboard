@@ -14,7 +14,7 @@ check() { # descripción, código esperado, argumentos de curl
 }
 check "vivo"                     200 "$S/honey/vivo"
 check "salud (encendido)"        200 "$S/honey/salud"
-check "salud en www"             200 "$W/honey/salud"
+check "www redirige a la raíz"    301 "$W/honey/salud"
 check "voto inválido"            400 -X POST -H "$J" -d '{"id":"x","util":true}' "$S/honey/util"
 check "ruta desconocida"         404 "$S/honey/otra"
 check "chat responde"            200 -X POST -H "$J" -d '{"pregunta":"hola"}' "$S/honey/chat"

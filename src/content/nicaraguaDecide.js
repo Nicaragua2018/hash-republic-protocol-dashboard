@@ -12,7 +12,7 @@ export const FUNCIONES = [
   {
     titulo: 'Deliberar por territorio',
     texto:
-      'Cada persona participa en el grupo de su departamento de origen (los 17 de Nicaragua). Allí se presentan propuestas, se comentan y cada quien deja una señal: apoyo, neutral u objeción.',
+      'Cada persona participa en el grupo de su territorio de origen (hay 17: los 15 departamentos y las 2 regiones autónomas de Nicaragua). Allí se presentan propuestas, se comentan y cada quien deja una señal: apoyo, neutral u objeción.',
   },
   {
     titulo: 'Votar ordenando opciones',
@@ -54,6 +54,8 @@ export const SIGUIENTES = [
   'Cifrar los datos personales guardados.',
   'Herramientas públicas para verificar votaciones y sorteos sin depender del servidor.',
 ];
+
+export const REPO_URL = 'https://github.com/Nicaragua2018/decide-nicaragua';
 
 export const FAQ = [
   {
