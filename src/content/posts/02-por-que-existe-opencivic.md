@@ -1,7 +1,7 @@
 ---
 slug: por-que-existe-opencivic
 title: Por qué existe OpenCivic
-dek: Mucha gente siente que la democracia ya no la escucha. Tiene razón en estar cansada, pero no en resignarse: las instituciones son inventos humanos, y lo que se inventó se puede mejorar.
+dek: Las democracias y sus instituciones son inventos humanos, y lo que se inventó se puede mejorar.
 date: 2026-10-11
 author: Carlos Robleto
 ia: asistido
@@ -10,23 +10,23 @@ imageAlt: Ilustración dibujada a mano: un panal se construye de abajo hacia arr
 ogImage: /og-por-que-existe.png
 ---
 
-Si sientes que votar cambia poco, que las decisiones se toman lejos y que nadie te escucha, no estás solo. En 2025, Pew Research Center preguntó en 23 países si la gente estaba satisfecha con cómo funciona su democracia, y la mediana de insatisfechos fue de 58%. En los países de altos ingresos que sigue desde 2017, la insatisfacción subió de 49% a 64%.
+Si sientes que votar cambia poco, que las decisiones se toman lejos y que nadie te escucha, no estás solo. En 2025, Pew Research Center preguntó en 23 países si la gente estaba satisfecha con cómo funciona su democracia, y la mediana de insatisfechos fue de 58%.
 
-Ese cansancio es real y tiene motivos. Pero de él se sacan dos conclusiones muy distintas. Una es la resignación: «las cosas son así». La otra es la que nos mueve a nosotros: **las instituciones también son tecnología**, y la tecnología se mejora.
+Ese cansancio es real. Pero de él se sacan dos conclusiones muy distintas. Una de ellas es la resignación: «las cosas son así». La otra es la que nos mueve a nosotros: **preguntarnos qué se rompió o quedó obsoleto**, y qué necesita actualizarse o podría mejorarse.
 
 ## Lo que se inventó se puede mejorar
 
-Pasamos del arado al tractor, de la carta al correo electrónico, de la imprenta a internet. Pero las herramientas con las que cooperamos, participamos y nos gobernamos —las elecciones, los parlamentos, los presupuestos— cambiaron muy poco en un siglo. No es porque sean perfectas. Es porque dejamos de verlas como inventos.
+Pasamos de la carta al correo electrónico y de la imprenta a internet. Pero las herramientas con las que cooperamos, participamos y nos organizamos —los sistemas electorales, el sistema de partidos políticos y la democracia representativa— no cambiaron mucho en un siglo. No es porque sean perfectas. Es porque dejamos de participar.
 
-Y lo son. En 1844, un grupo de tejedores y artesanos de Rochdale, en Inglaterra, no inventó la cooperación: la convirtió en un modelo que cualquiera podía copiar, y por eso sus principios siguen vivos casi dos siglos después. Las instituciones las hacen personas comunes. OpenCivic existe para seguir haciéndolo, con las herramientas de hoy.
+En 1844, un grupo de tejedores y artesanos de Rochdale, en Inglaterra, no inventó la cooperación: la convirtió en un modelo que cualquiera podía copiar, y por eso sus principios siguen vivos casi dos siglos después. **Las instituciones las hacen personas comunes. OpenCivic existe para seguir haciéndolo, con las herramientas de hoy.**
 
-## Con límites que no se negocian
+## Límites que no se negocian
 
 Inventar instituciones también puede salir mal. La historia está llena de sistemas que prometieron orden y terminaron aplastando a alguien. Por eso nuestro objetivo tiene una cerca: buscamos la **paz social** y el **bien común**, sin pasar nunca por encima de la **esperanza**, la **justicia** ni la **dignidad humana** de ninguna persona ni de ninguna minoría.
 
-No es una abstracción. El Grupo de Expertos en Derechos Humanos sobre Nicaragua, creado por la ONU, concluyó que las violaciones cometidas en el país desde 2018 pueden constituir crímenes de lesa humanidad, y en 2026 documentó una red que usa al Estado para vigilar y acosar a personas exiliadas. Es lo que pasa cuando las instituciones quedan capturadas: la tecnología sirve para vigilar, no para cooperar. Ninguna mayoría y ninguna eficiencia justifican eso.
+No es una abstracción. El Grupo de Expertos en Derechos Humanos sobre Nicaragua, creado por la ONU, concluyó que las violaciones cometidas en el país desde 2018 pueden constituir crímenes de lesa humanidad, y en 2026 documentó una red que usa al Estado para vigilar y acosar a personas exiliadas. Es lo que pasa cuando las instituciones quedan capturadas: tecnología para vigilar y no para cooperar.
 
-## Abierto, porque el conocimiento es de todos
+## El conocimiento heredado es de todos
 
 El alfabeto, los números, internet: nada de eso fue obra de una sola persona. Hasta la inteligencia artificial aprendió del lenguaje que produjeron miles de millones de personas. Por eso todo lo que hacemos es abierto —el código, los textos y los datos—, con licencias que obligan a que las mejoras también sigan siendo de todos.
 

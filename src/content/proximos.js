@@ -28,7 +28,7 @@ const PROXIMOS = [
     titulo: 'La necesaria modernización de las instituciones públicas',
     slug: 'de-las-instituciones-analogicas-a-las-instituciones-programables',
     sinopsis:
-      'La democracia no está agotada: está desactualizada. Votamos como en el siglo pasado y hacemos trámites pensados para el papel. Qué cambiar, qué proteger y por qué hay motivos de sobra para la esperanza.',
+      'La democracia está agotada y desactualizada. Votamos como en el siglo pasado y hacemos trámites pensados para el papel. Qué cambiar, qué proteger y por qué hay motivos de sobra para la esperanza.',
   },
   {
     fecha: '2026-11-30',
@@ -38,7 +38,7 @@ const PROXIMOS = [
   },
   {
     fecha: '2026-12-07',
-    titulo: 'Información verificable: lo que aprendimos de las Notas de la Comunidad de X',
+    titulo: 'Lo que aprendimos de las Notas de la Comunidad de X',
     slug: 'lo-que-aprendimos-de-las-notas-de-la-comunidad',
     sinopsis:
       '¿Pueden ponerse de acuerdo sobre los hechos personas que no se soportan? Un experimento con millones de usuarios dice que sí… hasta que las máquinas empezaron a escribir la mitad de lo que se ve.',
