@@ -28,7 +28,7 @@ const PROXIMOS = [
     titulo: 'La necesaria modernización de las instituciones públicas',
     slug: 'de-las-instituciones-analogicas-a-las-instituciones-programables',
     sinopsis:
-      'La democracia no está agotada: está desactualizada. Votamos como en el siglo pasado y hacemos trámites pensados para el papel. Qué cambiar, qué proteger y por qué hay motivos de sobra para la esperanza.',
+      'La democracia está agotada y desactualizada. Votamos como en el siglo pasado y hacemos trámites pensados para el papel. Qué cambiar, qué proteger y por qué hay motivos de sobra para la esperanza.',
   },
   {
     fecha: '2026-11-30',
