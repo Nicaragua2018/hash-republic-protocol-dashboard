@@ -2,7 +2,7 @@
 slug: lo-que-aprendimos-de-las-notas-de-la-comunidad
 title: "Información verificable: lo que aprendimos de las Notas de la Comunidad de X"
 dek: Cuando no sabes a quién creerle, la democracia se debilita. Un experimento con millones de usuarios muestra que la gente que piensa distinto sí puede ponerse de acuerdo sobre los hechos, y también qué puede salir mal.
-date: 2026-11-30
+date: 2026-12-07
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-notas-comunidad.svg
