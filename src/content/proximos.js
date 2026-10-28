@@ -38,7 +38,7 @@ const PROXIMOS = [
   },
   {
     fecha: '2026-12-07',
-    titulo: 'Información verificable: lo que aprendimos de las Notas de la Comunidad de X',
+    titulo: 'Lo que aprendimos de las Notas de la Comunidad de X',
     slug: 'lo-que-aprendimos-de-las-notas-de-la-comunidad',
     sinopsis:
       '¿Pueden ponerse de acuerdo sobre los hechos personas que no se soportan? Un experimento con millones de usuarios dice que sí… hasta que las máquinas empezaron a escribir la mitad de lo que se ve.',

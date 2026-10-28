@@ -1,7 +1,7 @@
 ---
 slug: de-las-instituciones-analogicas-a-las-instituciones-programables
 title: La necesaria modernización de las instituciones públicas
-dek: La democracia no está agotada; está desactualizada. Nuestras instituciones se diseñaron para la época del papel, y hoy podemos construir unas que escuchen más, rindan cuentas mejor y protejan a todos.
+dek: La democracia está agotada y desactualizada. Nuestras instituciones se diseñaron para la época del papel, y hoy podemos construir unas que escuchen más, rindan cuentas mejor y protejan a todos.
 date: 2026-11-23
 author: Carlos Robleto
 ia: asistido
@@ -11,8 +11,6 @@ ogImage: /og-capas-institucionales.png
 ---
 
 *Versión breve de nuestro paper conceptual de política pública. El [texto completo](https://github.com/Nicaragua2018/hash-republic-protocol-dashboard/blob/master/docs/papers/la-necesaria-modernizacion-de-las-instituciones-publicas-v1.2.md) está en GitHub.*
-
-En 2025, Pew Research Center encontró que la mediana de personas insatisfechas con su democracia era de 58% en 23 países. Es fácil leer ese dato como una sentencia: la democracia se agotó. Nosotros lo leemos de otra manera. **La democracia no está agotada; está desactualizada.**
 
 Votamos cada varios años, los trámites siguen pensados para el papel y las decisiones se explican en un idioma que pocos entienden. No es que la idea de gobernarnos juntos haya fracasado. Es que sus herramientas se quedaron atrás.
 
@@ -57,7 +55,6 @@ En OpenCivic trabajamos en eso, empezando por [Nicaragua Decide](/proyectos). Si
 ## Fuentes
 
 - [OpenCivic Solutions (2026). La necesaria modernización de las instituciones públicas, paper conceptual completo, versión 1.2.](https://github.com/Nicaragua2018/hash-republic-protocol-dashboard/blob/master/docs/papers/la-necesaria-modernizacion-de-las-instituciones-publicas-v1.2.md)
-- [Pew Research Center (2025). Dissatisfaction with democracy remains widespread in many nations.](https://www.pewresearch.org/short-reads/2025/06/30/dissatisfaction-with-democracy-remains-widespread-in-many-nations/)
 - [Presupuesto participativo; Porto Alegre lo practica desde 1989 — Wikipedia.](https://en.wikipedia.org/wiki/Participatory_budgeting)
 - [Decidim — Wikipedia.](https://en.wikipedia.org/wiki/Decidim)
 - [León XIV (2026). Carta encíclica *Magnifica Humanitas*, n. 39.](https://www.vatican.va/content/leo-xiv/es/encyclicals/documents/20260515-magnifica-humanitas.html)
