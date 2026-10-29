@@ -63,6 +63,13 @@ def _cortar_en_frase(texto: str) -> str:
     return texto[: finales[-1].end()] if finales else texto
 
 
+def _fuente(doc: Documento) -> dict:
+    fuente = {"titulo": doc.titulo, "url": doc.url}
+    if doc.imagen:
+        fuente.update(imagen=doc.imagen, imagen_alt=doc.imagen_alt)
+    return fuente
+
+
 def _sin_repetidas(texto: str) -> str:
     """Quita las frases que repiten otra anterior de la misma respuesta.
 
@@ -98,7 +105,7 @@ def interpretar(mensaje, docs: list[Documento]) -> Respuesta:
         texto = texto.removeprefix(MARCA_SIN_RESPUESTA).strip() or TEXTO_SIN_RESPUESTA
         return Respuesta(texto, "sin_respuesta")
     texto = _sin_repetidas(texto.replace(MARCA_SIN_RESPUESTA, "").strip())
-    return Respuesta(texto, "ok", [{"titulo": docs[i].titulo, "url": docs[i].url} for i in indices])
+    return Respuesta(texto, "ok", [_fuente(docs[i]) for i in indices])
 
 
 class ModeloAnthropic:

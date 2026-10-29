@@ -138,7 +138,7 @@ export default function Recorrido() {
         style={posicion ?? { visibility: 'hidden' }}
       >
         <div className="oc-recorrido-cabecera">
-          <img src="/opencivic-icono-192.png" alt="" width="32" height="32" />
+          <img src="/honey-avatar-96.webp" alt="" width="40" height="40" />
           <h2 id="oc-recorrido-titulo">{paso.titulo}</h2>
           <button
             type="button"

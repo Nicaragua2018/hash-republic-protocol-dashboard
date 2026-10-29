@@ -29,6 +29,24 @@ class LeerTest(Carpeta):
         d = conocimiento.leer(ruta)
         self.assertEqual((d.titulo, d.url, d.version, d.texto), ("Licencias", "/", "2026-10-14", "Texto."))
 
+    def test_imagen_opcional_con_descripcion(self):
+        cab = "---\ntitulo: X\nurl: /\nversion: v\nimagen: /a.webp\nimagen_alt: Avatar de X generado con IA\n---\n"
+        d = conocimiento.leer(self.escribir("a.md", cab + "Texto."))
+        self.assertEqual((d.imagen, d.imagen_alt), ("/a.webp", "Avatar de X generado con IA"))
+        sin = conocimiento.leer(self.escribir("b.md", CABECERA.format(t="Y", u="/") + "Texto."))
+        self.assertEqual((sin.imagen, sin.imagen_alt), ("", ""))
+
+    def test_rechaza_imagen_de_otro_sitio_o_sin_descripcion(self):
+        for extra in (
+            "imagen: https://malo.example/a.png\nimagen_alt: A\n",
+            "imagen: //malo/a.png\nimagen_alt: A\n",
+            "imagen: /a.webp\n",
+        ):
+            with self.subTest(extra=extra):
+                cab = "---\ntitulo: X\nurl: /\nversion: v\n" + extra + "---\n"
+                with self.assertRaises(ValueError):
+                    conocimiento.leer(self.escribir("a.md", cab + "Texto."))
+
     def test_acepta_finales_de_linea_de_windows(self):
         ruta = self.escribir("a.md", (CABECERA.format(t="X", u="/") + "Texto.\n").replace("\n", "\r\n"))
         self.assertEqual(conocimiento.leer(ruta).texto, "Texto.")

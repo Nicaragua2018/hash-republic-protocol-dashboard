@@ -80,6 +80,20 @@ test('preguntar solo deja fuentes internas del sitio', async () => {
   assert.deepEqual(r.fuentes, [{ titulo: 'Sobre', url: '/sobre' }]);
 });
 
+test('preguntar deja la imagen de una fuente solo si es del sitio y tiene descripción', async () => {
+  const fuentes = [
+    { titulo: 'A', url: '/sobre', imagen: '/a.webp', imagen_alt: 'Avatar generado con IA' },
+    { titulo: 'B', url: '/', imagen: 'https://malo.example/x.png', imagen_alt: 'X' },
+    { titulo: 'C', url: '/', imagen: '/c.webp' },
+  ];
+  const r = await preguntar('x', [], responde(200, { id: 'r_1', texto: 'T', estado: 'ok', fuentes }));
+  assert.deepEqual(r.fuentes, [
+    { titulo: 'A', url: '/sobre', imagen: '/a.webp', imagen_alt: 'Avatar generado con IA' },
+    { titulo: 'B', url: '/' },
+    { titulo: 'C', url: '/' },
+  ]);
+});
+
 test('preguntar convierte cualquier fallo en no_disponible', async () => {
   const rapido = await preguntar('x', [], responde(429, null));
   assert.equal(rapido.estado, 'no_disponible');

@@ -121,7 +121,7 @@ export default function HoneyWidget() {
       {abierto && (
         <div className="honey-panel" role="dialog" aria-modal="false" aria-labelledby="honey-titulo">
           <header className="honey-cabecera">
-            <img src="/opencivic-icono-192.png" alt="" width="32" height="32" />
+            <img src="/honey-avatar-96.webp" alt="" width="36" height="36" />
             <h2 id="honey-titulo">HONEY · asistente IA de OpenCivic</h2>
             <button type="button" className="honey-cerrar" onClick={cerrar} aria-label="Cerrar el asistente">
               ×
@@ -132,7 +132,15 @@ export default function HoneyWidget() {
           ) : (
             <>
               <div className="honey-mensajes" aria-live="polite">
-                <p className="honey-burbuja honey-burbuja--asistente">{PRESENTACION}</p>
+                <div className="honey-presentacion">
+                  <img
+                    src="/honey-avatar-cuerpo-240.webp"
+                    alt="HONEY, una abejita azul y amarilla"
+                    width="96"
+                    height="96"
+                  />
+                  <p className="honey-burbuja honey-burbuja--asistente">{PRESENTACION}</p>
+                </div>
                 {mensajes.length === 0 && (
                   <div className="honey-sugeridas">
                     <button type="button" className="honey-sugerida-recorrido" onClick={recorrido}>
@@ -214,7 +222,7 @@ export default function HoneyWidget() {
         aria-expanded={abierto}
         onClick={() => (abierto ? cerrar() : abrir())}
       >
-        <img src="/opencivic-icono-192.png" alt="" width="44" height="44" />
+        <img src="/honey-avatar-192.webp" alt="" width="58" height="58" />
       </button>
     </div>
   );
@@ -227,6 +235,14 @@ function Mensaje({ m, onVotar }) {
   return (
     <div className="honey-burbuja honey-burbuja--asistente">
       <p>{m.texto}</p>
+      {m.fuentes
+        .filter((f) => f.imagen)
+        .map((f) => (
+          <figure className="honey-imagen" key={f.imagen}>
+            <img src={f.imagen} alt={f.imagen_alt} width="160" height="160" loading="lazy" />
+            <figcaption>{f.imagen_alt}</figcaption>
+          </figure>
+        ))}
       {m.estado === 'sin_respuesta' && (
         <p>
           <Link to="/contacto">Escribir al equipo</Link>
