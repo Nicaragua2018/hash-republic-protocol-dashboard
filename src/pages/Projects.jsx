@@ -2,6 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
+import {
+  RESUMEN,
+  FUNCIONES,
+  PROTECCION,
+  VERIFICACION,
+  ESTADO,
+  SIGUIENTES,
+  FAQ,
+  REPO_URL,
+} from '../content/nicaraguaDecide';
 
 const REPOSITORIO = 'https://github.com/Nicaragua2018/hash-republic-protocol-dashboard';
 
@@ -18,10 +28,66 @@ export default function Projects() {
           Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de
           identidad.
         </p>
+        <p>{RESUMEN}</p>
         <p>
           Es el único proyecto que OpenCivic tiene hoy en desarrollo. Como todo lo que hacemos, no gobierna
           por sí solo: produce evidencia y herramientas, y el juicio final siempre es de la comunidad.
         </p>
+
+        <h2 className="oc-h2">Qué se puede hacer</h2>
+        <div className="oc-grid oc-grid--2" style={{ marginBottom: 32 }}>
+          {FUNCIONES.map((f) => (
+            <div className="oc-card" key={f.titulo}>
+              <h3>{f.titulo}</h3>
+              <p>{f.texto}</p>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="oc-h2">En qué punto estamos</h2>
+        <p>{ESTADO}</p>
+
+        <h2 className="oc-h2" id="preguntas">
+          Para saber más
+        </h2>
+        <details style={{ marginBottom: 12 }}>
+          <summary>
+            <strong>Cómo protege tu identidad</strong>
+          </summary>
+          <ul>
+            {PROTECCION.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+        </details>
+        <details style={{ marginBottom: 12 }}>
+          <summary>
+            <strong>Cómo se comprueban los resultados</strong>
+          </summary>
+          <ul>
+            {VERIFICACION.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+        </details>
+        <details style={{ marginBottom: 12 }}>
+          <summary>
+            <strong>Lo que sigue</strong>
+          </summary>
+          <ol>
+            {SIGUIENTES.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ol>
+        </details>
+        {FAQ.map((q) => (
+          <details key={q.pregunta} style={{ marginBottom: 12 }}>
+            <summary>
+              <strong>{q.pregunta}</strong>
+            </summary>
+            <p>{q.respuesta}</p>
+          </details>
+        ))}
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', margin: '24px 0 40px' }}>
           <Link to="/blog" className="oc-btn oc-btn--primary">
             Sigue el avance en el blog
@@ -31,7 +97,11 @@ export default function Projects() {
           </Link>
         </div>
         <p style={{ fontSize: '0.9rem' }}>
-          La documentación técnica de trabajos anteriores, como Hash Republic Protocol, sigue disponible en{' '}
+          El código de Nicaragua Decide es abierto y está en{' '}
+          <a href={REPO_URL} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          . La documentación técnica de trabajos anteriores, como Hash Republic Protocol, sigue disponible en{' '}
           <a href={REPOSITORIO} target="_blank" rel="noreferrer">
             GitHub
           </a>
