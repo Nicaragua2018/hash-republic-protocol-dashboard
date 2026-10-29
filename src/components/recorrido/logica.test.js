@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { elegirObjetivo, posicionTarjeta, pasosDisponibles } from './logica.js';
+import { elegirObjetivo, posicionTarjeta, pasosDisponibles, cimaDeseada } from './logica.js';
 
 const el = (ancho, alto, top = 0, left = 0) => ({
   getBoundingClientRect: () => ({
@@ -50,4 +50,16 @@ test('la tarjeta va debajo del elemento si cabe, si no arriba, y nunca se sale d
   // Elemento enorme que no deja sitio ni arriba ni abajo: tarjeta abajo, dentro de la pantalla.
   const grande = posicionTarjeta({ top: 0, bottom: 844, left: 0, width: 390 }, vista, tarjeta);
   assert.equal(grande.top, 844 - 200 - 16);
+});
+
+test('cimaDeseada deja sitio a la tarjeta debajo del elemento', () => {
+  const vista = { ancho: 390, alto: 844 };
+  const tarjeta = { ancho: 340, alto: 195 };
+  // Elemento bajo: el conjunto (elemento + tarjeta) queda centrado bajo la cabecera.
+  const bajo = cimaDeseada(100, vista, tarjeta, 66);
+  assert.ok(bajo >= 66);
+  assert.ok(bajo + 100 + 16 + 195 <= 844 - 16);
+  // Los tres pasos en el celular (~560 px): la tarjeta cabe debajo sin taparlos.
+  const alto = cimaDeseada(560, vista, tarjeta, 66);
+  assert.equal(alto + 560 + 16 + 195, 844 - 16);
 });

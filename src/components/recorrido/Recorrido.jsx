@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { EVENTO_RECORRIDO, PASOS, elegirObjetivo, pasosDisponibles, posicionTarjeta } from './logica.js';
+import {
+  EVENTO_RECORRIDO,
+  PASOS,
+  cimaDeseada,
+  elegirObjetivo,
+  pasosDisponibles,
+  posicionTarjeta,
+} from './logica.js';
 import './recorrido.css';
 
 const buscar = (id) => [...document.querySelectorAll(`[data-recorrido="${id}"]`)];
@@ -64,7 +71,22 @@ export default function Recorrido() {
   useEffect(() => {
     if (!paso) return undefined;
     const objetivo = elegirObjetivo(buscar(paso.id));
-    objetivo?.scrollIntoView({ block: 'center', behavior: sinMovimiento() ? 'auto' : 'smooth' });
+    // El menú y la burbuja de HONEY no se mueven con la página: no hace falta desplazarla.
+    if (objetivo && !paso.fijo) {
+      const r = objetivo.getBoundingClientRect();
+      const t = tarjetaRef.current?.getBoundingClientRect();
+      const cabecera = document.querySelector('header')?.getBoundingClientRect().height ?? 0;
+      const cima = cimaDeseada(
+        r.height + HOLGURA * 2,
+        { ancho: window.innerWidth, alto: window.innerHeight },
+        { ancho: t?.width || 340, alto: t?.height || 220 },
+        cabecera
+      );
+      window.scrollBy({
+        top: r.top - HOLGURA - cima,
+        behavior: sinMovimiento() ? 'auto' : 'smooth',
+      });
+    }
     const espera = window.setTimeout(medir, sinMovimiento() ? 0 : 450);
     return () => window.clearTimeout(espera);
   }, [paso, medir]);

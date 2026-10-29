@@ -4,6 +4,7 @@
 export const EVENTO_RECORRIDO = 'oc:recorrido';
 
 // Cada paso señala los elementos marcados con data-recorrido="<id>".
+// fijo: el elemento no se mueve con la página (cabecera, burbuja de HONEY).
 export const PASOS = [
   {
     id: 'inicio',
@@ -34,11 +35,13 @@ export const PASOS = [
   },
   {
     id: 'menu',
+    fijo: true,
     titulo: 'Todo está en el menú',
     texto: 'Qué es OpenCivic, el blog, el proyecto, cómo unirte y el contacto.',
   },
   {
     id: 'honey',
+    fijo: true,
     titulo: 'Y aquí me tienes',
     texto:
       'Si te queda una duda, pregúntame cuando quieras. Respondo con los documentos públicos del proyecto.',
@@ -72,4 +75,15 @@ export function posicionTarjeta(rect, vista, tarjeta) {
   if (rect.bottom + MARGEN + tarjeta.alto <= vista.alto - MARGEN) return { top: rect.bottom + MARGEN, left };
   if (rect.top - MARGEN - tarjeta.alto >= MARGEN) return { top: rect.top - MARGEN - tarjeta.alto, left };
   return { top: Math.max(MARGEN, maxTop), left };
+}
+
+// Altura (en la ventana) a la que conviene llevar el borde superior del
+// elemento para que él y la tarjeta quepan juntos, la tarjeta debajo. Si el
+// elemento es tan alto que no cabe todo, se pega a la tarjeta y su parte de
+// arriba queda bajo la cabecera, antes que tapar su parte de abajo.
+export function cimaDeseada(alto, vista, tarjeta, cabecera) {
+  const conjunto = alto + MARGEN + tarjeta.alto;
+  const libre = vista.alto - MARGEN - cabecera;
+  if (conjunto <= libre) return cabecera + (libre - conjunto) / 2;
+  return vista.alto - MARGEN - conjunto;
 }
