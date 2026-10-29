@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SiteLayout from './components/layout/SiteLayout';
-import IntroSplash from './components/layout/IntroSplash';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -16,7 +15,6 @@ import NotFound from './pages/NotFound';
 export default function App() {
   return (
     <BrowserRouter>
-      <IntroSplash />
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />

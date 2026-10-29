@@ -22,7 +22,8 @@ export const PAGES = {
   },
   '/blog': {
     title: 'Blog y boletín — OpenCivic Solutions',
-    description: 'Artículos e informes de OpenCivic Solutions, siempre con fuentes verificables.',
+    description:
+      'Ideas sobre democracia, instituciones y tecnología cívica, con fuentes verificables. Un artículo nuevo cada lunes.',
   },
   '/blog/suscripcion': {
     title: 'Revisa tu correo — Boletín de OpenCivic Solutions',
@@ -41,8 +42,8 @@ export const PAGES = {
     description: 'Hay lugar para quien programa, investiga, diseña, traduce o enseña.',
   },
   '/contacto': {
-    title: 'Información y contacto — OpenCivic Solutions',
-    description: 'Confianza, licencias y canales oficiales de OpenCivic Solutions.',
+    title: 'Contacto — OpenCivic Solutions',
+    description: 'Cómo escribir a OpenCivic Solutions, sus canales oficiales y sus licencias.',
   },
 };
 

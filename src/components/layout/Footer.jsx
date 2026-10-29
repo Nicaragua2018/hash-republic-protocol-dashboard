@@ -57,7 +57,7 @@ export default function Footer() {
               Cómo contribuir
             </Link>
             <Link to="/contacto" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}>
-              Información y contacto
+              Contacto
             </Link>
           </nav>
         </div>

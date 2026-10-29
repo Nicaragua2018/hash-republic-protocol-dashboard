@@ -17,9 +17,8 @@ export default function Blog() {
           <span className="oc-eyebrow">Blog y boletín</span>
           <h1 className="oc-h1">Artículos e informes, con fuentes</h1>
           <p className="oc-lede">
-            Esta sección reunirá artículos, informes del CEO y avances de cada proyecto — siempre con fuentes
-            verificables. El lanzamiento del sitio completo está previsto para el 15 de enero de 2027;
-            mientras tanto, publicamos aquí lo que ya está listo.
+            Ideas sobre democracia, instituciones y tecnología cívica, y los avances de Nicaragua Decide,
+            siempre con fuentes verificables. Un artículo nuevo cada lunes.
           </p>
         </div>
       </section>

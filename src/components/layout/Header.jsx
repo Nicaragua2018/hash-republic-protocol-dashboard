@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { to: '/blog', label: 'Blog' },
   { to: '/proyectos', label: 'Proyectos' },
   { to: '/unirse', label: 'Unirse' },
-  { to: '/contacto', label: 'Información' },
+  { to: '/contacto', label: 'Contacto' },
 ];
 
 export default function Header() {

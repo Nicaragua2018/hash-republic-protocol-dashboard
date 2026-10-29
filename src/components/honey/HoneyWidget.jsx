@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { honeyActivo, preguntar, votar } from './honeyApi.js';
+import { honeyActivo, preguntar, votar, avisoPendiente, marcarAvisoVisto } from './honeyApi.js';
 import './honey.css';
 
 const PRESENTACION =
@@ -21,6 +21,7 @@ export default function HoneyWidget() {
   const [mensajes, setMensajes] = useState([]);
   const [entrada, setEntrada] = useState('');
   const [escribiendo, setEscribiendo] = useState(false);
+  const [aviso, setAviso] = useState(false);
   const botonRef = useRef(null);
   const entradaRef = useRef(null);
   const finRef = useRef(null);
@@ -32,6 +33,21 @@ export default function HoneyWidget() {
       vigente = false;
     };
   }, []);
+
+  // Primera visita: un globito presenta a HONEY unos segundos y no vuelve.
+  useEffect(() => {
+    if (!activo || !avisoPendiente()) return undefined;
+    // Se da por visto al aparecer: si la persona cambia de página, no se repite.
+    const mostrar = window.setTimeout(() => {
+      setAviso(true);
+      marcarAvisoVisto();
+    }, 2500);
+    const ocultar = window.setTimeout(() => setAviso(false), 12000);
+    return () => {
+      window.clearTimeout(mostrar);
+      window.clearTimeout(ocultar);
+    };
+  }, [activo]);
 
   useEffect(() => {
     if (abierto && vista === 'chat') entradaRef.current?.focus();
@@ -54,6 +70,16 @@ export default function HoneyWidget() {
   }, [abierto]);
 
   if (!activo) return null;
+
+  function cerrarAviso() {
+    setAviso(false);
+    marcarAvisoVisto();
+  }
+
+  function abrir() {
+    cerrarAviso();
+    setAbierto(true);
+  }
 
   function cerrar() {
     setAbierto(false);
@@ -151,13 +177,28 @@ export default function HoneyWidget() {
           </footer>
         </div>
       )}
+      {aviso && !abierto && (
+        <div className="honey-aviso" role="status">
+          <button type="button" className="honey-aviso-texto" onClick={abrir}>
+            ¿Dudas? Pregúntale a HONEY
+          </button>
+          <button
+            type="button"
+            className="honey-aviso-cerrar"
+            onClick={cerrarAviso}
+            aria-label="Cerrar aviso"
+          >
+            ×
+          </button>
+        </div>
+      )}
       <button
         ref={botonRef}
         type="button"
         className="honey-boton"
         aria-label={abierto ? 'Cerrar el asistente HONEY' : 'Abrir el asistente HONEY'}
         aria-expanded={abierto}
-        onClick={() => (abierto ? cerrar() : setAbierto(true))}
+        onClick={() => (abierto ? cerrar() : abrir())}
       >
         <img src="/opencivic-icono-192.png" alt="" width="44" height="44" />
       </button>

@@ -99,3 +99,24 @@ export async function votar(id, util, fetchFn = fetch) {
     return false;
   }
 }
+
+// El globito «¿Dudas? Pregúntale a HONEY» aparece una sola vez por navegador.
+// Si el navegador bloquea el almacenamiento no se puede recordar, así que
+// no se muestra: mejor eso que repetirlo en cada página.
+const AVISO = 'honey-aviso-visto';
+
+export function avisoPendiente(almacen = globalThis.localStorage) {
+  try {
+    return almacen.getItem(AVISO) !== '1';
+  } catch {
+    return false;
+  }
+}
+
+export function marcarAvisoVisto(almacen = globalThis.localStorage) {
+  try {
+    almacen.setItem(AVISO, '1');
+  } catch {
+    // Sin almacenamiento: nada que recordar.
+  }
+}

@@ -40,7 +40,7 @@ export default function Home() {
         <div className="oc-hero-bees" aria-hidden="true" />
         <div className="oc-container" style={{ display: 'grid', gap: 40, alignItems: 'center' }}>
           <div>
-            <span className="oc-eyebrow">OS · Operating System cívico</span>
+            <span className="oc-eyebrow">Tecnología cívica abierta</span>
             <h1 className="oc-h1">Las instituciones también son tecnología</h1>
             <p className="oc-lede">
               OpenCivic Solutions construye tecnología cívica abierta y verificable: herramientas para

@@ -1,6 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { honeyActivo, preguntar, votar, recortarHistorial, NO_DISPONIBLE } from './honeyApi.js';
+import {
+  honeyActivo,
+  preguntar,
+  votar,
+  recortarHistorial,
+  NO_DISPONIBLE,
+  avisoPendiente,
+  marcarAvisoVisto,
+} from './honeyApi.js';
 
 const responde = (status, cuerpo) => async () => ({
   ok: status >= 200 && status < 300,
@@ -123,4 +131,23 @@ test('preguntar recorta el historial más viejo hasta que el cuerpo quepa en 8 K
   assert.ok(new TextEncoder().encode(cuerpo).length <= 8000);
   assert.ok(enviado.historial.length > 0 && enviado.historial.length % 2 === 0);
   assert.equal(enviado.historial.at(-1).texto, historial.at(-1).texto);
+});
+
+test('el aviso de HONEY se muestra una sola vez y no falla sin almacenamiento', () => {
+  const datos = new Map();
+  const almacen = { getItem: (k) => datos.get(k) ?? null, setItem: (k, v) => datos.set(k, v) };
+  assert.equal(avisoPendiente(almacen), true);
+  marcarAvisoVisto(almacen);
+  assert.equal(avisoPendiente(almacen), false);
+  const bloqueado = {
+    getItem: () => {
+      throw new Error('bloqueado');
+    },
+    setItem: () => {
+      throw new Error('bloqueado');
+    },
+  };
+  // Sin almacenamiento no hay forma de recordarlo: mejor no mostrarlo en cada página.
+  assert.equal(avisoPendiente(bloqueado), false);
+  assert.doesNotThrow(() => marcarAvisoVisto(bloqueado));
 });
