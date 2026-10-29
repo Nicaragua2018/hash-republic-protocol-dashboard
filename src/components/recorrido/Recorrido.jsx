@@ -25,11 +25,14 @@ export default function Recorrido() {
     anteriorRef.current = document.activeElement;
     // Sin ?recorrido en la dirección: recargar la página no lo repite.
     if (window.location.search) window.history.replaceState(null, '', window.location.pathname);
+    // Mientras dura, se ocultan otros avisos (el globito de HONEY).
+    document.documentElement.classList.add('oc-en-recorrido');
     setPasos(pasosDisponibles(PASOS, buscar));
     setIndice(0);
   }, []);
 
   const terminar = useCallback(() => {
+    document.documentElement.classList.remove('oc-en-recorrido');
     setPasos(null);
     setFoco(null);
     setPosicion(null);
@@ -40,7 +43,11 @@ export default function Recorrido() {
     window.addEventListener(EVENTO_RECORRIDO, empezar);
     // Desde otra página, HONEY lleva a /?recorrido.
     if (new URLSearchParams(window.location.search).has('recorrido')) empezar();
-    return () => window.removeEventListener(EVENTO_RECORRIDO, empezar);
+    return () => {
+      window.removeEventListener(EVENTO_RECORRIDO, empezar);
+      // Si se sale de Inicio a mitad del recorrido.
+      document.documentElement.classList.remove('oc-en-recorrido');
+    };
   }, [empezar]);
 
   const paso = pasos?.[indice];
