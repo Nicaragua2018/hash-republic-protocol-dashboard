@@ -61,6 +61,7 @@ export default function Header() {
           style={{ display: 'none', gap: 4, alignItems: 'center' }}
           className="oc-nav-desktop"
           aria-label="Navegación principal"
+          data-recorrido="menu"
         >
           {NAV_ITEMS.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} style={linkStyle}>
@@ -75,6 +76,7 @@ export default function Header() {
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
           className="oc-nav-toggle"
+          data-recorrido="menu"
           style={{
             display: 'inline-flex',
             background: 'transparent',

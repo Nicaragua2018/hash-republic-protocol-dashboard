@@ -1,0 +1,121 @@
+/* Recorrido guiado de Inicio: oscurece la página y resalta un elemento por paso. */
+.oc-recorrido {
+  position: fixed;
+  inset: 0;
+  /* Encima de HONEY (900). */
+  z-index: 950;
+}
+
+/* Capa transparente que recibe el clic fuera de la tarjeta para salir. */
+.oc-recorrido-fondo {
+  position: absolute;
+  inset: 0;
+}
+
+/* El hueco iluminado: la sombra enorme oscurece todo lo demás. */
+.oc-recorrido-foco {
+  position: fixed;
+  border-radius: var(--oc-radius);
+  box-shadow:
+    0 0 0 3px var(--oc-yellow),
+    0 0 0 9999px rgba(var(--oc-ink-rgb), 0.55);
+  pointer-events: none;
+  transition: all 0.35s ease;
+}
+
+.oc-recorrido-tarjeta {
+  position: fixed;
+  width: min(340px, calc(100vw - 32px));
+  padding: 16px 18px;
+  border-top: 4px solid var(--oc-yellow);
+  border-radius: var(--oc-radius);
+  background: var(--oc-white);
+  box-shadow: 0 16px 40px rgba(var(--oc-ink-rgb), 0.35);
+  transition:
+    top 0.35s ease,
+    left 0.35s ease;
+}
+
+.oc-recorrido-tarjeta:focus {
+  outline: none;
+}
+
+.oc-recorrido-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.oc-recorrido-cabecera img {
+  border-radius: 50%;
+  background: var(--oc-blue);
+}
+
+.oc-recorrido-cabecera h2 {
+  flex: 1;
+  margin: 0;
+  font-family: var(--oc-font-display);
+  font-size: 1.1rem;
+  color: var(--oc-blue);
+}
+
+.oc-recorrido-tarjeta p {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.oc-recorrido-pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: rgba(var(--oc-ink-rgb), 0.7);
+}
+
+.oc-recorrido-pie > div {
+  display: flex;
+  gap: 8px;
+}
+
+.oc-recorrido-cerrar,
+.oc-recorrido-boton {
+  border: 2px solid var(--oc-blue);
+  border-radius: 999px;
+  background: var(--oc-white);
+  color: var(--oc-blue);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.oc-recorrido-cerrar {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.oc-recorrido-boton {
+  padding: 6px 14px;
+}
+
+.oc-recorrido-boton--principal {
+  background: var(--oc-blue);
+  color: var(--oc-white);
+}
+
+.oc-recorrido button:focus-visible {
+  outline: 3px solid var(--oc-yellow);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-recorrido-foco,
+  .oc-recorrido-tarjeta {
+    transition: none;
+  }
+}

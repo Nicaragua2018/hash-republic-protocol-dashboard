@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { EVENTO_RECORRIDO } from '../recorrido/logica.js';
 import { honeyActivo, preguntar, votar, avisoPendiente, marcarAvisoVisto } from './honeyApi.js';
 import './honey.css';
 
@@ -22,6 +23,8 @@ export default function HoneyWidget() {
   const [entrada, setEntrada] = useState('');
   const [escribiendo, setEscribiendo] = useState(false);
   const [aviso, setAviso] = useState(false);
+  const { pathname } = useLocation();
+  const navegar = useNavigate();
   const botonRef = useRef(null);
   const entradaRef = useRef(null);
   const finRef = useRef(null);
@@ -81,6 +84,13 @@ export default function HoneyWidget() {
     setAbierto(true);
   }
 
+  // El recorrido vive en Inicio: desde otra página, HONEY lleva allí.
+  function recorrido() {
+    setAbierto(false);
+    if (pathname === '/') window.dispatchEvent(new Event(EVENTO_RECORRIDO));
+    else navegar('/?recorrido');
+  }
+
   function cerrar() {
     setAbierto(false);
     botonRef.current?.focus();
@@ -125,6 +135,9 @@ export default function HoneyWidget() {
                 <p className="honey-burbuja honey-burbuja--asistente">{PRESENTACION}</p>
                 {mensajes.length === 0 && (
                   <div className="honey-sugeridas">
+                    <button type="button" className="honey-sugerida-recorrido" onClick={recorrido}>
+                      Hazme un recorrido por el sitio
+                    </button>
                     {SUGERIDAS.map((s) => (
                       <button key={s} type="button" onClick={() => enviar(s)}>
                         {s}
@@ -196,6 +209,7 @@ export default function HoneyWidget() {
         ref={botonRef}
         type="button"
         className="honey-boton"
+        data-recorrido="honey"
         aria-label={abierto ? 'Cerrar el asistente HONEY' : 'Abrir el asistente HONEY'}
         aria-expanded={abierto}
         onClick={() => (abierto ? cerrar() : abrir())}
