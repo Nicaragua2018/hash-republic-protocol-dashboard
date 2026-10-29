@@ -101,7 +101,14 @@ class ModeloAnthropic:
             log.warning("la API limitó la petición (429)")
             return Respuesta(TEXTO_NO_DISPONIBLE, "no_disponible")
         except anthropic.APIStatusError as e:
-            log.error("la API respondió %s (petición %s)", e.status_code, e.response.headers.get("request-id"))
+            # El mensaje de la API explica el motivo (clave sin espacio de
+            # trabajo, sin saldo…); no trae la clave ni datos del visitante.
+            log.error(
+                "la API respondió %s (petición %s): %s",
+                e.status_code,
+                e.response.headers.get("request-id"),
+                str(getattr(e, "message", ""))[:300],
+            )
             return Respuesta(TEXTO_NO_DISPONIBLE, "no_disponible")
         except anthropic.APIConnectionError:
             log.error("no se pudo conectar con la API (o se agotó el tiempo)")

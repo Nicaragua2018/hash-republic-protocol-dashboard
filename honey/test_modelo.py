@@ -39,10 +39,11 @@ class ClienteFalso:
         return self.respuesta
 
 
-def error_api(cls, status=500):
+def error_api(cls, status=500, mensaje="error de prueba"):
     # Sin __init__: basta para probar a qué except llega cada error.
     e = Exception.__new__(cls)
     e.status_code = status
+    e.message = mensaje
     e.response = NS(headers={"request-id": "req_prueba"})
     return e
 
@@ -52,6 +53,12 @@ class PromptTest(unittest.TestCase):
         self.assertIn(MARCA_SIN_RESPUESTA, SISTEMA)
         self.assertIn(CODIGO_INTERNO, SISTEMA)
         self.assertIn("el asistente", SISTEMA)
+
+    def test_ante_politica_no_resume_posturas(self):
+        # Evaluación del 2026-10-28, pregunta 24: al pedirle opinión sobre el
+        # gobierno, citaba la crítica de la razón de ser a libertarios y
+        # socialistas. Ante política solo dice que no opina.
+        self.assertIn("no resumes posturas políticas", SISTEMA)
 
 
 class PeticionTest(unittest.TestCase):
@@ -146,6 +153,15 @@ class ResponderTest(unittest.TestCase):
                 m = modelo.ModeloAnthropic("m", DOCS, ClienteFalso(error=err))
                 r = m.responder([], "hola")
                 self.assertEqual((r.estado, r.texto), ("no_disponible", modelo.TEXTO_NO_DISPONIBLE))
+
+    def test_el_registro_guarda_el_motivo_del_error(self):
+        # El 2026-10-28 la clave sin espacio de trabajo daba 400 y el registro
+        # solo decía «400»: el motivo estaba en el mensaje de la API.
+        err = error_api(anthropic.BadRequestError, 400, "This API key is not scoped to a workspace")
+        m = modelo.ModeloAnthropic("m", DOCS, ClienteFalso(error=err))
+        with self.assertLogs(modelo.log, "ERROR") as registro:
+            m.responder([], "hola")
+        self.assertIn("not scoped to a workspace", registro.output[0])
 
 
 class CrearModeloTest(unittest.TestCase):
