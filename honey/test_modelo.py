@@ -98,6 +98,20 @@ class PeticionTest(unittest.TestCase):
 
 
 class InterpretarTest(unittest.TestCase):
+    def test_quita_frases_repetidas(self):
+        # Respuesta real del 2026-10-28: el modelo repitió una frase citada.
+        r = modelo.interpretar(
+            mensaje(
+                texto("Se publica un artículo nuevo cada lunes.", 0),
+                texto(" Se publica un artículo nuevo cada lunes.", 0),
+                texto(" El correo es info@opencivicsolutions.org. ¿Algo más?"),
+            ),
+            DOCS,
+        )
+        self.assertEqual(
+            r.texto, "Se publica un artículo nuevo cada lunes. El correo es info@opencivicsolutions.org. ¿Algo más?"
+        )
+
     def test_texto_y_fuentes_en_orden_de_aparicion(self):
         r = modelo.interpretar(
             mensaje(texto("El código usa "), texto("AGPL", 1), texto(" y busca el bien común.", 0, 1)), DOCS

@@ -63,6 +63,22 @@ def _cortar_en_frase(texto: str) -> str:
     return texto[: finales[-1].end()] if finales else texto
 
 
+def _sin_repetidas(texto: str) -> str:
+    """Quita las frases que repiten otra anterior de la misma respuesta.
+
+    Con las citas activadas, el modelo a veces copia una frase del documento
+    después de haberla dicho (respuesta real del 2026-10-28)."""
+    frases = re.split(r"(?<=[.!?…])\s+", texto)
+    vistas, quedan = set(), []
+    for f in frases:
+        clave = " ".join(f.lower().split())
+        if clave in vistas:
+            continue
+        vistas.add(clave)
+        quedan.append(f)
+    return texto if len(quedan) == len(frases) else " ".join(quedan)
+
+
 def interpretar(mensaje, docs: list[Documento]) -> Respuesta:
     if mensaje.stop_reason == "refusal":
         return Respuesta(TEXTO_RECHAZO, "rechazada")
@@ -81,7 +97,7 @@ def interpretar(mensaje, docs: list[Documento]) -> Respuesta:
     if not texto or texto.startswith(MARCA_SIN_RESPUESTA):
         texto = texto.removeprefix(MARCA_SIN_RESPUESTA).strip() or TEXTO_SIN_RESPUESTA
         return Respuesta(texto, "sin_respuesta")
-    texto = texto.replace(MARCA_SIN_RESPUESTA, "").strip()
+    texto = _sin_repetidas(texto.replace(MARCA_SIN_RESPUESTA, "").strip())
     return Respuesta(texto, "ok", [{"titulo": docs[i].titulo, "url": docs[i].url} for i in indices])
 
 
