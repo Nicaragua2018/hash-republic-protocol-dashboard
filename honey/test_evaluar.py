@@ -31,7 +31,7 @@ class RevisarTest(unittest.TestCase):
 class CasosTest(unittest.TestCase):
     def test_casos_bien_formados_y_fuentes_que_existen(self):
         casos = evaluar.cargar_casos(AQUI / "evaluacion.json")
-        self.assertEqual(len(casos), 30)
+        self.assertEqual(len(casos), 33)
         titulos = {d.titulo for d in conocimiento.cargar(AQUI / "base")}
         for c in casos:
             with self.subTest(pregunta=c["pregunta"]):

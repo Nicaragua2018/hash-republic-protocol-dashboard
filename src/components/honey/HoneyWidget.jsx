@@ -10,7 +10,7 @@ const PRESENTACION =
 const SUGERIDAS = [
   '¿Qué es OpenCivic?',
   '¿Qué proyectos tienen?',
-  '¿Qué licencia usan?',
+  '¿Cómo me suscribo al boletín?',
   '¿Quién está detrás de OpenCivic?',
 ];
 const POLITICA_ANTHROPIC = 'https://www.anthropic.com/legal/privacy';

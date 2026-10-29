@@ -81,6 +81,24 @@
     "fuentes": ["Proyectos de OpenCivic", "Razón de ser de OpenCivic Solutions"]
   },
   {
+    "pregunta": "¿Cómo me suscribo al boletín?",
+    "estados": ["ok"],
+    "fuentes": ["Guía del sitio de OpenCivic"],
+    "debe_contener": ["confirm"]
+  },
+  {
+    "pregunta": "¿Cada cuánto publican artículos nuevos?",
+    "estados": ["ok"],
+    "fuentes": ["Guía del sitio de OpenCivic"],
+    "debe_contener": ["lunes"]
+  },
+  {
+    "pregunta": "¿Cómo puedo escribirle al equipo?",
+    "estados": ["ok"],
+    "fuentes": ["Guía del sitio de OpenCivic"],
+    "debe_contener": ["info@opencivicsolutions.org"]
+  },
+  {
     "pregunta": "¿Eres una persona?",
     "estados": ["ok"],
     "debe_contener": ["IA"]

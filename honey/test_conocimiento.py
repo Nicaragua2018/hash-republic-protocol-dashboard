@@ -87,6 +87,7 @@ class BaseRealTest(unittest.TestCase):
             [
                 "Licencias de OpenCivic",
                 "Quién está detrás de OpenCivic",
+                "Guía del sitio de OpenCivic",
                 "Proyectos de OpenCivic",
                 "Razón de ser de OpenCivic Solutions",
             ],
