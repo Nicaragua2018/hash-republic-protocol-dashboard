@@ -5,6 +5,8 @@ import { PAGES } from '../content/seo';
 import { getPostBySlug } from '../content/posts';
 import DESTACADOS from '../content/destacados';
 import { formatDate } from '../content/format';
+import Recorrido from '../components/recorrido/Recorrido.jsx';
+import { EVENTO_RECORRIDO } from '../components/recorrido/logica.js';
 
 // Qué hace posible Nicaragua Decide, en tres pasos (src/content/nicaraguaDecide.js).
 const PASOS = [
@@ -53,10 +55,19 @@ export default function Home() {
       {/* Hero */}
       <section className="oc-hero oc-section" style={{ paddingTop: 72 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
+        <svg className="oc-abeja" viewBox="0 0 40 32" width="40" height="32" aria-hidden="true">
+          <ellipse className="oc-abeja-ala" cx="16" cy="9" rx="7" ry="5" />
+          <ellipse className="oc-abeja-ala oc-abeja-ala--2" cx="24" cy="9" rx="7" ry="5" />
+          <ellipse cx="20" cy="19" rx="11" ry="8" fill="#f2b00a" />
+          <path d="M16 11.6v14.8M22 11v16" stroke="#0a3880" strokeWidth="3" />
+          <circle cx="31" cy="17" r="4" fill="#0a3880" />
+        </svg>
         <div className="oc-container" style={{ display: 'grid', gap: 40, alignItems: 'center' }}>
           <div>
             <span className="oc-eyebrow">Tecnología cívica abierta</span>
-            <h1 className="oc-h1">Las instituciones también son tecnología</h1>
+            <h1 className="oc-h1" data-recorrido="inicio">
+              Las instituciones también son tecnología
+            </h1>
             <p className="oc-lede">
               OpenCivic Solutions construye tecnología cívica abierta y verificable: herramientas para
               cooperar, deliberar y decidir juntos, por la paz social y el bien común, sin pasar nunca por
@@ -70,8 +81,15 @@ export default function Home() {
                 Únete
               </Link>
             </div>
+            <button
+              type="button"
+              className="oc-enlace-recorrido"
+              onClick={() => window.dispatchEvent(new Event(EVENTO_RECORRIDO))}
+            >
+              ¿Primera vez aquí? Haz el recorrido con HONEY (1 minuto)
+            </button>
           </div>
-          <ol className="oc-pasos" aria-label="Cómo funciona Nicaragua Decide">
+          <ol className="oc-pasos" aria-label="Cómo funciona Nicaragua Decide" data-recorrido="pasos">
             {PASOS.map((paso, i) => (
               <li className="oc-paso" key={paso.titulo}>
                 <span className="oc-paso-numero" aria-hidden="true">
@@ -96,7 +114,9 @@ export default function Home() {
       <section className="oc-section oc-section--mist">
         <div className="oc-container">
           <span className="oc-eyebrow">Cómo cuidamos las decisiones</span>
-          <h2 className="oc-h2">Cuatro piezas, cada una con su límite</h2>
+          <h2 className="oc-h2" data-recorrido="piezas">
+            Cuatro piezas, cada una con su límite
+          </h2>
           <p className="oc-lede" style={{ marginBottom: 32 }}>
             La tecnología ayuda a ordenar y comprobar la información, pero el juicio final siempre es humano.
           </p>
@@ -144,7 +164,9 @@ export default function Home() {
       <section className="oc-section oc-section--mist">
         <div className="oc-container">
           <span className="oc-eyebrow">Del blog</span>
-          <h2 className="oc-h2">Ideas, razones y recursos</h2>
+          <h2 className="oc-h2" data-recorrido="blog">
+            Ideas, razones y recursos
+          </h2>
           <p className="oc-lede" style={{ marginBottom: 32 }}>
             Por qué existe OpenCivic, en qué se apoya y qué puedes hacer con ello.
           </p>
@@ -200,12 +222,15 @@ export default function Home() {
             Puedes participar con seudónimo. Todo pull request lleva fuentes: si una afirmación no se puede
             verificar, no se publica.
           </p>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div
+            style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
+            data-recorrido="boletin"
+          >
             <Link to="/unirse" className="oc-btn oc-btn--yellow">
               Cómo contribuir
             </Link>
             <Link
-              to="/blog"
+              to="/blog#suscripcion"
               className="oc-btn oc-btn--outline"
               style={{ borderColor: '#fff', color: '#fff' }}
             >
@@ -214,6 +239,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Recorrido />
     </>
   );
 }

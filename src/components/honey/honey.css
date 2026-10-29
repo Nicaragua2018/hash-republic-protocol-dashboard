@@ -353,3 +353,10 @@
     bottom: 66px;
   }
 }
+
+.honey-sugeridas .honey-sugerida-recorrido {
+  border-color: var(--oc-blue);
+  background: var(--oc-blue);
+  color: var(--oc-white);
+  font-weight: 600;
+}
