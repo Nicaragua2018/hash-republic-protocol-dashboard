@@ -6,26 +6,41 @@ import { getPostBySlug } from '../content/posts';
 import DESTACADOS from '../content/destacados';
 import { formatDate } from '../content/format';
 
+// Qué hace posible Nicaragua Decide, en tres pasos (src/content/nicaraguaDecide.js).
+const PASOS = [
+  {
+    titulo: 'Deliberar',
+    texto: 'Propones y conversas en el grupo de tu territorio, con tu identidad protegida.',
+  },
+  {
+    titulo: 'Decidir',
+    texto:
+      'Votas ordenando las opciones de la que más a la que menos prefieres, o se elige por sorteo, como un jurado.',
+  },
+  {
+    titulo: 'Comprobar',
+    texto: 'Cualquiera puede recalcular el resultado. No hace falta confiar a ciegas.',
+  },
+];
+
+// Las cuatro piezas de la razón de ser (/sobre), dichas en sencillo.
 const FORMULA = [
   {
-    title: 'Democracia',
-    job: 'para la soberanía',
-    limit: 'El resultado sin ponderar siempre queda a la vista.',
+    title: 'La gente decide',
+    limit: 'Democracia: el resultado de cada votación se muestra siempre tal cual, sin ajustes.',
   },
   {
-    title: 'Competencia verificable',
-    job: 'para el juicio técnico',
-    limit: 'El peso adicional es de 1,3× como máximo, y solo se gana con capacidad técnica verificable.',
+    title: 'El saber cuenta, con límite',
+    limit:
+      'Competencia verificable: quien demuestra conocimiento de un tema puede pesar un poco más, nunca más de 1,3 veces.',
   },
   {
-    title: 'Criptografía',
-    job: 'para la prueba',
-    limit: 'Informes con huella digital y sello de tiempo que cualquiera puede comprobar.',
+    title: 'Pruebas que no se alteran',
+    limit: 'Criptografía: cada informe lleva una huella digital y una fecha que cualquiera puede comprobar.',
   },
   {
-    title: 'Constitución',
-    job: 'para los límites',
-    limit: 'Principios escritos que ninguna mayoría puede cruzar.',
+    title: 'Líneas que nadie cruza',
+    limit: 'Constitución: principios escritos que ninguna mayoría puede saltarse.',
   },
 ];
 
@@ -56,11 +71,22 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <img
-            src="/banner-claro.svg"
-            alt="Logo de OpenCivic Solutions: un hexágono amarillo y una curva azul formando el monograma OS, con dos abejas trazando su vuelo alrededor"
-            style={{ width: '100%', marginTop: 24 }}
-          />
+          <ol className="oc-pasos" aria-label="Cómo funciona Nicaragua Decide">
+            {PASOS.map((paso, i) => (
+              <li className="oc-paso" key={paso.titulo}>
+                <span className="oc-paso-numero" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <h2 className="oc-paso-titulo">{paso.titulo}</h2>
+                <p>{paso.texto}</p>
+              </li>
+            ))}
+          </ol>
+          <p style={{ margin: 0 }}>
+            <Link to="/proyectos" style={{ color: 'var(--oc-blue)', fontWeight: 600 }}>
+              Así funciona Nicaragua Decide, nuestro proyecto &rarr;
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -69,17 +95,15 @@ export default function Home() {
       {/* La fórmula */}
       <section className="oc-section oc-section--mist">
         <div className="oc-container">
-          <span className="oc-eyebrow">La fórmula</span>
+          <span className="oc-eyebrow">Cómo cuidamos las decisiones</span>
           <h2 className="oc-h2">Cuatro piezas, cada una con su límite</h2>
           <p className="oc-lede" style={{ marginBottom: 32 }}>
-            Información verificable para todos: la IA ayuda a resumir y trazar fuentes; la criptografía prueba
-            su integridad. El juicio final siempre es humano.
+            La tecnología ayuda a ordenar y comprobar la información, pero el juicio final siempre es humano.
           </p>
           <div className="oc-grid oc-grid--4">
             {FORMULA.map((f) => (
               <div className="oc-card" key={f.title}>
                 <h3>{f.title}</h3>
-                <p style={{ fontWeight: 600, color: 'var(--oc-ink)', fontSize: '0.9rem' }}>{f.job}</p>
                 <p style={{ fontSize: '0.9rem' }}>{f.limit}</p>
               </div>
             ))}
