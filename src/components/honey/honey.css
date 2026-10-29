@@ -3,7 +3,7 @@
   position: fixed;
   right: 16px;
   bottom: 16px;
-  /* Encima de la cabecera (200), debajo de la intro animada (1000). */
+  /* Encima de la cabecera (200). */
   z-index: 900;
   font-family: var(--oc-font-body);
 }
@@ -273,5 +273,83 @@
 @media print {
   .honey {
     display: none;
+  }
+}
+
+/* Globito de la primera visita, a la izquierda de la burbuja. */
+.honey-aviso {
+  position: absolute;
+  right: 76px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 14px;
+  border: 2px solid var(--oc-yellow);
+  border-radius: 999px;
+  background: var(--oc-white);
+  box-shadow: 0 6px 20px rgba(var(--oc-ink-rgb), 0.2);
+  white-space: nowrap;
+  animation: honey-aparece 0.4s ease-out;
+}
+
+.honey-aviso-texto,
+.honey-aviso-cerrar {
+  border: 0;
+  background: none;
+  color: var(--oc-blue);
+  font: inherit;
+  cursor: pointer;
+}
+
+.honey-aviso-texto {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.honey-aviso-cerrar {
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+@keyframes honey-aparece {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .honey-aviso {
+    animation: none;
+  }
+}
+
+/* En el celular la burbuja es más pequeña y tapa menos texto al leer. */
+@media (max-width: 600px) {
+  .honey {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .honey-boton {
+    width: 52px;
+    height: 52px;
+  }
+
+  .honey-boton img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .honey-aviso {
+    right: 62px;
+    bottom: 6px;
+  }
+
+  .honey-panel {
+    bottom: 66px;
   }
 }
