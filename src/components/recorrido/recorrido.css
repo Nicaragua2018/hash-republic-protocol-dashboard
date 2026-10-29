@@ -119,3 +119,8 @@
     transition: none;
   }
 }
+
+/* Durante el recorrido no se muestra el globito «¿Dudas? Pregúntale a HONEY». */
+.oc-en-recorrido .honey-aviso {
+  display: none;
+}
