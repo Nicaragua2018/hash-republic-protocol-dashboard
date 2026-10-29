@@ -7,6 +7,22 @@ import { formatDate } from '../content/format';
 import SuscripcionForm from '../components/SuscripcionForm';
 import PROXIMOS from '../content/proximos';
 
+// Los próximos más cercanos a la vista; el resto, en «Ver el calendario completo».
+const VISIBLES = 3;
+
+function Proximo(p) {
+  return (
+    <li className="oc-card" key={p.fecha}>
+      <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
+        Lunes {formatDate(p.fecha)}
+        {p.autor && ` · ${p.autor}`}
+      </p>
+      <h3>{p.titulo}</h3>
+      <p style={{ fontSize: '0.95rem', marginBottom: 0 }}>{p.sinopsis}</p>
+    </li>
+  );
+}
+
 export default function Blog() {
   return (
     <>
@@ -66,18 +82,15 @@ export default function Blog() {
             Historias reales de personas y comunidades que se cansaron de esperar y empezaron a cambiar las
             reglas. Esto es lo que viene:
           </p>
-          <ol className="oc-proximos">
-            {PROXIMOS.map((p) => (
-              <li className="oc-card" key={p.fecha}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
-                  Lunes {formatDate(p.fecha)}
-                  {p.autor && ` · ${p.autor}`}
-                </p>
-                <h3>{p.titulo}</h3>
-                <p style={{ fontSize: '0.95rem', marginBottom: 0 }}>{p.sinopsis}</p>
-              </li>
-            ))}
-          </ol>
+          <ol className="oc-proximos">{PROXIMOS.slice(0, VISIBLES).map(Proximo)}</ol>
+          {PROXIMOS.length > VISIBLES && (
+            <details className="oc-proximos-mas">
+              <summary>Ver el calendario completo ({PROXIMOS.length - VISIBLES} más)</summary>
+              <ol className="oc-proximos" start={VISIBLES + 1}>
+                {PROXIMOS.slice(VISIBLES).map(Proximo)}
+              </ol>
+            </details>
+          )}
           <a href="#suscripcion" className="oc-btn oc-btn--primary">
             Suscríbete gratis y recíbelos en tu correo
           </a>

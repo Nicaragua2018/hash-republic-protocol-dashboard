@@ -1,3 +1,28 @@
+/* Fuentes servidas desde el sitio (public/fuentes/LEEME.txt). */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fuentes/inter-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fuentes/poppins-500-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fuentes/poppins-600-latin.woff2') format('woff2');
+}
+
 /* OpenCivic Solutions — Design tokens (manual de marca) */
 
 :root {
@@ -13,7 +38,7 @@
 
   --oc-font-display: 'Poppins', sans-serif;
   --oc-font-body: 'Inter', sans-serif;
-  --oc-font-mono: 'JetBrains Mono', monospace;
+  --oc-font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
 
   --oc-radius: 16px;
   --oc-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);

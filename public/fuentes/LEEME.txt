@@ -1,0 +1,8 @@
+Fuentes servidas desde el propio sitio (sin Google Fonts, para no enviar la
+dirección de cada visitante a terceros). Solo el subconjunto latino, que
+cubre el español.
+
+- Inter (texto), variable 400–600: https://github.com/rsms/inter
+- Poppins (títulos), 500 y 600: https://github.com/itfoundry/Poppins
+
+Ambas con licencia SIL Open Font License 1.1: https://openfontlicense.org
