@@ -5,6 +5,9 @@ dek: "Hobbes, el profeta Daniel y la búsqueda de una república justa. Hacia un
 date: 2026-10-19
 author: Carlos Robleto
 ia: asistido
+image: /ilustracion-cabeza-de-oro.svg
+imageAlt: Ilustración dibujada a mano: la estatua del sueño de Daniel, con cabeza de oro coronada, pecho de plata, vientre de bronce, piernas de hierro y pies de barro agrietados que se desmoronan; a su lado, dos abejas construyen una base firme de panal
+ogImage: /og-cabeza-de-oro.png
 ---
 
 *Ensayo político de Carlos Robleto, un ciudadano común que sueña con el Renacer de la República de Nicaragua.*

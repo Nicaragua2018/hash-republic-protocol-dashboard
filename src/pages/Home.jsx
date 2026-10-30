@@ -176,6 +176,15 @@ export default function Home() {
               className="oc-card oc-card--empezar"
               style={{ textDecoration: 'none', color: 'inherit', display: 'block', marginBottom: 24 }}
             >
+              {PARA_EMPEZAR.image && (
+                <img
+                  src={PARA_EMPEZAR.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="oc-illustration"
+                  style={{ width: '100%', marginBottom: 16 }}
+                />
+              )}
               <span className="oc-etiqueta-empezar">Para empezar</span>
               <h3>{PARA_EMPEZAR.title}</h3>
               <p>{PARA_EMPEZAR.dek}</p>

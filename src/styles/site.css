@@ -499,3 +499,22 @@
 .oc-grid .oc-card--empezar {
   grid-column: 1 / -1;
 }
+
+/* En pantallas anchas: ilustración a la izquierda y texto a la derecha. */
+@media (min-width: 760px) {
+  .oc-card--empezar:has(> img) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: 32px;
+    align-content: center;
+  }
+  .oc-card--empezar > img {
+    grid-row: 1 / span 6;
+    align-self: center;
+    margin-bottom: 0 !important;
+  }
+  .oc-card--empezar > :not(img) {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
