@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { EVENTO_RECORRIDO } from '../recorrido/logica.js';
+import { CLASE_INTRO, EVENTO_INTRO_TERMINADA } from '../layout/IntroSplash.jsx';
 import { honeyActivo, preguntar, votar, avisoPendiente, marcarAvisoVisto } from './honeyApi.js';
 import './honey.css';
 
@@ -40,13 +41,23 @@ export default function HoneyWidget() {
   // Primera visita: un globito presenta a HONEY unos segundos y no vuelve.
   useEffect(() => {
     if (!activo || !avisoPendiente()) return undefined;
+    let mostrar, ocultar;
     // Se da por visto al aparecer: si la persona cambia de página, no se repite.
-    const mostrar = window.setTimeout(() => {
-      setAviso(true);
-      marcarAvisoVisto();
-    }, 2500);
-    const ocultar = window.setTimeout(() => setAviso(false), 12000);
+    const empezar = () => {
+      mostrar = window.setTimeout(() => {
+        setAviso(true);
+        marcarAvisoVisto();
+      }, 2500);
+      ocultar = window.setTimeout(() => setAviso(false), 12000);
+    };
+    // Si la animación de bienvenida está en pantalla, se espera a que termine.
+    if (document.documentElement.classList.contains(CLASE_INTRO)) {
+      window.addEventListener(EVENTO_INTRO_TERMINADA, empezar, { once: true });
+    } else {
+      empezar();
+    }
     return () => {
+      window.removeEventListener(EVENTO_INTRO_TERMINADA, empezar);
       window.clearTimeout(mostrar);
       window.clearTimeout(ocultar);
     };
