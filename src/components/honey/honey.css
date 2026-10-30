@@ -228,21 +228,13 @@
   align-items: center;
 }
 
-/* Mientras responde, HONEY zumba junto a los puntos. */
-.honey-escribiendo-avatar {
-  border-radius: 50%;
-  margin-right: 4px;
-  animation: honey-zumbido 0.9s ease-in-out infinite;
-}
-
-@keyframes honey-zumbido {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-6deg);
-  }
-  50% {
-    transform: translateY(-4px) rotate(6deg);
-  }
+/* Mientras responde, HONEY escribe en su laptop junto a los puntos. */
+.honey-escribiendo-video {
+  width: 64px;
+  height: 64px;
+  margin-right: 6px;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 /* Al pasar el cursor (o con el teclado), HONEY saluda. */
@@ -365,7 +357,6 @@
     opacity: 0.6;
   }
 
-  .honey-escribiendo-avatar,
   .honey-boton:hover img,
   .honey-boton:focus-visible img {
     animation: none;

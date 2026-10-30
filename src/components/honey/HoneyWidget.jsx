@@ -165,13 +165,7 @@ export default function HoneyWidget() {
                 ))}
                 {escribiendo && (
                   <p className="honey-escribiendo" role="status" aria-label="HONEY está escribiendo">
-                    <img
-                      className="honey-escribiendo-avatar"
-                      src="/honey-avatar-96.webp"
-                      alt=""
-                      width="28"
-                      height="28"
-                    />
+                    <HoneyEscribiendo />
                     <span />
                     <span />
                     <span />
@@ -239,6 +233,30 @@ export default function HoneyWidget() {
         <img src="/honey-avatar-192.webp" alt="" width="58" height="58" />
       </button>
     </div>
+  );
+}
+
+// HONEY escribiendo en su laptop (Marca/HONEY/HoneyEscribiendo.mp4, 50 KB, sin sonido).
+// Con «reducir movimiento» se muestra el primer cuadro quieto.
+function HoneyEscribiendo() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return (
+      <img className="honey-escribiendo-video" src="/honey-escribiendo.webp" alt="" width="64" height="64" />
+    );
+  }
+  return (
+    <video
+      className="honey-escribiendo-video"
+      src="/honey-escribiendo.mp4"
+      poster="/honey-escribiendo.webp"
+      width="64"
+      height="64"
+      autoPlay
+      muted
+      loop
+      playsInline
+      aria-hidden="true"
+    />
   );
 }
 
