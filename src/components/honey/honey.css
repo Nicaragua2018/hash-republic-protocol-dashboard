@@ -3,7 +3,7 @@
   position: fixed;
   right: 16px;
   bottom: 16px;
-  /* Encima de la cabecera (200). */
+  /* Encima de la cabecera (200), debajo del recorrido (950) y de la intro animada (1000). */
   z-index: 900;
   font-family: var(--oc-font-body);
 }
