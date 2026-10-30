@@ -121,7 +121,7 @@ export default function HoneyWidget() {
       {abierto && (
         <div className="honey-panel" role="dialog" aria-modal="false" aria-labelledby="honey-titulo">
           <header className="honey-cabecera">
-            <img src="/opencivic-icono-192.png" alt="" width="32" height="32" />
+            <img src="/honey-avatar-96.webp" alt="" width="36" height="36" />
             <h2 id="honey-titulo">HONEY · asistente IA de OpenCivic</h2>
             <button type="button" className="honey-cerrar" onClick={cerrar} aria-label="Cerrar el asistente">
               ×
@@ -132,7 +132,15 @@ export default function HoneyWidget() {
           ) : (
             <>
               <div className="honey-mensajes" aria-live="polite">
-                <p className="honey-burbuja honey-burbuja--asistente">{PRESENTACION}</p>
+                <div className="honey-presentacion">
+                  <img
+                    src="/honey-avatar-cuerpo-240.webp"
+                    alt="HONEY, una abejita azul y amarilla"
+                    width="96"
+                    height="96"
+                  />
+                  <p className="honey-burbuja honey-burbuja--asistente">{PRESENTACION}</p>
+                </div>
                 {mensajes.length === 0 && (
                   <div className="honey-sugeridas">
                     <button type="button" className="honey-sugerida-recorrido" onClick={recorrido}>
@@ -143,6 +151,13 @@ export default function HoneyWidget() {
                         {s}
                       </button>
                     ))}
+                    <button
+                      type="button"
+                      className="honey-sugerida-propia"
+                      onClick={() => entradaRef.current?.focus()}
+                    >
+                      Escribe tu propia pregunta
+                    </button>
                   </div>
                 )}
                 {mensajes.map((m, i) => (
@@ -150,6 +165,7 @@ export default function HoneyWidget() {
                 ))}
                 {escribiendo && (
                   <p className="honey-escribiendo" role="status" aria-label="HONEY está escribiendo">
+                    <HoneyEscribiendo />
                     <span />
                     <span />
                     <span />
@@ -214,9 +230,33 @@ export default function HoneyWidget() {
         aria-expanded={abierto}
         onClick={() => (abierto ? cerrar() : abrir())}
       >
-        <img src="/opencivic-icono-192.png" alt="" width="44" height="44" />
+        <img src="/honey-avatar-192.webp" alt="" width="58" height="58" />
       </button>
     </div>
+  );
+}
+
+// HONEY escribiendo en su laptop (Marca/HONEY/HoneyEscribiendo.mp4, 50 KB, sin sonido).
+// Con «reducir movimiento» se muestra el primer cuadro quieto.
+function HoneyEscribiendo() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return (
+      <img className="honey-escribiendo-video" src="/honey-escribiendo.webp" alt="" width="64" height="64" />
+    );
+  }
+  return (
+    <video
+      className="honey-escribiendo-video"
+      src="/honey-escribiendo.mp4"
+      poster="/honey-escribiendo.webp"
+      width="64"
+      height="64"
+      autoPlay
+      muted
+      loop
+      playsInline
+      aria-hidden="true"
+    />
   );
 }
 
@@ -227,6 +267,14 @@ function Mensaje({ m, onVotar }) {
   return (
     <div className="honey-burbuja honey-burbuja--asistente">
       <p>{m.texto}</p>
+      {m.fuentes
+        .filter((f) => f.imagen)
+        .map((f) => (
+          <figure className="honey-imagen" key={f.imagen}>
+            <img src={f.imagen} alt={f.imagen_alt} width="160" height="160" loading="lazy" />
+            <figcaption>{f.imagen_alt}</figcaption>
+          </figure>
+        ))}
       {m.estado === 'sin_respuesta' && (
         <p>
           <Link to="/contacto">Escribir al equipo</Link>

@@ -6,6 +6,10 @@ url: /
 version: 2026-10-12
 ---
 Texto de la fuente.
+
+Opcional: `imagen` (ruta del sitio) e `imagen_alt` (su descripción). El
+panel la muestra cuando HONEY cita la fuente; la decide el archivo, nunca
+el modelo.
 """
 
 from dataclasses import dataclass
@@ -22,6 +26,12 @@ class Documento:
     url: str
     version: str
     texto: str
+    imagen: str = ""
+    imagen_alt: str = ""
+
+
+def _es_ruta_del_sitio(url: str) -> bool:
+    return url.startswith("/") and not url.startswith("//")
 
 
 def leer(ruta: Path) -> Documento:
@@ -38,11 +48,16 @@ def leer(ruta: Path) -> Documento:
     if faltan:
         raise ValueError(f"{ruta.name}: faltan {', '.join(faltan)}")
     url = campos["url"]
-    if not url.startswith("/") or url.startswith("//"):
+    if not _es_ruta_del_sitio(url):
         raise ValueError(f"{ruta.name}: la url debe ser una ruta del sitio (empieza con /)")
+    imagen, imagen_alt = campos.get("imagen", ""), campos.get("imagen_alt", "")
+    if imagen and not _es_ruta_del_sitio(imagen):
+        raise ValueError(f"{ruta.name}: la imagen debe ser una ruta del sitio (empieza con /)")
+    if imagen and not imagen_alt:
+        raise ValueError(f"{ruta.name}: la imagen necesita imagen_alt")
     if not texto.strip():
         raise ValueError(f"{ruta.name}: no tiene texto")
-    return Documento(campos["titulo"], url, campos["version"], texto.strip())
+    return Documento(campos["titulo"], url, campos["version"], texto.strip(), imagen, imagen_alt)
 
 
 def estimar_tokens(docs: list[Documento]) -> int:

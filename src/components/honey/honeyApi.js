@@ -54,13 +54,19 @@ function cuerpoChat(pregunta, historial) {
 }
 
 // Solo rutas del propio sitio: una fuente nunca lleva a otro dominio.
+const esRutaDelSitio = (u) => typeof u === 'string' && u.startsWith('/') && !u.startsWith('//');
+
 function esFuenteValida(f) {
-  return (
-    typeof f?.titulo === 'string' &&
-    typeof f?.url === 'string' &&
-    f.url.startsWith('/') &&
-    !f.url.startsWith('//')
-  );
+  return typeof f?.titulo === 'string' && esRutaDelSitio(f?.url);
+}
+
+// La imagen solo pasa si es del propio sitio y trae su descripción.
+function limpiarFuente({ titulo, url, imagen, imagen_alt }) {
+  const fuente = { titulo, url };
+  if (esRutaDelSitio(imagen) && typeof imagen_alt === 'string' && imagen_alt) {
+    Object.assign(fuente, { imagen, imagen_alt });
+  }
+  return fuente;
 }
 
 export async function preguntar(pregunta, historial, fetchFn = fetch) {
@@ -80,7 +86,7 @@ export async function preguntar(pregunta, historial, fetchFn = fetch) {
       id: typeof d.id === 'string' ? d.id : null,
       texto: d.texto,
       estado: d.estado,
-      fuentes: Array.isArray(d.fuentes) ? d.fuentes.filter(esFuenteValida) : [],
+      fuentes: Array.isArray(d.fuentes) ? d.fuentes.filter(esFuenteValida).map(limpiarFuente) : [],
     };
   } catch {
     return NO_DISPONIBLE;

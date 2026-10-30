@@ -21,8 +21,54 @@
   cursor: pointer;
 }
 
+/* El avatar de HONEY llena el círculo; su fondo claro hace de fondo del botón. */
+.honey-boton {
+  overflow: hidden;
+  background: #f4f3f1;
+}
+
 .honey-boton img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.honey-cabecera img {
   border-radius: 50%;
+  background: #f4f3f1;
+}
+
+/* Presentación del panel: HONEY de cuerpo entero junto al saludo. */
+.honey-presentacion {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.honey-presentacion img {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+}
+
+/* Imagen de una fuente (por ejemplo, el avatar de Carlos Robleto). */
+.honey-imagen {
+  margin: 8px 0;
+}
+
+.honey-imagen img {
+  display: block;
+  width: 160px;
+  height: 160px;
+  border-radius: var(--oc-radius);
+  object-fit: cover;
+}
+
+.honey-imagen figcaption {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  opacity: 0.75;
 }
 
 .honey button:focus-visible,
@@ -178,6 +224,48 @@
   animation-delay: 0.3s;
 }
 
+.honey-escribiendo {
+  align-items: center;
+}
+
+/* Mientras responde, HONEY escribe en su laptop junto a los puntos. */
+.honey-escribiendo-video {
+  width: 64px;
+  height: 64px;
+  margin-right: 6px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Al pasar el cursor (o con el teclado), HONEY saluda. */
+.honey-boton:hover img,
+.honey-boton:focus-visible img {
+  animation: honey-saludo 0.9s ease-in-out;
+}
+
+@keyframes honey-saludo {
+  0%,
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  20% {
+    transform: rotate(-14deg) scale(1.08);
+  }
+  40% {
+    transform: rotate(12deg) scale(1.08);
+  }
+  60% {
+    transform: rotate(-8deg) scale(1.05);
+  }
+  80% {
+    transform: rotate(5deg) scale(1.02);
+  }
+}
+
+.honey-sugeridas .honey-sugerida-propia {
+  border-style: dashed;
+}
+
 @keyframes honey-punto {
   0%,
   80%,
@@ -268,6 +356,11 @@
     animation: none;
     opacity: 0.6;
   }
+
+  .honey-boton:hover img,
+  .honey-boton:focus-visible img {
+    animation: none;
+  }
 }
 
 @media print {
@@ -337,11 +430,6 @@
   .honey-boton {
     width: 52px;
     height: 52px;
-  }
-
-  .honey-boton img {
-    width: 36px;
-    height: 36px;
   }
 
   .honey-aviso {

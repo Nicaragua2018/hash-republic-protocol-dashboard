@@ -123,6 +123,21 @@ class InterpretarTest(unittest.TestCase):
             [{"titulo": "Licencias de OpenCivic", "url": "/"}, {"titulo": "Razón de ser", "url": "/sobre"}],
         )
 
+    def test_la_fuente_lleva_su_imagen(self):
+        docs = [Documento("Quién está detrás", "/sobre", "v1", "Carlos.", "/c.webp", "Avatar de Carlos generado con IA")]
+        r = modelo.interpretar(mensaje(texto("Lo dirige Carlos.", 0)), docs)
+        self.assertEqual(
+            r.fuentes,
+            [
+                {
+                    "titulo": "Quién está detrás",
+                    "url": "/sobre",
+                    "imagen": "/c.webp",
+                    "imagen_alt": "Avatar de Carlos generado con IA",
+                }
+            ],
+        )
+
     def test_ignora_bloques_que_no_son_texto(self):
         r = modelo.interpretar(mensaje(NS(type="thinking", thinking=""), texto("Hola.", 0)), DOCS)
         self.assertEqual(r.texto, "Hola.")
