@@ -3,7 +3,7 @@ titulo: Quién está detrás de OpenCivic
 url: /sobre
 version: 2026-10-29
 imagen: /carlos-robleto-avatar-ia-320.webp
-imagen_alt: Avatar de Carlos Robleto, generado con IA
+imagen_alt: Avatar digital de CR
 ---
 Pregunta: ¿Quién está detrás de OpenCivic?
 
