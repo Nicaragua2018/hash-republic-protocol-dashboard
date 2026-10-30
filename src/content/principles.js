@@ -1,68 +1,69 @@
 // Los 12 principios de OpenCivic Solutions, con una explicación breve de
 // cada uno. La página /sobre los muestra como lista enlazada; cada enlace
-// lleva a su explicación (/sobre#principio-N). El 29 oct 2026 Carlos pidió
-// reducir los 25 originales a 12, elegidos del medio de la lista (7–18).
+// lleva a su explicación (/sobre#principio-N). Carlos Robleto los redactó
+// el 29 oct 2026 en lugar de los 25 anteriores; las explicaciones se
+// escribieron con asistencia de IA para su revisión.
 
 const principles = [
   {
-    text: 'La síntesis de IA no es ley.',
+    text: 'El conocimiento y la tecnología heredada son patrimonio común.',
     explain:
-      'La IA puede resumir miles de opiniones y encontrar puntos en común, pero su resumen es una interpretación, no una decisión. Debe poder rastrearse hasta las opiniones originales, ser revisado por personas y declarar qué modelo lo produjo.',
+      'Lo que aprendieron y construyeron quienes vinieron antes —el idioma, la ciencia, las instituciones, el software libre— no pertenece a nadie en particular. Se cuida, se mejora y se comparte para que siga sirviendo a todos.',
   },
   {
-    text: 'La auditoría protege la delegación.',
+    text: 'Las propuestas y debates deben responder al interés común.',
     explain:
-      'Delegar exige confiar, y la confianza se sostiene cuando se puede comprobar. Por eso las delegaciones son públicas: cualquiera puede ver quién representa a quién y detectar si el poder se está concentrando en pocas manos.',
+      'Una propuesta se juzga por lo que aporta a la comunidad, no por quién la presenta ni por a quién beneficia en privado. El debate sirve para encontrar lo que conviene a todos.',
   },
   {
-    text: 'La competencia puede guiar el consenso, pero no poseerlo.',
+    text: 'El trabajo o valor aportado es digno de reconocimiento y recompensa.',
     explain:
-      'Quien sabe más puede orientar la discusión, advertir riesgos y proponer caminos. Lo que no puede es apropiarse del resultado: el consenso pertenece a quienes participaron en él.',
+      'Quien contribuye con su tiempo, su conocimiento o su esfuerzo merece que se le reconozca y, cuando sea posible, que se le recompense de forma justa y transparente.',
   },
   {
-    text: 'La comunidad puede delegar juicio, pero nunca ceder soberanía.',
+    text: 'La soberanía es de la comunidad.',
     explain:
-      'Una comunidad puede encargar a personas o a sistemas que analicen, recomienden o ejecuten. Lo que nunca transfiere es el derecho a decidir sus propios fines, a revisar esas decisiones y a retirar los encargos.',
+      'Las decisiones sobre los fines y las reglas pertenecen a las personas que forman la comunidad. Ninguna persona experta, empresa ni sistema automático puede quitárselas.',
   },
   {
-    text: 'Nadie habla por una comunidad abierta; la evidencia habla por sí misma.',
+    text: 'Toda delegación o representación es revocable (democracia líquida).',
     explain:
-      'En una comunidad abierta y sin dueño, ninguna persona, empresa o fundación puede atribuirse la voz de todos. Lo que sí se puede hacer es reunir evidencia verificable de lo que piensan sus participantes y dejar que esa evidencia hable.',
+      'Puedes delegar tu voto en alguien de confianza para un tema, ver cómo vota en tu nombre y retirarle esa confianza en cualquier momento para volver a decidir tú. Eso es la democracia líquida.',
   },
   {
-    text: 'Ninguna propuesta sin deliberación.',
+    text: 'Mentalidad de colmena para toda cooperativa o DAO.',
     explain:
-      'Antes de decidir, una propuesta tiene que poder discutirse: conocer los argumentos a favor y en contra, preguntar y corregir. Votar sin deliberar convierte la participación en un sondeo de impulsos.',
+      'En una colmena cada abeja aporta según su función y todas cuidan del conjunto. Una cooperativa o una DAO (una organización que se gobierna con reglas abiertas y verificables) funciona igual: cada miembro contribuye y el bien común está por encima del interés individual.',
   },
   {
-    text: 'Ninguna ejecución sin auditoría.',
+    text: 'Los recursos compartidos deben ser costeados de forma proporcional al provecho individual.',
     explain:
-      'Todo lo que se ejecuta —un pago, una regla automatizada, una decisión— debe dejar un registro que permita comprobar después qué se hizo, bajo qué norma y con qué resultado.',
+      'Quien más se beneficia de un recurso común aporta más para mantenerlo. Así nadie carga con lo que aprovechan otros y lo que es de todos no se agota.',
   },
   {
-    text: 'Ninguna reputación sin evidencia.',
+    text: 'Toda aplicación o herramienta de OpenCivic Solutions será de código libre.',
     explain:
-      'La reputación que da peso adicional se basa en aportes que se pueden verificar —trabajo publicado, contribuciones revisadas, experiencia comprobable—, no en la popularidad, la antigüedad ni el dinero.',
+      'Cualquiera puede ver cómo funciona, revisarla, mejorarla y usarla. El código de OpenCivic se publica con la licencia libre GNU AGPL v3.',
   },
   {
-    text: 'Ninguna delegación sin revocación.',
+    text: 'La privacidad y la seguridad son prioridad, sobre todo en contextos peligrosos.',
     explain:
-      'Toda delegación debe poder retirarse en cualquier momento y vencer sola cada cierto tiempo. Una delegación que no se puede revocar deja de ser delegación y se convierte en una cesión de poder.',
+      'Participar nunca debe poner en riesgo a nadie. Por eso se pide el mínimo de datos, se protege la identidad y se piensa primero en quienes viven donde opinar puede ser peligroso.',
   },
   {
-    text: 'El consenso bruto debe permanecer visible.',
+    text: 'Se evita la polarización y se promueve el consenso.',
     explain:
-      'Aunque un resultado se ajuste con pesos de reputación o delegación, el resultado simple —una persona, un voto— se muestra siempre junto al ajustado. Así nadie puede esconder lo que piensa la mayoría detrás de un cálculo.',
+      'Las herramientas de OpenCivic buscan los puntos de acuerdo en lugar de premiar el enfrentamiento. Disentir es legítimo; lo que se evita es convertir cada diferencia en una guerra entre bandos.',
   },
   {
-    text: 'El consenso ponderado debe declarar su método.',
+    text: 'Procurar el sentido de identidad y pertenencia, resaltando todo lo que nos une.',
     explain:
-      'Si un resultado se ajusta con pesos, hay que decir cómo: con qué fórmula, qué datos y qué límites. Un método oculto es una forma de manipulación, aunque nadie lo pretenda.',
+      'Una comunidad se sostiene cuando sus miembros se reconocen como parte de algo común. Por eso se destaca lo que compartimos antes que lo que nos separa.',
   },
   {
-    text: 'Las preocupaciones minoritarias deben preservarse.',
+    text: 'Se puede confiar, pero siempre se debe verificar.',
     explain:
-      'Que la mayoría decida no borra lo que pensaba la minoría. Sus objeciones quedan registradas en el reporte final, porque a veces la minoría tenía razón y porque una síntesis que la silencia no es deliberación.',
+      'La confianza es necesaria para cooperar, pero no reemplaza la comprobación. Los resultados, las cuentas y las decisiones deben poder verificarse por cualquiera.',
   },
 ];
 
