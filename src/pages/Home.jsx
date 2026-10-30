@@ -46,7 +46,7 @@ const FORMULA = [
   },
 ];
 
-const DESTACADAS = DESTACADOS.map(getPostBySlug).filter(Boolean);
+const [PARA_EMPEZAR, ...DESTACADAS] = DESTACADOS.map(getPostBySlug).filter(Boolean);
 
 export default function Home() {
   return (
@@ -170,6 +170,31 @@ export default function Home() {
           <p className="oc-lede" style={{ marginBottom: 32 }}>
             Por qué existe OpenCivic, en qué se apoya y qué puedes hacer con ello.
           </p>
+          {PARA_EMPEZAR && (
+            <Link
+              to={`/blog/${PARA_EMPEZAR.slug}`}
+              className="oc-card oc-card--empezar"
+              style={{ textDecoration: 'none', color: 'inherit', display: 'block', marginBottom: 24 }}
+            >
+              {PARA_EMPEZAR.image && (
+                <img
+                  src={PARA_EMPEZAR.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="oc-illustration"
+                  style={{ width: '100%', marginBottom: 16 }}
+                />
+              )}
+              <span className="oc-etiqueta-empezar">Para empezar</span>
+              <h3>{PARA_EMPEZAR.title}</h3>
+              <p>{PARA_EMPEZAR.dek}</p>
+              <p style={{ fontSize: '0.85rem', opacity: 0.75 }}>
+                {PARA_EMPEZAR.author && `${PARA_EMPEZAR.author} · `}
+                {formatDate(PARA_EMPEZAR.date)}
+              </p>
+              <span style={{ color: 'var(--oc-blue)', fontWeight: 600 }}>Leer el ensayo &rarr;</span>
+            </Link>
+          )}
           <div className="oc-grid oc-grid--3">
             {DESTACADAS.map((post) => (
               <Link
