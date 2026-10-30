@@ -146,8 +146,8 @@ export default function About() {
             Los límites que no se negocian
           </h2>
           <p className="oc-lede" style={{ marginBottom: 24 }}>
-            Veinticinco principios que ningún proyecto de OpenCivic puede cruzar. Pulsa cualquiera para leer
-            qué significa.
+            Doce principios que ningún proyecto de OpenCivic puede cruzar. Pulsa cualquiera para leer qué
+            significa.
           </p>
           <ol className="oc-principles">
             {principles.map((p, i) => (

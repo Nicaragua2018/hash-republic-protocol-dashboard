@@ -6,6 +6,13 @@ import { PAGES } from '../content/seo';
 import { formatDate } from '../content/format';
 import SuscripcionForm from '../components/SuscripcionForm';
 import PROXIMOS from '../content/proximos';
+import DESTACADOS from '../content/destacados';
+
+// La primera destacada va fija arriba, sea cual sea su fecha; el resto, de la más nueva a la más vieja.
+const ORDENADOS = [
+  ...posts.filter((p) => p.slug === DESTACADOS[0]),
+  ...posts.filter((p) => p.slug !== DESTACADOS[0]),
+];
 
 // Los próximos más cercanos a la vista; el resto, en «Ver el calendario completo».
 const VISIBLES = 3;
@@ -42,10 +49,10 @@ export default function Blog() {
       <section className="oc-section">
         <div className="oc-container">
           <div className="oc-grid oc-grid--2">
-            {posts.map((post) => (
+            {ORDENADOS.map((post) => (
               <Link
                 to={`/blog/${post.slug}`}
-                className="oc-card"
+                className={post.slug === DESTACADOS[0] ? 'oc-card oc-card--empezar' : 'oc-card'}
                 key={post.slug}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
               >
@@ -58,6 +65,7 @@ export default function Blog() {
                     style={{ width: '100%', marginBottom: 16 }}
                   />
                 )}
+                {post.slug === DESTACADOS[0] && <span className="oc-etiqueta-empezar">Para empezar</span>}
                 <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
                   {formatDate(post.date)}
                 </p>

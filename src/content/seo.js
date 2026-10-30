@@ -18,7 +18,7 @@ export const PAGES = {
   },
   '/sobre': {
     title: 'Qué es OpenCivic Solutions — Por qué existimos',
-    description: 'La razón de ser, la fórmula de cuatro piezas y los 25 principios de OpenCivic Solutions.',
+    description: 'La razón de ser, la fórmula de cuatro piezas y los 12 principios de OpenCivic Solutions.',
   },
   '/blog': {
     title: 'Blog y boletín — OpenCivic Solutions',

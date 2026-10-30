@@ -473,3 +473,29 @@
     transition: none;
   }
 }
+
+/* El artículo «para empezar» (el primero de destacados.js), en Inicio y en el blog. */
+.oc-card--empezar {
+  border: 2px solid var(--oc-yellow);
+  background: linear-gradient(135deg, rgba(var(--oc-yellow-rgb), 0.1), var(--oc-white) 60%);
+}
+.oc-card--empezar h3 {
+  font-size: 1.4rem;
+}
+.oc-etiqueta-empezar {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--oc-yellow);
+  color: var(--oc-blue);
+  font-family: var(--oc-font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+/* En la cuadrícula del blog ocupa todo el ancho, arriba de las demás. */
+.oc-grid .oc-card--empezar {
+  grid-column: 1 / -1;
+}

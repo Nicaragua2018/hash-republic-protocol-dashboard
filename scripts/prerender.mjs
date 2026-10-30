@@ -240,7 +240,7 @@ const llmsTxt = `# ${SITE_NAME}
 
 > ${DEFAULT_DESCRIPTION}
 
-OpenCivic Solutions es una organización de tecnología cívica de código abierto. Su único proyecto en desarrollo es Nicaragua Decide, un laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad. Combina cuatro piezas: democracia (el resultado sin ponderar siempre queda a la vista), competencia verificable (un peso adicional de 1,3× como máximo), criptografía (informes con huella digital y sello de tiempo) y constitución (25 principios que ninguna mayoría puede cruzar). Los textos del sitio están en español; se redactan con asistencia de IA y se publican solo con revisión y autorización humana.
+OpenCivic Solutions es una organización de tecnología cívica de código abierto. Su único proyecto en desarrollo es Nicaragua Decide, un laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de identidad. Combina cuatro piezas: democracia (el resultado sin ponderar siempre queda a la vista), competencia verificable (un peso adicional de 1,3× como máximo), criptografía (informes con huella digital y sello de tiempo) y constitución (12 principios que ninguna mayoría puede cruzar). Los textos del sitio están en español; se redactan con asistencia de IA y se publican solo con revisión y autorización humana.
 
 ## Páginas
 
@@ -294,7 +294,7 @@ Código abierto: ${nicaraguaDecide.REPO_URL}
 
 ${nicaraguaDecide.FAQ.map((q) => `**${q.pregunta}** ${q.respuesta}`).join('\n\n')}
 
-## Los 25 principios de OpenCivic Solutions
+## Los 12 principios de OpenCivic Solutions
 
 Fuente: ${SITE_URL}/sobre
 

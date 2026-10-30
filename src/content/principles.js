@@ -1,38 +1,9 @@
-// Los 25 principios de OpenCivic Solutions, con una explicación breve de
+// Los 12 principios de OpenCivic Solutions, con una explicación breve de
 // cada uno. La página /sobre los muestra como lista enlazada; cada enlace
-// lleva a su explicación (/sobre#principio-N).
+// lleva a su explicación (/sobre#principio-N). El 29 oct 2026 Carlos pidió
+// reducir los 25 originales a 12, elegidos del medio de la lista (7–18).
 
 const principles = [
-  {
-    text: 'La identidad no es reputación.',
-    explain:
-      'Que una cuenta pertenezca a una persona real no dice nada de cuánto sabe ni de cuánto debería pesar su opinión. Por eso la reputación no se hereda de un nombre, un cargo o un título genérico: se gana con aportes verificables en un tema concreto.',
-  },
-  {
-    text: 'La reputación no es soberanía.',
-    explain:
-      'Tener reputación en un tema puede dar algo más de peso a tu opinión, pero no te da el poder de decidir por los demás. La decisión sigue siendo de la comunidad, y ese peso adicional tiene un techo: 1,3 veces como máximo.',
-  },
-  {
-    text: 'La delegación no es sumisión.',
-    explain:
-      'Delegar tu voto en alguien de confianza para un tema no es entregarle tu voz para siempre. Puedes ver cómo vota en tu nombre, retirarle la delegación en cualquier momento y volver a votar tú directamente. Además, la delegación es por tema, nunca global.',
-  },
-  {
-    text: 'La pericia no es autoridad absoluta.',
-    explain:
-      'Las personas expertas aportan un juicio técnico valioso, pero también pueden equivocarse o tener intereses. Su opinión pesa más solo dentro de su campo, solo si su capacidad se puede comprobar, y nunca puede anular por sí sola lo que decide la comunidad.',
-  },
-  {
-    text: 'El consenso no es coerción.',
-    explain:
-      'Llegar a un acuerdo no autoriza a obligar a quien no lo comparte a callarse o a fingir que está de acuerdo. Un consenso legítimo deja constancia de quién disintió y por qué.',
-  },
-  {
-    text: 'Las señales no son votos vinculantes.',
-    explain:
-      'Muchas consultas recogen señales: lo que una comunidad piensa, prefiere o teme. Son evidencia para quienes deciden, no órdenes automáticas. Confundir una cosa con la otra le daría a una consulta informal un poder que nadie le otorgó.',
-  },
   {
     text: 'La síntesis de IA no es ley.',
     explain:
@@ -92,41 +63,6 @@ const principles = [
     text: 'Las preocupaciones minoritarias deben preservarse.',
     explain:
       'Que la mayoría decida no borra lo que pensaba la minoría. Sus objeciones quedan registradas en el reporte final, porque a veces la minoría tenía razón y porque una síntesis que la silencia no es deliberación.',
-  },
-  {
-    text: 'El almacenamiento no es autoridad.',
-    explain:
-      'Guardar un registro —en un servidor, en una base de datos o en una blockchain— no lo vuelve verdadero ni legítimo. Que algo esté almacenado solo prueba que alguien lo guardó.',
-  },
-  {
-    text: 'La verificabilidad es autoridad.',
-    explain:
-      'Lo que da fuerza a un reporte no es quién lo custodia, sino que cualquiera pueda comprobar cómo se produjo y que nadie lo alteró después. Por eso cada reporte canónico lleva una huella criptográfica y un sello de tiempo.',
-  },
-  {
-    text: 'La ley gobierna al código. Todo código institucional es reversible, actualizable e impugnable.',
-    explain:
-      'El código ejecuta reglas, pero no es la autoridad suprema. Si una regla programada produce un resultado injusto o estaba mal diseñada, debe poder corregirse, actualizarse o impugnarse por vías institucionales, igual que se reforma una ley.',
-  },
-  {
-    text: 'Automatizar procedimientos no es automatizar soberanía.',
-    explain:
-      'Un sistema puede verificar requisitos, calcular un reparto acordado o ejecutar un presupuesto aprobado. Lo que no puede es decidir cuáles deben ser esos requisitos, ese reparto o esas prioridades: eso sigue siendo una decisión de las personas.',
-  },
-  {
-    text: 'La soberanía tecnológica pertenece a la comunidad. Ningún componente es insustituible; los datos son siempre exportables.',
-    explain:
-      'Ninguna herramienta debe volverse imprescindible. La comunidad tiene que poder auditar el sistema, cambiar de proveedor y llevarse sus datos sin perder su memoria ni lo que construyó en común.',
-  },
-  {
-    text: 'Descentralizar infraestructura no es descentralizar poder. El poder se mide, no se presume.',
-    explain:
-      'Un sistema puede estar repartido en muchos servidores y, aun así, estar controlado por muy pocos. Por eso no basta con preguntar si algo está descentralizado: hay que medir quién puede cambiar las reglas, quién controla el dinero y los datos, y quién responde cuando algo sale mal.',
-  },
-  {
-    text: 'Algunas cosas no se convierten en código: la empatía, la excepción, la negociación, la justicia, la responsabilidad y la capacidad de cambiar de opinión.',
-    explain:
-      'Hay decisiones que necesitan criterio humano y no caben en una regla automática. Un buen sistema les deja espacio en lugar de pretender reemplazarlas.',
   },
 ];
 
