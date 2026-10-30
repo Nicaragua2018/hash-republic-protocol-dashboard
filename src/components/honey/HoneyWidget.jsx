@@ -151,6 +151,13 @@ export default function HoneyWidget() {
                         {s}
                       </button>
                     ))}
+                    <button
+                      type="button"
+                      className="honey-sugerida-propia"
+                      onClick={() => entradaRef.current?.focus()}
+                    >
+                      Escribe tu propia pregunta
+                    </button>
                   </div>
                 )}
                 {mensajes.map((m, i) => (
@@ -158,6 +165,13 @@ export default function HoneyWidget() {
                 ))}
                 {escribiendo && (
                   <p className="honey-escribiendo" role="status" aria-label="HONEY está escribiendo">
+                    <img
+                      className="honey-escribiendo-avatar"
+                      src="/honey-avatar-96.webp"
+                      alt=""
+                      width="28"
+                      height="28"
+                    />
                     <span />
                     <span />
                     <span />
