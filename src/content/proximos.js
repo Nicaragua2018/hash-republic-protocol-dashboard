@@ -6,12 +6,6 @@
 
 const PROXIMOS = [
   {
-    fecha: '2026-11-02',
-    titulo: 'Democracias fatigadas',
-    sinopsis:
-      '¿Y si lo que sientes no fuera apatía, sino cansancio? El politólogo Manuel Alcántara le puso nombre a lo que viven millones en América Latina, y advirtió que una democracia fatigada puede incubar autoritarismos. Qué la agota, y qué puede despertarla.',
-  },
-  {
     fecha: '2026-11-09',
     titulo: 'Nepal: cuando el Estado deja de escuchar',
     sinopsis:
