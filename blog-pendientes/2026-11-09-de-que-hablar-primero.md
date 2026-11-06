@@ -1,8 +1,8 @@
 ---
 slug: de-que-hablar-primero
 title: ¿De qué tenemos que hablar primero?
-dek: "Casi un millón de nicaragüenses viven fuera de su país. Antes de debatir el futuro, conviene preguntarse qué les quita el sueño hoy. Lo que dicen los estudios, por qué las redes no son un buen espejo y once preguntas para empezar."
-date: 2027-01-11
+dek: "Casi un millón de nicaragüenses viven fuera de su país. Antes de debatir el futuro, conviene preguntarse qué les quita el sueño hoy. Lo que dicen los estudios, por qué las redes no son un buen espejo, once preguntas para empezar y la plataforma donde las vamos a decidir."
+date: 2026-11-09
 author: Equipo OpenCivic
 ia: asistido
 ---
@@ -47,11 +47,25 @@ Estas son las primeras inquietudes que proponemos para el debate. No son respues
 10. ¿Cómo mantenemos el vínculo con los jóvenes que siguen dentro?
 11. ¿En qué condiciones sería posible volver?
 
-## Que decida la comunidad
+## Lo que viene: Nicaragua Decide
 
-En Nicaragua Decide, ninguna de estas preguntas entra al debate porque nosotros lo digamos. Cualquier miembro puede plantear una inquietud, los demás la apoyan, y cuando junta suficiente apoyo, la comunidad tiene que responderla. Las sugerencias que haga un asistente de inteligencia artificial llevarán siempre su marca, y nunca decidirán por nadie.
+Estas once preguntas no se quedarán en un artículo. Serán las primeras de **Nicaragua Decide**, la plataforma que OpenCivic está construyendo para que el exilio y la diáspora se organicen y decidan juntos, con su identidad protegida. Las propondrá el asistente de la plataforma, siempre con la marca «sugerencia del asistente», y será la comunidad la que decida si las adopta, las cambia o las descarta.
 
-Primero escuchar, después debatir y al final decidir. Si quieres que tu inquietud esté entre las primeras, [súmate](/unirse); y si quieres seguir el proyecto, [suscríbete al boletín](/blog#suscripcion).
+Así funcionará:
+
+- **Dos comunidades y un espacio común.** Cada persona participa en la comunidad de su departamento o región de origen y en la del país o estado donde vive ahora. Y todos compartimos un mismo espacio: Exilio y diáspora.
+- **Proponer es fácil.** Cualquier miembro plantea una inquietud y los demás la apoyan. Cuando junta suficiente apoyo, la comunidad tiene que responderla en un plazo; si no, se abre a debate sola.
+- **Debatir para encontrar acuerdos.** En vez de un hilo interminable de comentarios, cada quien escribe frases cortas y opina sobre las de los demás: de acuerdo, en desacuerdo o paso. Así se ve lo que nos une, incluso entre quienes piensan distinto.
+- **Votar sin complicaciones.** Si hay una sola solución, apruebas, no apruebas o te abstienes. Si hay varias, ordenas solo las que aceptas. Nadie ve cifras antes de que cierre la votación.
+- **Ver los resultados.** Una página reúne los consensos logrados, las propuestas rechazadas y el resultado de cada votación, por comunidad.
+- **Cumplir lo decidido.** Cada solución aprobada tiene una comisión de voluntarios, elegida por sorteo, que la lleva a cabo y rinde cuentas. Y quien quiera trabajar un tema a fondo puede formar un grupo de trabajo.
+- **Las reglas también se votan.** Plazos, mínimos de participación y demás reglas no las fija nadie desde arriba: la comunidad puede cambiarlas votando.
+
+Toda la complejidad la hace el sistema: abre y cierra las votaciones a tiempo, cuenta los votos y forma las comisiones. A las personas les toca lo importante: proponer, debatir y decidir. La inteligencia artificial ayuda a resumir y a ordenar, pero nunca decide por nadie.
+
+Abriremos poco a poco y por invitación, porque cada miembro nuevo necesita el aval de dos personas que ya están dentro. Es la mejor defensa contra las cuentas falsas que contaminan las redes: detrás de cada voz, una persona real.
+
+Si quieres estar entre los primeros, [súmate](/unirse). Y si quieres enterarte del día en que abra, [suscríbete al boletín](/blog#suscripcion).
 
 ## Fuentes
 
