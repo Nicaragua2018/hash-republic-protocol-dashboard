@@ -6,12 +6,6 @@
 
 const PROXIMOS = [
   {
-    fecha: '2026-11-09',
-    titulo: '¿De qué tenemos que hablar primero?',
-    sinopsis:
-      'Casi un millón de nicaragüenses viven fuera de su país. Antes de debatir el futuro, ¿qué les quita el sueño hoy? Lo que dicen los estudios, once preguntas para empezar y un adelanto de Nicaragua Decide, la plataforma donde la diáspora las va a debatir y decidir.',
-  },
-  {
     fecha: '2026-11-16',
     titulo: 'Nepal: cuando el Estado deja de escuchar',
     sinopsis:
