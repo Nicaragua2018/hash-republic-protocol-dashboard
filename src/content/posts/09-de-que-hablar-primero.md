@@ -2,7 +2,7 @@
 slug: de-que-hablar-primero
 title: ¿De qué tenemos que hablar primero?
 dek: "Casi un millón de nicaragüenses viven fuera de su país. Antes de debatir el futuro, conviene preguntarse qué les quita el sueño hoy. Doce preguntas para empezar y la plataforma donde las podemos debatir."
-date: 2026-11-09
+date: 2026-11-07
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-de-que-hablar-primero.svg
