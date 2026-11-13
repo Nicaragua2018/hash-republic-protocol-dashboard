@@ -39,9 +39,9 @@ const PROXIMOS = [
   },
   {
     fecha: '2026-12-21',
-    titulo: 'Decidim: votar, y vigilar que se cumpla',
+    titulo: 'La silla vacía: separación familiar, exilio y presos políticos en Nicaragua',
     sinopsis:
-      'Prometer es fácil; cumplir, no tanto. En Barcelona nació una plataforma abierta donde la gente propone, vota y luego sigue paso a paso si lo decidido de verdad se hizo. Lo que pasa cuando las promesas dejan rastro.',
+      'En diciembre, muchas familias nicaragüenses ponen la mesa con una silla de más. Exilio, destierro y presos políticos: lo que la separación le hace a nuestras familias y a la salud mental de niños y jóvenes.',
   },
   {
     fecha: '2026-12-28',
@@ -61,6 +61,12 @@ const PROXIMOS = [
     titulo: 'Bittensor: pagar por lo que se aporta',
     sinopsis:
       '¿Y si tu recompensa dependiera solo de lo que aportas, y no de a quién conoces? Una red abierta de inteligencia artificial lo está intentando. Lo que promete es enorme, y lo que enseña sobre sus fallas también.',
+  },
+  {
+    fecha: '2027-01-18',
+    titulo: 'Decidim: votar, y vigilar que se cumpla',
+    sinopsis:
+      'Prometer es fácil; cumplir, no tanto. En Barcelona nació una plataforma abierta donde la gente propone, vota y luego sigue paso a paso si lo decidido de verdad se hizo. Lo que pasa cuando las promesas dejan rastro.',
   },
 ];
 
