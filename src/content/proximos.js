@@ -19,16 +19,16 @@ const PROXIMOS = [
   },
   {
     fecha: '2026-11-30',
+    titulo: 'Las abejas no tienen caudillos: lo que un enjambre, vTaiwan y Nepal le enseñan a Nicaragua Decide',
+    sinopsis:
+      '¿Por qué callamos cuando todos parecen estar de acuerdo? Un enjambre de 10.000 abejas elige casa sin jefes y casi siempre acierta. Lo que las abejas, vTaiwan y Nepal enseñan para decidir juntos sin caudillos.',
+  },
+  {
+    fecha: '2026-12-07',
     titulo: 'La necesaria modernización de las instituciones públicas',
     slug: 'de-las-instituciones-analogicas-a-las-instituciones-programables',
     sinopsis:
       'La democracia está agotada y desactualizada. Votamos como en el siglo pasado y hacemos trámites pensados para el papel. Qué cambiar, qué proteger y por qué hay motivos de sobra para la esperanza.',
-  },
-  {
-    fecha: '2026-12-07',
-    titulo: 'La democracia de las abejas',
-    sinopsis:
-      'Cada primavera, miles de abejas deben elegir un nuevo hogar sin jefe, sin campaña y sin fraude, y suelen elegir el mejor. Lo que la ciencia descubrió sobre cómo deciden juntas puede enseñarnos a decidir mejor.',
   },
   {
     fecha: '2026-12-14',
