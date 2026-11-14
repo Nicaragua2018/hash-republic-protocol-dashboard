@@ -11,6 +11,7 @@ import {
   SIGUIENTES,
   FAQ,
   REPO_URL,
+  SITIO_URL,
 } from '../content/nicaraguaDecide';
 
 const REPOSITORIO = 'https://github.com/Nicaragua2018/hash-republic-protocol-dashboard';
@@ -23,15 +24,20 @@ export default function Projects() {
       <div className="oc-container" style={{ position: 'relative', maxWidth: 760 }}>
         <span className="oc-eyebrow">Nuestro proyecto</span>
         <h1 className="oc-h1">Nicaragua Decide</h1>
-        <span className="oc-phase oc-phase--spec">En desarrollo</span>
+        <span className="oc-phase oc-phase--spec">En línea · por invitación</span>
         <p className="oc-lede">
-          Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de
-          identidad.
+          La plataforma donde el exilio y la diáspora nicaragüense se organizan y deciden juntos, con su
+          identidad protegida.
         </p>
         <p>{RESUMEN}</p>
         <p>
-          Es el único proyecto que OpenCivic tiene hoy en desarrollo. Como todo lo que hacemos, no gobierna
-          por sí solo: produce evidencia y herramientas, y el juicio final siempre es de la comunidad.
+          Es el proyecto principal de OpenCivic. Como todo lo que hacemos, no gobierna desde arriba: las
+          decisiones las toma la comunidad, de forma verificable.
+        </p>
+        <p style={{ margin: '24px 0 32px' }}>
+          <a href={SITIO_URL} target="_blank" rel="noreferrer" className="oc-btn oc-btn--primary">
+            Visitar nicaraguadecide.org &rarr;
+          </a>
         </p>
 
         <h2 className="oc-h2">Qué se puede hacer</h2>
