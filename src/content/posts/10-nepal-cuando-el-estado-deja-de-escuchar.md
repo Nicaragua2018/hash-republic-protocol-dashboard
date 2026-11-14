@@ -2,7 +2,7 @@
 slug: nepal-cuando-el-estado-deja-de-escuchar
 title: "Nepal: cuando el Estado deja de escuchar"
 dek: "En 2025, Nepal bloqueó las redes sociales y la Generación Z tumbó al gobierno y votó en Discord a su primera ministra interina. Cuba eligió el camino contrario: vigilancia y miedo."
-date: 2026-11-16
+date: 2026-11-13
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-nepal.svg
