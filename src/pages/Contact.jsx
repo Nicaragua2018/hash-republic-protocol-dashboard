@@ -1,6 +1,8 @@
 import React from 'react';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
+import CopiarCorreo from '../components/CopiarCorreo';
+import { CORREO, WHATSAPP_URL, WHATSAPP_VISIBLE } from '../content/contacto';
 
 export default function Contact() {
   return (
@@ -12,14 +14,16 @@ export default function Contact() {
           <span className="oc-eyebrow">Contacto</span>
           <h1 className="oc-h1">Escríbenos</h1>
           <p className="oc-lede" style={{ maxWidth: 680 }}>
-            ¿Tienes una pregunta, una propuesta o quieres reportar un problema? Escríbenos a{' '}
-            <a href="mailto:info@opencivicsolutions.org">info@opencivicsolutions.org</a>. Para dudas rápidas
-            sobre el sitio, también puedes preguntarle a HONEY, el asistente del botón de abajo a la derecha.
+            ¿Tienes una pregunta, una propuesta o quieres reportar un problema? Deja un mensaje, te
+            responderemos pronto: por WhatsApp al <strong>{WHATSAPP_VISIBLE}</strong> o por correo a{' '}
+            <strong>{CORREO}</strong>. Para dudas rápidas sobre el sitio, también puedes preguntarle a HONEY, el
+            asistente del botón de abajo a la derecha.
           </p>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', margin: '24px 0 48px' }}>
-            <a href="mailto:info@opencivicsolutions.org" className="oc-btn oc-btn--primary">
-              Escribir un correo
+            <a href={WHATSAPP_URL} className="oc-btn oc-btn--primary" target="_blank" rel="noreferrer">
+              Escríbenos por WhatsApp
             </a>
+            <CopiarCorreo correo={CORREO} />
             <a
               href="https://github.com/Nicaragua2018/hash-republic-protocol-dashboard"
               className="oc-btn oc-btn--outline"
@@ -45,7 +49,7 @@ export default function Contact() {
             </li>
             <li>
               <strong>Seguridad:</strong> para reportar una vulnerabilidad o una suplantación, escribe a{' '}
-              <a href="mailto:info@opencivicsolutions.org">info@opencivicsolutions.org</a>.
+              <strong>{CORREO}</strong>.
             </li>
           </ul>
         </div>
