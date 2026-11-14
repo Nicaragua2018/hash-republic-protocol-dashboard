@@ -16,7 +16,12 @@ export default function CopiarCorreo({ correo, className = 'oc-btn oc-btn--outli
   }
 
   return (
-    <button type="button" onClick={copiar} className={className} style={{ fontFamily: 'inherit', cursor: 'pointer' }}>
+    <button
+      type="button"
+      onClick={copiar}
+      className={className}
+      style={{ fontFamily: 'inherit', cursor: 'pointer' }}
+    >
       <span aria-live="polite">
         {estado === 'copiado' ? '¡Copiado!' : estado === 'error' ? `Copia: ${correo}` : 'Copiar correo'}
       </span>

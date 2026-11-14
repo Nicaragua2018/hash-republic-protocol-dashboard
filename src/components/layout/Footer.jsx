@@ -83,8 +83,7 @@ export default function Footer() {
             </a>
           </p>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem' }}>
-            Seguridad:{' '}
-            <span style={{ color: 'var(--oc-yellow)' }}>info@opencivicsolutions.org</span>
+            Seguridad: <span style={{ color: 'var(--oc-yellow)' }}>info@opencivicsolutions.org</span>
           </p>
           <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.8rem', marginTop: 12 }}>
             Código AGPL-3.0 · Contenido CC BY-SA 4.0 · Datos ODbL
