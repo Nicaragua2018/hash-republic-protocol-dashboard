@@ -3,6 +3,7 @@ slug: nepal-cuando-el-estado-deja-de-escuchar
 title: "Nepal: cuando el Estado deja de escuchar"
 dek: "En 2025, Nepal bloqueó las redes sociales y la Generación Z tumbó al gobierno y votó en Discord a su primera ministra interina. Cuba eligió el camino contrario: vigilancia y miedo."
 date: 2026-11-13
+updated: 2026-11-13
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-nepal.svg
@@ -17,6 +18,8 @@ Lo que pasó después no tiene precedentes: los jóvenes eligieron a su líder i
 ## Del bloqueo al estallido
 
 El bloqueo fue la chispa, no la causa. Los manifestantes, en su mayoría de la **Generación Z**, salieron a la calle contra la censura y contra la corrupción.
+
+Muchos tampoco esperaron a que el gobierno cediera: buscaron cómo saltarse el bloqueo. Según Euronews y la agencia AP, la empresa suiza Proton informó que las altas de su **VPN** en Nepal crecieron un 8.000 % a partir del 3 de septiembre. Una VPN es una conexión cifrada que hace pasar el tráfico por otro país y permite entrar a las aplicaciones bloqueadas. Pero no es una salida para todos: los expertos advierten que puede ser cara, lenta y quedar fuera del alcance de mucha gente.
 
 El 8 de septiembre, las fuerzas de seguridad dispararon contra la multitud en Baneshwar, el barrio del Parlamento en Katmandú. Al día siguiente, el gobierno levantó el bloqueo, pero ya era tarde: el primer ministro KP Sharma Oli renunció y los manifestantes incendiaron edificios del gobierno. En mayo de 2026, la Comisión Nacional de Derechos Humanos señaló a Oli como el «principal responsable» y llamó inconstitucional el bloqueo.
 
@@ -67,6 +70,7 @@ Si quieres ser parte, [súmate](/unirse) o [suscríbete al boletín](/blog#suscr
 
 - [Scroll (4 de septiembre de 2025). Nepal bans Facebook, Instagram, 24 other social media platforms citing failure to register.](https://scroll.in/latest/1086248/nepal-bans-facebook-instagram-24-other-social-media-platforms-citing-failure-to-register)
 - [Scroll (9 de septiembre de 2025). Nepal lifts ban on social media platforms after 19 killed in protests.](https://scroll.in/latest/1086373/scroll_in)
+- [Euronews / AP (9 de septiembre de 2025). Nepal social media crackdown is part of a global censorship trend, say experts. Do VPNs help?](https://www.euronews.com/next/2025/09/09/nepal-social-media-crackdown-is-part-of-a-global-censorship-trend-say-experts-do-vpns-help)
 - [Al Jazeera (15 de septiembre de 2025). 'More egalitarian': How Nepal's Gen Z used gaming app Discord to pick PM.](https://www.aljazeera.com/news/2025/9/15/more-egalitarian-how-nepals-gen-z-used-gaming-app-discord-to-pick-pm)
 - [The Kathmandu Post (29 de septiembre de 2025). How Nepal's enraged Gen Z turned Discord into a political arena.](https://kathmandupost.com/politics/2025/09/29/how-nepal-s-enraged-gen-z-turned-discord-into-a-political-arena)
 - [The Himalayan Times (27 de mayo de 2026). NHRC recommends action against KP Oli, two former ministers, senior security officials over Gen Z protest killings.](https://thehimalayantimes.com/kathmandu/nhrc-recommends-action-against-kp-oli-two-former-ministers-senior-security-officials-over-gen-z-protest-killings)
