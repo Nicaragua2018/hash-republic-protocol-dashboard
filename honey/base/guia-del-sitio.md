@@ -1,7 +1,7 @@
 ---
 titulo: Guía del sitio de OpenCivic
 url: /
-version: 2026-10-28
+version: 2026-11-13
 ---
 Esta guía explica cómo está organizado opencivicsolutions.org y dónde encontrar cada cosa.
 
@@ -17,4 +17,4 @@ La página de proyectos presenta Nicaragua Decide, el proyecto principal de Open
 
 La página «Unirse» explica cómo contribuir. Hay lugar para quien programa, investiga, diseña, traduce o enseña, y se puede participar con seudónimo. Los pasos son leer las bases del proyecto, buscar una tarea marcada para principiantes en el repositorio de GitHub y abrir un pull request con sus fuentes. En GitHub no se debe compartir información que pueda identificar a alguien en riesgo.
 
-Para escribir al equipo, el correo es info@opencivicsolutions.org; ese mismo correo sirve para reportar una vulnerabilidad o una suplantación. La página de contacto explica además los canales oficiales, el uso declarado de la IA, la imparcialidad y las licencias.
+Para escribir al equipo, el correo es info@opencivicsolutions.org y el WhatsApp es el +1 786 234 0155 (el mismo de Nicaragua Decide); ese mismo correo sirve para reportar una vulnerabilidad o una suplantación. La página de contacto explica además los canales oficiales, el uso declarado de la IA, la imparcialidad y las licencias.
