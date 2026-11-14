@@ -12,17 +12,15 @@ import { EVENTO_RECORRIDO } from '../components/recorrido/logica.js';
 const PASOS = [
   {
     titulo: 'Deliberar',
-    texto:
-      'Planteas inquietudes y debates con frases cortas en tu comunidad, para encontrar lo que nos une, con tu identidad protegida.',
+    texto: 'Planteas inquietudes y buscas acuerdos con tu comunidad, con tu identidad protegida.',
   },
   {
     titulo: 'Decidir',
-    texto:
-      'Votas las soluciones ordenando las que aceptas y eliges a quienes te representan. Una comisión lleva adelante lo aprobado.',
+    texto: 'Votas las soluciones y eliges a quienes te representan.',
   },
   {
     titulo: 'Comprobar',
-    texto: 'Cualquiera puede recalcular el resultado. No hace falta confiar a ciegas.',
+    texto: 'Cualquiera puede recalcular el resultado, sin confiar a ciegas.',
   },
 ];
 
@@ -54,7 +52,7 @@ export default function Home() {
     <>
       <Seo {...PAGES['/']} />
       {/* Hero */}
-      <section className="oc-hero oc-section" style={{ paddingTop: 72 }}>
+      <section className="oc-hero oc-hero--centrado">
         <div className="oc-hero-bees" aria-hidden="true" />
         <svg className="oc-abeja" viewBox="0 0 40 32" width="40" height="32" aria-hidden="true">
           <ellipse className="oc-abeja-ala" cx="16" cy="9" rx="7" ry="5" />
@@ -63,32 +61,48 @@ export default function Home() {
           <path d="M16 11.6v14.8M22 11v16" stroke="#0a3880" strokeWidth="3" />
           <circle cx="31" cy="17" r="4" fill="#0a3880" />
         </svg>
-        <div className="oc-container" style={{ display: 'grid', gap: 40, alignItems: 'center' }}>
-          <div>
-            <span className="oc-eyebrow">Tecnología cívica abierta</span>
-            <h1 className="oc-h1" data-recorrido="inicio">
-              Las instituciones también son tecnología
-            </h1>
-            <p className="oc-lede">
-              OpenCivic Solutions construye tecnología cívica abierta y verificable: herramientas para
-              cooperar, deliberar y decidir juntos, por la paz social y el bien común, sin pasar nunca por
-              encima de la esperanza, la justicia o la dignidad de nadie.
-            </p>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 24 }}>
-              <Link to="/blog" className="oc-btn oc-btn--primary">
-                Leer el blog
-              </Link>
-              <Link to="/unirse" className="oc-btn oc-btn--outline">
-                Únete
-              </Link>
-            </div>
-            <button
-              type="button"
-              className="oc-enlace-recorrido"
-              onClick={() => window.dispatchEvent(new Event(EVENTO_RECORRIDO))}
-            >
-              ¿Primera vez aquí? Haz el recorrido con HONEY (1 minuto)
-            </button>
+        <div className="oc-container oc-hero-contenido">
+          <span className="oc-eyebrow">Tecnología cívica abierta</span>
+          <h1 className="oc-h1 oc-h1--portada" data-recorrido="inicio">
+            Las instituciones también son <span className="oc-subrayado">tecnología</span>
+          </h1>
+          <p className="oc-lede">
+            OpenCivic Solutions construye tecnología cívica abierta y verificable: herramientas para cooperar,
+            deliberar y decidir juntos, por la paz social y el bien común, sin pasar nunca por encima de la
+            esperanza, la justicia o la dignidad de nadie.
+          </p>
+          <div className="oc-hero-botones">
+            <Link to="/proyectos" className="oc-btn oc-btn--primary">
+              Conoce Nicaragua Decide &rarr;
+            </Link>
+            <Link to="/blog" className="oc-btn oc-btn--outline">
+              Leer el blog
+            </Link>
+          </div>
+          <button
+            type="button"
+            className="oc-enlace-recorrido"
+            onClick={() => window.dispatchEvent(new Event(EVENTO_RECORRIDO))}
+          >
+            ¿Primera vez aquí? Haz el recorrido con HONEY (1 minuto)
+          </button>
+          <div className="oc-hero-marco">
+            <img
+              src="/ilustracion-instituciones-tecnologia.svg"
+              alt="Ilustración dibujada a mano: un documento en papel pasa a una computadora y de ahí a una colmena de celdas conectadas"
+              width="1200"
+              height="630"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Cómo funciona */}
+      <section className="oc-section">
+        <div className="oc-container">
+          <div className="oc-titulo-centrado">
+            <h2 className="oc-h2">Cómo funciona</h2>
+            <p>De la inquietud al resultado, en tres pasos</p>
           </div>
           <ol className="oc-pasos" aria-label="Cómo funciona Nicaragua Decide" data-recorrido="pasos">
             {PASOS.map((paso, i) => (
@@ -96,20 +110,18 @@ export default function Home() {
                 <span className="oc-paso-numero" aria-hidden="true">
                   {i + 1}
                 </span>
-                <h2 className="oc-paso-titulo">{paso.titulo}</h2>
+                <h3 className="oc-paso-titulo">{paso.titulo}</h3>
                 <p>{paso.texto}</p>
               </li>
             ))}
           </ol>
-          <p style={{ margin: 0 }}>
+          <p className="oc-titulo-centrado" style={{ margin: '24px 0 0' }}>
             <Link to="/proyectos" style={{ color: 'var(--oc-blue)', fontWeight: 600 }}>
               Así funciona Nicaragua Decide, nuestro proyecto &rarr;
             </Link>
           </p>
         </div>
       </section>
-
-      <img src="/divisor.svg" alt="" aria-hidden="true" style={{ width: '100%', display: 'block' }} />
 
       {/* La fórmula */}
       <section className="oc-section oc-section--mist">
@@ -121,7 +133,7 @@ export default function Home() {
           <p className="oc-lede" style={{ marginBottom: 32 }}>
             La tecnología ayuda a ordenar y comprobar la información, pero el juicio final siempre es humano.
           </p>
-          <div className="oc-grid oc-grid--4">
+          <div className="oc-grid oc-grid--4 oc-piezas">
             {FORMULA.map((f) => (
               <div className="oc-card" key={f.title}>
                 <h3>{f.title}</h3>
@@ -200,7 +212,7 @@ export default function Home() {
             {DESTACADAS.map((post) => (
               <Link
                 to={`/blog/${post.slug}`}
-                className="oc-card"
+                className="oc-card oc-tarjeta-entrada"
                 key={post.slug}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
               >

@@ -518,3 +518,133 @@
     justify-self: start;
   }
 }
+
+/* ---- Portada centrada (rediseño de noviembre de 2026) ---- */
+.oc-hero--centrado {
+  padding: 56px 0 64px;
+  background: var(--oc-mist);
+}
+.oc-hero-contenido {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.oc-h1--portada {
+  max-width: 15em;
+  margin: 0 0 20px;
+  font-size: clamp(2.3rem, 6.2vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--oc-ink);
+}
+.oc-subrayado {
+  color: var(--oc-blue);
+  background: linear-gradient(
+    transparent 68%,
+    rgba(var(--oc-yellow-rgb), 0.55) 68%,
+    rgba(var(--oc-yellow-rgb), 0.55) 92%,
+    transparent 92%
+  );
+}
+.oc-hero--centrado .oc-lede {
+  max-width: 640px;
+  color: var(--oc-ink-soft);
+}
+.oc-hero-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.oc-hero-marco {
+  width: 100%;
+  max-width: 760px;
+  margin-top: 36px;
+  padding: 12px;
+  border-top: 6px solid rgba(var(--oc-blue-rgb), 0.18);
+  border-radius: var(--oc-radius);
+  background: var(--oc-white);
+  box-shadow: 0 18px 40px rgba(var(--oc-blue-rgb), 0.14);
+}
+.oc-hero-marco img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--oc-radius) - 4px);
+}
+
+.oc-titulo-centrado {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.oc-titulo-centrado .oc-h2 {
+  margin-bottom: 6px;
+}
+.oc-titulo-centrado p {
+  margin: 0;
+  color: var(--oc-ink-soft);
+}
+
+/* Pasos: número arriba en una ficha de color, texto de una línea. */
+.oc-paso {
+  padding: 20px;
+  background: var(--oc-white);
+}
+.oc-paso-numero {
+  position: static;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  clip-path: none;
+  border-radius: 12px;
+}
+.oc-paso:nth-child(even) .oc-paso-numero {
+  background: var(--oc-blue);
+  color: var(--oc-white);
+}
+
+/* Celular: tarjetas del blog en fila (miniatura a la izquierda) y piezas en dos columnas. */
+@media (max-width: 719px) {
+  .oc-hero--centrado {
+    padding: 36px 0 44px;
+  }
+  .oc-section {
+    padding: 44px 0;
+  }
+  .oc-tarjeta-entrada {
+    display: grid !important;
+    grid-template-columns: 104px 1fr;
+    column-gap: 14px;
+    padding: 14px;
+  }
+  .oc-tarjeta-entrada > img {
+    grid-row: 1 / span 4;
+    margin-bottom: 0 !important;
+    align-self: start;
+  }
+  .oc-tarjeta-entrada > :not(img) {
+    grid-column: 2;
+  }
+  .oc-tarjeta-entrada > p:not(:first-of-type) {
+    display: none;
+  }
+  .oc-piezas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .oc-piezas .oc-card {
+    padding: 14px;
+  }
+  .oc-piezas .oc-card h3 {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 719px) {
+  .oc-abeja {
+    top: 2px;
+    right: 4%;
+  }
+}
