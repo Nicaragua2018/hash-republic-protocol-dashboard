@@ -6,15 +6,15 @@ El panel técnico de Hash Republic Protocol que antes vivía aquí quedó archiv
 
 ## Qué hay en el repositorio
 
-| Carpeta                 | Qué es                                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `src/`                  | El sitio: React 19 + Vite. Páginas en `src/pages/`, artículos en `src/content/posts/`                                |
-| `blog-pendientes/`      | Artículos ya escritos que esperan su lunes de publicación                                                            |
-| `boletin/`              | El boletín: Listmonk, el portero que recibe las suscripciones, los borradores por artículo y las copias de seguridad |
-| `honey/`                | HONEY, el asistente del sitio (Python + Claude Haiku 5.5). Ver [`honey/README.md`](honey/README.md)                  |
-| `deploy/`               | El script que despliega en el VPS                                                                                    |
-| `docs/`                 | Diseños, planes de trabajo y el paper completo sobre la modernización de las instituciones                           |
-| `scripts/prerender.mjs` | Genera las páginas estáticas, el sitemap y el RSS después del build                                                  |
+| Carpeta                 | Qué es                                                                                                                                               |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`                  | El sitio: React 19 + Vite. Páginas en `src/pages/`, artículos en `src/content/posts/`                                                                |
+| `blog-pendientes/`      | Artículos ya escritos que esperan su lunes de publicación                                                                                            |
+| `boletin/`              | El boletín: Listmonk, el portero que recibe las suscripciones, los borradores por artículo y las copias de seguridad                                 |
+| `honey/`                | HONEY, el asistente del sitio (Python + Claude Haiku 5.5). Ver [`honey/README.md`](honey/README.md)                                                  |
+| `deploy/`               | El script que despliega en el VPS                                                                                                                    |
+| `docs/`                 | Diseños, planes de trabajo, el paper completo sobre la modernización de las instituciones y las [propuestas de mejora](docs/PROPUESTAS-DE-MEJORA.md) |
+| `scripts/prerender.mjs` | Genera las páginas estáticas, el sitemap y el RSS después del build                                                                                  |
 
 ## Desarrollo
 
