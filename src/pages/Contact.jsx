@@ -16,8 +16,8 @@ export default function Contact() {
           <p className="oc-lede" style={{ maxWidth: 680 }}>
             ¿Tienes una pregunta, una propuesta o quieres reportar un problema? Deja un mensaje, te
             responderemos pronto: por WhatsApp al <strong>{WHATSAPP_VISIBLE}</strong> o por correo a{' '}
-            <strong>{CORREO}</strong>. Para dudas rápidas sobre el sitio, también puedes preguntarle a HONEY, el
-            asistente del botón de abajo a la derecha.
+            <strong>{CORREO}</strong>. Para dudas rápidas sobre el sitio, también puedes preguntarle a HONEY,
+            el asistente del botón de abajo a la derecha.
           </p>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', margin: '24px 0 48px' }}>
             <a href={WHATSAPP_URL} className="oc-btn oc-btn--primary" target="_blank" rel="noreferrer">
