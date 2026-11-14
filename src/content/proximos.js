@@ -6,12 +6,6 @@
 
 const PROXIMOS = [
   {
-    fecha: '2026-11-16',
-    titulo: 'Nepal: cuando el Estado deja de escuchar',
-    sinopsis:
-      'En septiembre de 2025, un gobierno bloqueó las redes sociales para callar a sus jóvenes. Días después había decenas de muertos, el primer ministro renunció y una generación eligió a su líder interina en un lugar que nadie imaginaba. La lección que ningún gobierno debería ignorar.',
-  },
-  {
     fecha: '2026-11-23',
     titulo: 'vTaiwan: los hackers cívicos que le enseñaron a un gobierno a escuchar',
     sinopsis:
