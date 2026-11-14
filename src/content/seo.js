@@ -35,7 +35,7 @@ export const PAGES = {
   '/proyectos': {
     title: 'Proyectos — OpenCivic Solutions',
     description:
-      'Nicaragua Decide: plataforma abierta para que el exilio y la diáspora nicaragüense deliberen, voten y sorteen representantes con resultados verificables y protección de identidad.',
+      'Nicaragua Decide, en línea en nicaraguadecide.org: la plataforma donde el exilio y la diáspora nicaragüense proponen, debaten, votan y eligen representantes, con resultados verificables e identidad protegida.',
   },
   '/unirse': {
     title: 'Unirse — Cómo contribuir a OpenCivic Solutions',

@@ -12,12 +12,13 @@ import { EVENTO_RECORRIDO } from '../components/recorrido/logica.js';
 const PASOS = [
   {
     titulo: 'Deliberar',
-    texto: 'Propones y conversas en el grupo de tu territorio, con tu identidad protegida.',
+    texto:
+      'Planteas inquietudes y debates con frases cortas en tu comunidad, para encontrar lo que nos une, con tu identidad protegida.',
   },
   {
     titulo: 'Decidir',
     texto:
-      'Votas ordenando las opciones de la que más a la que menos prefieres, o se elige por sorteo, como un jurado.',
+      'Votas las soluciones ordenando las que aceptas y eliges a quienes te representan. Una comisión lleva adelante lo aprobado.',
   },
   {
     titulo: 'Comprobar',
@@ -145,13 +146,13 @@ export default function Home() {
             className="oc-card"
             style={{ textDecoration: 'none', color: 'inherit', display: 'block', marginTop: 16 }}
           >
-            <span className="oc-phase oc-phase--spec">En desarrollo</span>
+            <span className="oc-phase oc-phase--spec">En línea · por invitación</span>
             <h2 className="oc-h2" style={{ marginTop: 0 }}>
               Nicaragua Decide
             </h2>
             <p>
-              Laboratorio de consultas cívicas para el exilio y la diáspora nicaragüense, con protección de
-              identidad.
+              La plataforma donde el exilio y la diáspora nicaragüense se organizan y deciden juntos, con su
+              identidad protegida.
             </p>
             <span style={{ color: 'var(--oc-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
               Conocer el proyecto &rarr;

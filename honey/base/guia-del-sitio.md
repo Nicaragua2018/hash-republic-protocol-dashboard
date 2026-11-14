@@ -13,7 +13,7 @@ El blog reúne artículos con fuentes verificables sobre democracia, institucion
 
 Para suscribirse al boletín hay que escribir el correo en el formulario «Suscríbete al boletín», al final de la página del blog, pasar una comprobación automática contra robots y pulsar «Suscribirme». Luego llega un mensaje para confirmar la suscripción: solo queda suscrito quien confirma desde ese mensaje, y conviene revisar también la carpeta de spam. El boletín avisa cada vez que se publica un artículo nuevo. OpenCivic solo guarda el correo, en su propio servidor, y no rastrea si se abren los mensajes. Desde el enlace al pie de cada mensaje se puede dar de baja, descargar o borrar los datos.
 
-La página de proyectos presenta Nicaragua Decide, el único proyecto que OpenCivic tiene hoy en desarrollo: qué permite hacer, cómo protege la identidad, cómo se comprueban los resultados, en qué estado está y sus preguntas frecuentes.
+La página de proyectos presenta Nicaragua Decide, el proyecto principal de OpenCivic, ya en línea en nicaraguadecide.org: qué permite hacer, cómo protege la identidad, cómo se comprueban los resultados, en qué estado está y sus preguntas frecuentes.
 
 La página «Unirse» explica cómo contribuir. Hay lugar para quien programa, investiga, diseña, traduce o enseña, y se puede participar con seudónimo. Los pasos son leer las bases del proyecto, buscar una tarea marcada para principiantes en el repositorio de GitHub y abrir un pull request con sus fuentes. En GitHub no se debe compartir información que pueda identificar a alguien en riesgo.
 
