@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
 import { PAGES } from '../content/seo';
+import VideoColmena from '../components/VideoColmena';
+import { CREDITOS, CAMBIOS_FOTOS } from '../content/videoColmena';
 import {
   RESUMEN,
   FUNCIONES,
@@ -29,6 +31,7 @@ export default function Projects() {
           La plataforma donde el exilio y la diáspora nicaragüense se organizan y deciden juntos, con su
           identidad protegida.
         </p>
+        <VideoColmena />
         <p>{RESUMEN}</p>
         <p>
           Es el proyecto principal de OpenCivic. Como todo lo que hacemos, no gobierna desde arriba: las
@@ -94,6 +97,22 @@ export default function Projects() {
             <p>{q.respuesta}</p>
           </details>
         ))}
+        <details className="oc-creditos" style={{ marginBottom: 12 }}>
+          <summary>
+            <strong>Créditos de fotos y música del video</strong>
+          </summary>
+          <ul>
+            {CREDITOS.map((c) => (
+              <li key={c.obra}>
+                <a href={c.url} target="_blank" rel="noreferrer">
+                  {c.obra}
+                </a>
+                , {c.autor} ({c.licencia})
+              </li>
+            ))}
+          </ul>
+          <p>{CAMBIOS_FOTOS}</p>
+        </details>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', margin: '24px 0 40px' }}>
           <Link to="/blog" className="oc-btn oc-btn--primary">
             Sigue el avance en el blog
