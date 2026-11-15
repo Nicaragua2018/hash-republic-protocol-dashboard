@@ -518,3 +518,374 @@
     justify-self: start;
   }
 }
+
+/* ---- Portada centrada (rediseño de noviembre de 2026) ---- */
+.oc-hero--centrado {
+  padding: 56px 0 64px;
+  background: var(--oc-mist);
+}
+.oc-hero-contenido {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.oc-h1--portada {
+  max-width: 15em;
+  margin: 0 0 20px;
+  font-size: clamp(2.3rem, 6.2vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--oc-ink);
+}
+.oc-subrayado {
+  color: var(--oc-blue);
+  background: linear-gradient(
+    transparent 68%,
+    rgba(var(--oc-yellow-rgb), 0.55) 68%,
+    rgba(var(--oc-yellow-rgb), 0.55) 92%,
+    transparent 92%
+  );
+}
+.oc-hero--centrado .oc-lede {
+  max-width: 640px;
+  color: var(--oc-ink-soft);
+}
+.oc-hero-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.oc-hero-marco {
+  width: 100%;
+  max-width: 760px;
+  margin-top: 36px;
+  padding: 12px;
+  border-top: 6px solid rgba(var(--oc-blue-rgb), 0.18);
+  border-radius: var(--oc-radius);
+  background: var(--oc-white);
+  box-shadow: 0 18px 40px rgba(var(--oc-blue-rgb), 0.14);
+}
+.oc-hero-marco img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--oc-radius) - 4px);
+}
+
+.oc-titulo-centrado {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.oc-titulo-centrado .oc-h2 {
+  margin-bottom: 6px;
+}
+.oc-titulo-centrado p {
+  margin: 0;
+  color: var(--oc-ink-soft);
+}
+
+/* Pasos: número arriba en una ficha de color, texto de una línea. */
+.oc-paso {
+  padding: 20px;
+  background: var(--oc-white);
+}
+.oc-paso-numero {
+  position: static;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  clip-path: none;
+  border-radius: 12px;
+}
+.oc-paso:nth-child(even) .oc-paso-numero {
+  background: var(--oc-blue);
+  color: var(--oc-white);
+}
+
+/* Celular: tarjetas del blog en fila (miniatura a la izquierda) y piezas en dos columnas. */
+@media (max-width: 719px) {
+  .oc-hero--centrado {
+    padding: 36px 0 44px;
+  }
+  .oc-section {
+    padding: 44px 0;
+  }
+  .oc-tarjeta-entrada {
+    display: grid !important;
+    grid-template-columns: 104px 1fr;
+    column-gap: 14px;
+    padding: 14px;
+  }
+  .oc-tarjeta-entrada > img {
+    grid-row: 1 / span 4;
+    margin-bottom: 0 !important;
+    align-self: start;
+  }
+  .oc-tarjeta-entrada > :not(img) {
+    grid-column: 2;
+  }
+  .oc-tarjeta-entrada > p:not(:first-of-type) {
+    display: none;
+  }
+  .oc-piezas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .oc-piezas .oc-card {
+    padding: 14px;
+  }
+  .oc-piezas .oc-card h3 {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 719px) {
+  .oc-abeja {
+    top: 2px;
+    right: 4%;
+  }
+}
+
+/* ---- Video de la colmena (el mismo de nicaraguadecide.org) ---- */
+.oc-video-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 28px auto 32px;
+}
+.oc-video-marco {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid rgba(var(--oc-blue-rgb), 0.12);
+  border-radius: 20px;
+  background: var(--oc-white) url('/nicaragua-decide/colmena-final.webp') center / cover no-repeat;
+  box-shadow: 0 18px 40px -24px rgba(var(--oc-blue-rgb), 0.35);
+}
+.oc-video-marco video,
+.oc-video-marco img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.oc-video-controles {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.oc-video-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 999px;
+  background: var(--oc-white);
+  color: var(--oc-ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.oc-video-control:hover,
+.oc-video-control[aria-pressed='true'] {
+  border-color: var(--oc-blue);
+  background: #e9eef7;
+}
+.oc-video-control:focus-visible {
+  outline: 3px solid var(--oc-blue);
+  outline-offset: 2px;
+}
+.oc-solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.oc-creditos {
+  font-size: 0.85rem;
+}
+
+/* ---- Páginas interiores (rediseño de noviembre de 2026) ---- */
+.oc-texto-centrado {
+  max-width: 760px;
+  text-align: center;
+}
+.oc-texto-centrado .oc-creditos {
+  text-align: left;
+}
+.oc-dos-columnas {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 900px) {
+  .oc-dos-columnas {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .oc-dos-columnas--centro {
+    align-items: center;
+  }
+}
+.oc-dos-columnas > img {
+  width: 100%;
+  height: auto;
+}
+.oc-grupo-titulo {
+  margin: 0 0 14px;
+  font-family: var(--oc-font-display);
+  font-size: 1.15rem;
+  color: var(--oc-blue);
+}
+.oc-lista-pasos {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+.oc-lista-pasos li + li {
+  margin-top: 8px;
+}
+
+/* Plegables: el título siempre a la vista, el detalle al tocar. */
+.oc-plegables {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+@media (min-width: 760px) {
+  .oc-plegables--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.oc-plegable {
+  border: 1px solid rgba(var(--oc-blue-rgb), 0.12);
+  border-radius: var(--oc-radius);
+  background: var(--oc-white);
+}
+.oc-plegable[open] {
+  border-color: rgba(var(--oc-blue-rgb), 0.35);
+}
+.oc-plegable summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+.oc-plegable summary::-webkit-details-marker {
+  display: none;
+}
+.oc-plegable summary::after {
+  content: '+';
+  margin-left: auto;
+  font-family: var(--oc-font-display);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--oc-blue);
+}
+.oc-plegable[open] summary::after {
+  content: '\2212';
+}
+.oc-plegable summary:focus-visible {
+  outline: 3px solid var(--oc-blue);
+  outline-offset: 2px;
+  border-radius: var(--oc-radius);
+}
+.oc-plegable summary h3,
+.oc-plegable summary h4 {
+  margin: 0;
+  font-family: var(--oc-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--oc-blue);
+}
+.oc-plegable > p,
+.oc-plegable > ul {
+  margin: 0;
+  padding: 0 16px 16px;
+  font-size: 0.95rem;
+}
+.oc-plegable > ul {
+  padding-left: 36px;
+}
+.oc-plegable > ul li + li {
+  margin-top: 6px;
+}
+.oc-plegable-numero {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--oc-yellow);
+  color: var(--oc-blue);
+  font-family: var(--oc-font-display);
+  font-weight: 600;
+}
+.oc-plegable:nth-child(even) .oc-plegable-numero {
+  background: var(--oc-blue);
+  color: var(--oc-white);
+}
+
+/* Unirse: cinco formas de aportar, sin hueco al final. */
+.oc-formas {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Contacto: la tarjeta de confianza junto al texto. */
+.oc-card--confianza ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+.oc-card--confianza li + li {
+  margin-top: 10px;
+}
+.oc-card--confianza .oc-h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+/* Tarjetas del blog: título, pregunta e ilustración; fecha y enlace al pie. */
+.oc-tarjeta-blog {
+  display: flex;
+  flex-direction: column;
+}
+.oc-tarjeta-blog > img {
+  margin-top: auto;
+}
+.oc-tarjeta-pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.7);
+}
+.oc-tarjeta-leer {
+  color: var(--oc-blue);
+  font-weight: 600;
+}
+@media (min-width: 760px) {
+  .oc-card--empezar.oc-tarjeta-blog > .oc-tarjeta-pie {
+    justify-self: stretch;
+  }
+}

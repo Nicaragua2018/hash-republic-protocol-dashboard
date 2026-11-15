@@ -19,8 +19,8 @@ export default function Header() {
     fontSize: '0.9rem',
     fontWeight: isActive ? 600 : 500,
     textDecoration: 'none',
-    color: isActive ? 'var(--oc-white)' : 'var(--oc-blue)',
-    background: isActive ? 'var(--oc-blue)' : 'transparent',
+    color: isActive ? 'var(--oc-blue)' : 'var(--oc-white)',
+    background: isActive ? 'var(--oc-yellow)' : 'transparent',
     transition: 'background var(--oc-transition), color var(--oc-transition)',
     whiteSpace: 'nowrap',
   });
@@ -31,17 +31,15 @@ export default function Header() {
         position: 'sticky',
         top: 0,
         zIndex: 200,
-        background: 'rgba(255,255,255,0.92)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        borderBottom: '1px solid rgba(10,56,128,0.1)',
+        background: 'var(--oc-blue)',
+        boxShadow: '0 2px 12px rgba(10,56,128,0.25)',
       }}
     >
       <div
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '12px 24px',
+          padding: '6px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -53,7 +51,13 @@ export default function Header() {
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
           aria-label="OpenCivic Solutions — Inicio"
         >
-          <img src="/opencivic-horizontal-color.svg" alt="OpenCivic Solutions" style={{ height: 36 }} />
+          <img
+            src="/opencivic-horizontal-invertido.svg"
+            alt="OpenCivic Solutions"
+            width="143"
+            height="56"
+            style={{ height: 56, width: 'auto', display: 'block' }}
+          />
         </NavLink>
 
         {/* Desktop nav */}
@@ -81,7 +85,7 @@ export default function Header() {
             display: 'inline-flex',
             background: 'transparent',
             border: 'none',
-            color: 'var(--oc-blue)',
+            color: 'var(--oc-white)',
             cursor: 'pointer',
             padding: 8,
           }}
@@ -104,7 +108,7 @@ export default function Header() {
             flexDirection: 'column',
             padding: '8px 16px 16px',
             gap: 4,
-            borderTop: '1px solid rgba(10,56,128,0.08)',
+            borderTop: '1px solid rgba(255,255,255,0.15)',
           }}
         >
           {NAV_ITEMS.map((item) => (
@@ -119,8 +123,8 @@ export default function Header() {
                 fontSize: '1rem',
                 fontWeight: isActive ? 600 : 500,
                 textDecoration: 'none',
-                color: isActive ? 'var(--oc-white)' : 'var(--oc-blue)',
-                background: isActive ? 'var(--oc-blue)' : 'var(--oc-mist)',
+                color: isActive ? 'var(--oc-blue)' : 'var(--oc-white)',
+                background: isActive ? 'var(--oc-yellow)' : 'rgba(255,255,255,0.1)',
               })}
             >
               {item.label}

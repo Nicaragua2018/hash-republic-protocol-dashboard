@@ -52,10 +52,17 @@ export default function Blog() {
             {ORDENADOS.map((post) => (
               <Link
                 to={`/blog/${post.slug}`}
-                className={post.slug === DESTACADOS[0] ? 'oc-card oc-card--empezar' : 'oc-card'}
+                className={
+                  post.slug === DESTACADOS[0]
+                    ? 'oc-card oc-card--empezar oc-tarjeta-blog'
+                    : 'oc-card oc-tarjeta-blog'
+                }
                 key={post.slug}
-                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+                style={{ textDecoration: 'none', color: 'inherit' }}
               >
+                {post.slug === DESTACADOS[0] && <span className="oc-etiqueta-empezar">Para empezar</span>}
+                <h3>{post.title}</h3>
+                <p style={{ fontSize: '0.92rem' }}>{post.dek}</p>
                 {post.image && (
                   <img
                     src={post.image}
@@ -65,15 +72,10 @@ export default function Blog() {
                     style={{ width: '100%', marginBottom: 16 }}
                   />
                 )}
-                {post.slug === DESTACADOS[0] && <span className="oc-etiqueta-empezar">Para empezar</span>}
-                <p style={{ fontSize: '0.8rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 8 }}>
-                  {formatDate(post.date)}
+                <p className="oc-tarjeta-pie">
+                  <span>{formatDate(post.date)}</span>
+                  <span className="oc-tarjeta-leer">Leer el artículo &rarr;</span>
                 </p>
-                <h3>{post.title}</h3>
-                <p style={{ fontSize: '0.92rem' }}>{post.dek}</p>
-                <span style={{ color: 'var(--oc-blue)', fontWeight: 600, fontSize: '0.9rem' }}>
-                  Leer el artículo &rarr;
-                </span>
               </Link>
             ))}
           </div>

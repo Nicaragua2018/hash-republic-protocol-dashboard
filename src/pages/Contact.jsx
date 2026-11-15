@@ -10,48 +10,52 @@ export default function Contact() {
       <Seo {...PAGES['/contacto']} />
       <section className="oc-section oc-hero" style={{ paddingTop: 56 }}>
         <div className="oc-hero-bees" aria-hidden="true" />
-        <div className="oc-container" style={{ position: 'relative' }}>
-          <span className="oc-eyebrow">Contacto</span>
-          <h1 className="oc-h1">Escríbenos</h1>
-          <p className="oc-lede" style={{ maxWidth: 680 }}>
-            ¿Tienes una pregunta, una propuesta o quieres reportar un problema? Deja un mensaje, te
-            responderemos pronto: por WhatsApp al <strong>{WHATSAPP_VISIBLE}</strong> o por correo a{' '}
-            <strong>{CORREO}</strong>. Para dudas rápidas sobre el sitio, también puedes preguntarle a HONEY,
-            el asistente del botón de abajo a la derecha.
-          </p>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', margin: '24px 0 48px' }}>
-            <a href={WHATSAPP_URL} className="oc-btn oc-btn--primary" target="_blank" rel="noreferrer">
-              Escríbenos por WhatsApp
-            </a>
-            <CopiarCorreo correo={CORREO} />
-            <a
-              href="https://github.com/Nicaragua2018/hash-republic-protocol-dashboard"
-              className="oc-btn oc-btn--outline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
+        <div className="oc-container oc-dos-columnas" style={{ position: 'relative' }}>
+          <div>
+            <span className="oc-eyebrow">Contacto</span>
+            <h1 className="oc-h1">Escríbenos</h1>
+            <p className="oc-lede">
+              ¿Tienes una pregunta, una propuesta o quieres reportar un problema? Deja un mensaje, te
+              responderemos pronto: por WhatsApp al <strong>{WHATSAPP_VISIBLE}</strong> o por correo a{' '}
+              <strong>{CORREO}</strong>. Para dudas rápidas sobre el sitio, también puedes preguntarle a
+              HONEY, el asistente del botón de abajo a la derecha.
+            </p>
+            <div className="oc-hero-botones" style={{ justifyContent: 'flex-start' }}>
+              <a href={WHATSAPP_URL} className="oc-btn oc-btn--primary" target="_blank" rel="noreferrer">
+                Escríbenos por WhatsApp
+              </a>
+              <CopiarCorreo correo={CORREO} />
+              <a
+                href="https://github.com/Nicaragua2018/hash-republic-protocol-dashboard"
+                className="oc-btn oc-btn--outline"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
-          <h2 className="oc-h2">Confianza</h2>
-          <ul style={{ maxWidth: 680, fontSize: '1rem', lineHeight: 1.9, paddingLeft: 20 }}>
-            <li>
-              <strong>Canales oficiales:</strong> solo los que figuran en este sitio. Si un mensaje o un video
-              aparece fuera de ellos, no es nuestro.
-            </li>
-            <li>
-              <strong>IA declarada:</strong> todo contenido generado o asistido por IA se etiqueta, y todo
-              clon digital figura en un registro público con el consentimiento de la persona.
-            </li>
-            <li>
-              <strong>Imparcialidad:</strong> criticamos con la misma vara al Estado, al capital, a la mayoría
-              y a la utopía tecnológica. No hacemos propaganda partidaria.
-            </li>
-            <li>
-              <strong>Seguridad:</strong> para reportar una vulnerabilidad o una suplantación, escribe a{' '}
-              <strong>{CORREO}</strong>.
-            </li>
-          </ul>
+          <div className="oc-card oc-card--confianza">
+            <h2 className="oc-h2">Confianza</h2>
+            <ul>
+              <li>
+                <strong>Canales oficiales:</strong> solo los que figuran en este sitio. Si un mensaje o un
+                video aparece fuera de ellos, no es nuestro.
+              </li>
+              <li>
+                <strong>IA declarada:</strong> todo contenido generado o asistido por IA se etiqueta, y todo
+                clon digital figura en un registro público con el consentimiento de la persona.
+              </li>
+              <li>
+                <strong>Imparcialidad:</strong> criticamos con la misma vara al Estado, al capital, a la
+                mayoría y a la utopía tecnológica. No hacemos propaganda partidaria.
+              </li>
+              <li>
+                <strong>Seguridad:</strong> para reportar una vulnerabilidad o una suplantación, escribe a{' '}
+                <strong>{CORREO}</strong>.
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
 

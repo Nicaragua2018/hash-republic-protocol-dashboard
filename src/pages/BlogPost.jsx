@@ -98,6 +98,14 @@ export default function BlogPost() {
             {post.title}
           </h1>
           <p className="oc-lede">{post.dek}</p>
+          {post.image && (
+            <img
+              src={post.image}
+              alt={post.imageAlt}
+              className="oc-illustration"
+              style={{ width: '100%', margin: '8px 0 20px' }}
+            />
+          )}
           <p style={{ fontSize: '0.85rem', color: 'var(--oc-ink)', opacity: 0.7, marginBottom: 4 }}>
             {post.author} · {formatDate(post.date)}
           </p>
@@ -114,14 +122,6 @@ export default function BlogPost() {
 
       <section className="oc-section" style={{ paddingTop: 32 }}>
         <div className="oc-container oc-prose">
-          {post.image && (
-            <img
-              src={post.image}
-              alt={post.imageAlt}
-              className="oc-illustration"
-              style={{ width: '100%', marginBottom: 32 }}
-            />
-          )}
           {post.body.map((block, i) => {
             if (block.type === 'h2') return <h2 key={i}>{block.text}</h2>;
             if (block.type === 'h3')

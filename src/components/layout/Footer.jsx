@@ -21,10 +21,11 @@ export default function Footer() {
       >
         <div>
           <img
-            src="/opencivic-icono-invertido.svg"
-            alt=""
-            aria-hidden="true"
-            style={{ width: 48, height: 48, marginBottom: 12 }}
+            src="/opencivic-horizontal-invertido.svg"
+            alt="OpenCivic Solutions"
+            width="184"
+            height="72"
+            style={{ height: 72, width: 'auto', marginBottom: 12, marginLeft: -8 }}
           />
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 360, fontSize: '0.9rem' }}>
             Las instituciones también son tecnologías. Construimos herramientas abiertas y verificables para
