@@ -862,3 +862,30 @@
   margin-top: 0;
   font-size: 1.4rem;
 }
+
+/* Tarjetas del blog: título, pregunta e ilustración; fecha y enlace al pie. */
+.oc-tarjeta-blog {
+  display: flex;
+  flex-direction: column;
+}
+.oc-tarjeta-blog > img {
+  margin-top: auto;
+}
+.oc-tarjeta-pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.7);
+}
+.oc-tarjeta-leer {
+  color: var(--oc-blue);
+  font-weight: 600;
+}
+@media (min-width: 760px) {
+  .oc-card--empezar.oc-tarjeta-blog > .oc-tarjeta-pie {
+    justify-self: stretch;
+  }
+}
