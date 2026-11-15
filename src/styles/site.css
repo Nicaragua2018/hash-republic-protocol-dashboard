@@ -718,3 +718,147 @@
 .oc-creditos {
   font-size: 0.85rem;
 }
+
+/* ---- Páginas interiores (rediseño de noviembre de 2026) ---- */
+.oc-texto-centrado {
+  max-width: 760px;
+  text-align: center;
+}
+.oc-texto-centrado .oc-creditos {
+  text-align: left;
+}
+.oc-dos-columnas {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 900px) {
+  .oc-dos-columnas {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .oc-dos-columnas--centro {
+    align-items: center;
+  }
+}
+.oc-dos-columnas > img {
+  width: 100%;
+  height: auto;
+}
+.oc-grupo-titulo {
+  margin: 0 0 14px;
+  font-family: var(--oc-font-display);
+  font-size: 1.15rem;
+  color: var(--oc-blue);
+}
+.oc-lista-pasos {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+.oc-lista-pasos li + li {
+  margin-top: 8px;
+}
+
+/* Plegables: el título siempre a la vista, el detalle al tocar. */
+.oc-plegables {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+@media (min-width: 760px) {
+  .oc-plegables--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.oc-plegable {
+  border: 1px solid rgba(var(--oc-blue-rgb), 0.12);
+  border-radius: var(--oc-radius);
+  background: var(--oc-white);
+}
+.oc-plegable[open] {
+  border-color: rgba(var(--oc-blue-rgb), 0.35);
+}
+.oc-plegable summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+.oc-plegable summary::-webkit-details-marker {
+  display: none;
+}
+.oc-plegable summary::after {
+  content: '+';
+  margin-left: auto;
+  font-family: var(--oc-font-display);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--oc-blue);
+}
+.oc-plegable[open] summary::after {
+  content: '\2212';
+}
+.oc-plegable summary:focus-visible {
+  outline: 3px solid var(--oc-blue);
+  outline-offset: 2px;
+  border-radius: var(--oc-radius);
+}
+.oc-plegable summary h3,
+.oc-plegable summary h4 {
+  margin: 0;
+  font-family: var(--oc-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--oc-blue);
+}
+.oc-plegable > p,
+.oc-plegable > ul {
+  margin: 0;
+  padding: 0 16px 16px;
+  font-size: 0.95rem;
+}
+.oc-plegable > ul {
+  padding-left: 36px;
+}
+.oc-plegable > ul li + li {
+  margin-top: 6px;
+}
+.oc-plegable-numero {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--oc-yellow);
+  color: var(--oc-blue);
+  font-family: var(--oc-font-display);
+  font-weight: 600;
+}
+.oc-plegable:nth-child(even) .oc-plegable-numero {
+  background: var(--oc-blue);
+  color: var(--oc-white);
+}
+
+/* Unirse: cinco formas de aportar, sin hueco al final. */
+.oc-formas {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Contacto: la tarjeta de confianza junto al texto. */
+.oc-card--confianza ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+.oc-card--confianza li + li {
+  margin-top: 10px;
+}
+.oc-card--confianza .oc-h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
