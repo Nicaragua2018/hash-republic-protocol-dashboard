@@ -2,7 +2,7 @@
 slug: vtaiwan-hackers-civicos
 title: "vTaiwan: los hackers cívicos que le enseñaron a un gobierno a escuchar"
 dek: "En 2015, Taiwán resolvió el pleito de Uber preguntándole al pueblo en qué estaba de acuerdo. Lo que vTaiwan logró, por qué se apagó y qué le enseña a la diáspora de Nicaragua."
-date: 2026-11-23
+date: 2026-11-20
 author: Equipo OpenCivic
 ia: asistido
 image: /ilustracion-vtaiwan.svg
