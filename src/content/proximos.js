@@ -6,12 +6,6 @@
 
 const PROXIMOS = [
   {
-    fecha: '2026-11-23',
-    titulo: 'vTaiwan: los hackers cívicos que le enseñaron a un gobierno a escuchar',
-    sinopsis:
-      'En 2015, la llegada de Uber enfrentó a taxistas, conductores y pasajeros en Taiwán. Un grupo de programadores voluntarios propuso algo inaudito: que miles de personas buscaran juntas aquello en lo que sí estaban de acuerdo. El gobierno escuchó, y reguló siguiendo ese acuerdo.',
-  },
-  {
     fecha: '2026-11-30',
     titulo: 'La necesaria modernización de las instituciones públicas',
     slug: 'de-las-instituciones-analogicas-a-las-instituciones-programables',
