@@ -41,17 +41,9 @@ Eso hacen las abejas con sus cabezazos. Y eso debería hacer cualquier herramien
 
 ## vTaiwan y Uber: cuando la tecnología ayuda a escuchar
 
-En 2015, la llegada de Uber enfrentó en Taiwán a taxistas, conductores y pasajeros. Cada bando estaba seguro de que el otro era el enemigo. El gobierno pidió ayuda a vTaiwan, una comunidad de programadores voluntarios, que abrió un debate en línea con una herramienta llamada **Pol.is**.
+En 2015, la llegada de Uber enfrentó en Taiwán a taxistas, conductores y pasajeros. El gobierno pidió ayuda a vTaiwan, una comunidad de programadores voluntarios, que abrió un debate con **Pol.is**, una herramienta con una regla extraña: **no se puede responder a nadie**. Solo se escriben frases cortas y se votan las de los demás. Sin respuestas, el provocador pierde su escenario.
 
-Pol.is tiene una regla extraña: **no se puede responder a nadie**. Cada persona escribe frases cortas y vota las de los demás, nada más. Sin respuestas, el provocador pierde su escenario.
-
-A los pocos días aparecieron dos grupos: uno a favor de Uber y otro en contra, el doble de grande. Pero también aparecieron siete frases que casi todos aprobaban, de los dos lados. Por ejemplo:
-
-- «El gobierno debe establecer un régimen de regulación justo».
-- «Los vehículos particulares de pasajeros deben estar registrados».
-- «Un conductor debe poder trabajar con varias flotas y plataformas a la vez».
-
-Audrey Tang, que luego sería ministra digital, llevó esos acuerdos a una mesa con Uber, los taxistas y expertos, y el gobierno aprobó nuevas reglas en esa línea.
+Aparecieron dos grupos, uno a favor de Uber y otro en contra. Pero también aparecieron frases que aprobaban los dos lados, y de ellas salieron las nuevas reglas. La historia completa, con sus límites, está en [vTaiwan: los hackers cívicos que le enseñaron a un gobierno a escuchar](/blog/vtaiwan-hackers-civicos).
 
 Lo que cambió no fue la tecnología. Fue la mirada: cuando ves que el otro también quiere reglas justas, deja de ser tu enemigo y se vuelve tu vecino. La pregunta dejó de ser «Uber sí o Uber no» y pasó a ser «con qué reglas».
 
